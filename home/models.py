@@ -26,18 +26,18 @@ class Incident(models.Model):
     HouseNumber = models.CharField(max_length=255)
     Street = models.CharField(max_length=255)
     OCCUPANCY_CHOICES = [
-                        ('residential', 'Residential'),
-                        ('commercial', 'Commercial'),
+        ('residential', 'Residential'),
+        ('commercial', 'Commercial'),
     ]
     Barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
     OccupancyType = models.CharField(max_length=255, choices=OCCUPANCY_CHOICES, default='residential')
     OwnerEstablishmentName = models.CharField(max_length=255)
     ALARM_LEVEL_CHOICES = [
-                            ('1','1'),
-                            ('2', '2'),
-                            ('3', '3'),
+        ('1','1'),
+        ('2', '2'),
+        ('3', '3'),
     ]
-    ALARM_LEVEL_CHOICES = models.CharField(max_length=1, choices=ALARM_LEVEL_CHOICES, default='1')
+    AlarmLevel = models.CharField(max_length=1, choices=ALARM_LEVEL_CHOICES, default='1')
     Injuries = models.IntegerField()
     FatalitiesMale = models.IntegerField()
     FatalitiesFemale = models.IntegerField()
@@ -47,7 +47,13 @@ class Incident(models.Model):
     Origin = models.CharField(max_length=255)
     Cause = models.TextField()
     FireArsonInvestigator = models.ForeignKey(Investigator, on_delete=models.CASCADE)
-    Remarks = models.TextField()
+    REMARKS_CHOICES = [
+        ('closed', 'Closed'),
+        ('under investigation', 'Under Investigation')
+    ]
+
+    Remarks = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed')
+    Notes = models.TextField()
     
     @property
     def save(self):
