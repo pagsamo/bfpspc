@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bfpspc',
         'USER': 'bfpspc',
-        'PASSWORD': 'bfpspc'
+        'PASSWORD': 'bfpspc',
     }
 }
 

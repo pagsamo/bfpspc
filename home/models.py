@@ -13,17 +13,17 @@ class Barangay(models.Model):
 
 
 class InvestigatorRank(models.Model):
-    Code = models.CharField(max_length=255)
-    Definition = models.CharField(max_length=255, blank=True)
+    Code = models.CharField(max_length=100)
+    Definition = models.CharField(max_length=250, blank=True)
 
     def __str__(self):
         return self.Code
 
 
 class Investigator(models.Model):
-    FirstName = models.CharField(max_length=255)
-    MiddleName = models.CharField(max_length=255)
-    LastName = models.CharField(max_length=255)
+    FirstName = models.CharField(max_length=100)
+    MiddleName = models.CharField(max_length=100)
+    LastName = models.CharField(max_length=100)
     Rank = models.ForeignKey(InvestigatorRank,on_delete=models.CASCADE)
 
     def __str__(self):
