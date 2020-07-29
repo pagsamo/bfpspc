@@ -33,6 +33,9 @@ class Investigator(models.Model):
         FullNameList = list(FullNameMap)
         return delimeter.join(FullNameList)
 
+    class Meta:
+        unique_together = (('FirstName', 'LastName'),)
+
 class Incident(models.Model):
     DateTime = models.DateTimeField()
     FireOutDateTime = models.DateTimeField(null=True, blank=True)
