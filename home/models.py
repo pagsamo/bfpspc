@@ -5,8 +5,8 @@ from django.urls import reverse
 
 class Barangay(models.Model):
     Name = models.CharField(max_length=255)
-    Latitude = models.IntegerField(default=0)
-    Longitude = models.IntegerField(default=0)
+    Latitude = models.DecimalField(decimal_places=7, max_digits=20)
+    Longitude = models.DecimalField(decimal_places=7, max_digits=20)
 
     def __str__(self):
         return self.Name
