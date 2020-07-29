@@ -16,3 +16,4 @@ class InvestigatorAdmin(admin.ModelAdmin):
 @admin.register(Incident)
 class IncidentAdmin(admin.ModelAdmin):
     list_display = ('DateTime', 'HouseNumber', 'Street', 'Barangay', 'OwnerEstablishmentName',)
+    exclude = ('TotalFatalities',)
