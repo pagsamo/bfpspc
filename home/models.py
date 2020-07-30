@@ -36,17 +36,20 @@ class Investigator(models.Model):
     class Meta:
         unique_together = (('FirstName', 'LastName'),)
 
+class OccupancyType(models.Model):
+    Description = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.Description
+
+
 class Incident(models.Model):
     DateTime = models.DateTimeField()
     FireOutDateTime = models.DateTimeField(null=True, blank=True)
     HouseNumber = models.CharField(max_length=255,blank=True)
     Street = models.CharField(max_length=255,blank=True)
-    OCCUPANCY_CHOICES = [
-        ('residential', 'Residential'),
-        ('commercial', 'Commercial'),
-    ]
     Barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
-    OccupancyType = models.CharField(max_length=255, choices=OCCUPANCY_CHOICES, default='residential')
+    OccupancyType = models.ForeignKey(OccupancyType, on_delete=models.CASCADE)
     OwnerEstablishmentName = models.CharField(max_length=255)
     ALARM_LEVEL_CHOICES = [
         ('1','1'),
@@ -65,7 +68,7 @@ class Incident(models.Model):
     FireArsonInvestigator = models.ForeignKey(Investigator, on_delete=models.CASCADE)
     REMARKS_CHOICES = [
         ('closed', 'Closed'),
-        ('under investigation', 'Under Investigation')
+        ('under investigation', 'Under Investigation'),
     ]
 
     Remarks = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed')
