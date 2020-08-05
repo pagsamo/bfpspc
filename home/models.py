@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 class Barangay(models.Model):
-    Name = models.CharField(max_length=255)
+    Name = models.CharField(max_length=255, unique=True)
     Latitude = models.DecimalField(decimal_places=7, max_digits=20, blank=True, null=True)
     Longitude = models.DecimalField(decimal_places=7, max_digits=20, blank=True, null=True)
 
@@ -13,7 +13,7 @@ class Barangay(models.Model):
 
 
 class InvestigatorRank(models.Model):
-    Code = models.CharField(max_length=100)
+    Code = models.CharField(max_length=100, unique=True)
     Definition = models.CharField(max_length=250, blank=True)
 
     def __str__(self):
@@ -21,8 +21,8 @@ class InvestigatorRank(models.Model):
 
 
 class Investigator(models.Model):
-    FirstName = models.CharField(max_length=100)
-    MiddleName = models.CharField(max_length=100)
+    FirstName = models.CharField(max_length=100, blank=True)
+    MiddleName = models.CharField(max_length=100, blank=True)
     LastName = models.CharField(max_length=100)
     Rank = models.ForeignKey(InvestigatorRank,on_delete=models.SET_NULL,null=True)
 
@@ -60,15 +60,15 @@ class Incident(models.Model):
     Injuries = models.IntegerField(default=0)
     FatalitiesMale = models.IntegerField(default=0)
     FatalitiesFemale = models.IntegerField(default=0)
-    TotalFatalities = models.IntegerField(default=0)
     EstimatedDamageCost = models.IntegerField(default=0)
     FinalDamageCost = models.IntegerField(default=0)
     Origin = models.CharField(max_length=255, blank=True)
     Cause = models.TextField(blank=True)
-    FireArsonInvestigator = models.ForeignKey(Investigator, on_delete=models.SET_NULL, null=True)
+    FireArsonInvestigator = models.ForeignKey(Investigator, on_delete=models.SET_NULL, null=True, blank=True)
     REMARKS_CHOICES = [
         ('closed', 'Closed'),
         ('under investigation', 'Under Investigation'),
+        ('',''),
     ]
 
     Remarks = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed', blank=True)
@@ -81,6 +81,8 @@ class Incident(models.Model):
         FullNameList = list(FullNameMap)
         return delimeter.join(FullNameList)
     
+    class Meta:
+        unique_together = (('DateTime', 'OwnerEstablishmentName'),)
     
 
 
