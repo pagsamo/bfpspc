@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -21,8 +21,8 @@ class InvestigatorRank(models.Model):
 
 
 class Investigator(models.Model):
-    FirstName = models.CharField(max_length=100, blank=True)
-    MiddleName = models.CharField(max_length=100, blank=True)
+    FirstName = models.CharField(max_length=100, blank=True, null=True)
+    MiddleName = models.CharField(max_length=100, blank=True, null=True)
     LastName = models.CharField(max_length=100)
     Rank = models.ForeignKey(InvestigatorRank,on_delete=models.SET_NULL,null=True)
 
@@ -46,8 +46,8 @@ class OccupancyType(models.Model):
 class Incident(models.Model):
     DateTime = models.DateTimeField()
     FireOutDateTime = models.DateTimeField(null=True, blank=True)
-    HouseNumber = models.CharField(max_length=255,blank=True)
-    Street = models.CharField(max_length=255,blank=True)
+    HouseNumber = models.CharField(max_length=255,blank=True, null=True)
+    Street = models.CharField(max_length=255,blank=True, null=True)
     Barangay = models.ForeignKey(Barangay, on_delete=models.SET_NULL, null=True)
     OccupancyType = models.ForeignKey(OccupancyType, on_delete=models.SET_NULL, null=True)
     OwnerEstablishmentName = models.CharField(max_length=255)
@@ -62,8 +62,8 @@ class Incident(models.Model):
     FatalitiesFemale = models.IntegerField(default=0)
     EstimatedDamageCost = models.IntegerField(default=0)
     FinalDamageCost = models.IntegerField(default=0)
-    Origin = models.CharField(max_length=255, blank=True)
-    Cause = models.TextField(blank=True)
+    Origin = models.CharField(max_length=255, blank=True, null=True)
+    Cause = models.TextField(blank=True, null=True)
     FireArsonInvestigator = models.ForeignKey(Investigator, on_delete=models.SET_NULL, null=True, blank=True)
     REMARKS_CHOICES = [
         ('closed', 'Closed'),
@@ -72,7 +72,7 @@ class Incident(models.Model):
     ]
 
     Remarks = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed', blank=True)
-    Notes = models.TextField(default="", blank=True)
+    Notes = models.TextField(default="", blank=True, null=True)
 
     def __str__(self):
         delimeter = ' '
