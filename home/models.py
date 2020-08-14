@@ -5,8 +5,7 @@ from django.urls import reverse
 
 class Barangay(models.Model):
     Name = models.CharField(max_length=255, unique=True)
-    Latitude = models.DecimalField(decimal_places=7, max_digits=20, blank=True, null=True)
-    Longitude = models.DecimalField(decimal_places=7, max_digits=20, blank=True, null=True)
+    Location = models.PointField(blank=True, null=True)
 
     def __str__(self):
         return self.Name
@@ -49,6 +48,7 @@ class Incident(models.Model):
     HouseNumber = models.CharField(max_length=255,blank=True, null=True)
     Street = models.CharField(max_length=255,blank=True, null=True)
     Barangay = models.ForeignKey(Barangay, on_delete=models.SET_NULL, null=True)
+    Location = models.PointField(blank=True, null=True)
     OccupancyType = models.ForeignKey(OccupancyType, on_delete=models.SET_NULL, null=True)
     OwnerEstablishmentName = models.CharField(max_length=255)
     ALARM_LEVEL_CHOICES = [

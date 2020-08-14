@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+{% load leaflet_tags %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BFP San Pablo City, Laguna</title>
+    {% leaflet_css %}
+    <style>
+        #gis{width: 80%; height: 700px; margin:0 auto;}
+    </style>
+</head>
+<body>
+{% leaflet_map "gis" callback="our_layers" %}
+{% leaflet_js %}
+<script src="{% static 'dist/leaflet.ajax.js'  %}"></script>
+<script>
+    function our_layers(map, options){
+        var datasets = new L.GeoJSON.AJAX("{% url 'incidents' %}", {
+            onEachFeature: function(feature,layer){
+				layer.bindPopup(feature.properties.OccupancyType.toString());
+			}
+        });
+        datasets.addTo(map);
+        points.addTo(map);
+
+    }
+</script>
+</body>
+</html>

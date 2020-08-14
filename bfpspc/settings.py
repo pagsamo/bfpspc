@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'leaflet',
     'home',
 ]
 
@@ -144,5 +145,17 @@ if os.name == 'nt':
     os.environ['PATH'] = OSGEO4W + r"\bin;" + os.environ['PATH']
     GEOS_LIBRARY_PATH = r"C:\OSGeo4W64\bin\geos_c.dll"
     GDAL_LIBRARY_PATH = r"C:\OSGeo4W64\bin\gdal300.dll"
+
+ADMIN_SITE_HEADER = "BFP-SPC GIS Administration"
+
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': [14.0446622,121.3204835],
+    'DEFAULT_ZOOM': 13,
+    'MAX_ZOOM': 20,
+    'MIN_ZOOM': 3,
+    'SCALE': 'both',
+    'ATTRIBUTION_PREFIX': 'Developed by Kateamko',
+}
 
 

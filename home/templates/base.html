@@ -1,4 +1,5 @@
 {% load static %}
+{% load leaflet_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %} " rel="stylesheet">
-    <link href="{% static 'css/leaflet.css'  %}" rel="stylesheet">
+    {% leaflet_css %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
 </head>
@@ -104,13 +105,13 @@
             </div>
             <!-- End of Main Content -->
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            {% comment %} <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; BFP San Pablo Fire Incident Mapping with Data Analytics</span>
                     </div>
                 </div>
-            </footer>
+            </footer> {% endcomment %}
             <!-- End of Footer -->
 
         </div>
@@ -129,7 +130,8 @@
     <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-    <script src="{% static 'js/leaflet.js' %}"></script>
+    {% leaflet_js %}
+    <script src="{% static 'js/leaflet.ajax.js' %}"></script>
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>

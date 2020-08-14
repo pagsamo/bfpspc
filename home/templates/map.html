@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
+{% load leaflet_tags %}
 {% block content %}
-<div id="mapid">
+{% leaflet_map "mapid" %}
 </div>
+<script>
+    function our_marker(map, options) {
+        var incidents = new L.GeoJSON.AJAX("{% url 'incidents' %}", {
+            onEachFeature: function(feature, layer) {
+                layer.bindPopup(feature.properties.OwnerEstablishmentName.toString());
+            }
+        });
+        incidents.addTo(map);
+    }
+</script>
 {% endblock content %}
