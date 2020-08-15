@@ -5,6 +5,7 @@ from .models import Barangay, InvestigatorRank, Investigator, Incident, Occupanc
 @admin.register(Barangay)
 class BarangayAdmin(LeafletGeoAdmin):
     list_display = ('Name',)
+    readonly_fields = ('id',)
 
 @admin.register(InvestigatorRank)
 class InvestigatorRankAdmin(LeafletGeoAdmin):
@@ -22,3 +23,4 @@ class OccupancyTypeAdmin(LeafletGeoAdmin):
 class IncidentAdmin(LeafletGeoAdmin):
     list_display = ('DateTime', 'HouseNumber', 'Street', 'Barangay', 'OwnerEstablishmentName',)
     exclude = ('TotalFatalities',)
+    readonly_fields = ('id',)

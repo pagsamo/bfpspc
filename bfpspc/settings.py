@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'bootstrap3',
     'leaflet',
     'home',
 ]
@@ -157,5 +158,8 @@ LEAFLET_CONFIG = {
     'SCALE': 'both',
     'ATTRIBUTION_PREFIX': 'Developed by Kateamko',
 }
+
+
+
 
 

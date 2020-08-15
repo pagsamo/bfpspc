@@ -9,23 +9,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>BFP San Pablo City, Laguna</title>
     {% leaflet_css %}
-    <style>
-        #gis{width: 80%; height: 700px; margin:0 auto;}
-    </style>
 </head>
 <body>
 {% leaflet_map "gis" callback="our_layers" %}
 {% leaflet_js %}
-<script src="{% static 'dist/leaflet.ajax.js'  %}"></script>
+<script src="{% static 'js/leaflet.ajax.js'  %}"></script>
 <script>
     function our_layers(map, options){
-        var datasets = new L.GeoJSON.AJAX("{% url 'incidents' %}", {
+        const datasets = new L.GeoJSON.AJAX("{% url 'incidents' %}", {
             onEachFeature: function(feature,layer){
 				layer.bindPopup(feature.properties.DateTime.toString());
 			}
         });
         datasets.addTo(map);
-        points.addTo(map);
 
     }
 </script>

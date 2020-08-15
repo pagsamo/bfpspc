@@ -1,16 +1,49 @@
 {% extends 'base.html' %}
 {% load leaflet_tags %}
 {% block content %}
-{% leaflet_map "mapid" %}
-</div>
-<script>
-    function our_marker(map, options) {
-        var incidents = new L.GeoJSON.AJAX("{% url 'incidents' %}", {
-            onEachFeature: function(feature, layer) {
-                layer.bindPopup(feature.properties.OwnerEstablishmentName.toString());
-            }
-        });
-        incidents.addTo(map);
-    }
-</script>
+    {% leaflet_map "mapid" callback="our_marker" %}
 {% endblock content %}
+{% block scripts %}
+    <script>
+
+
+        function our_marker(map, options) {
+            const incidents = new L.GeoJSON.AJAX("{% url 'incidents' %}", {
+                pointToLayer: function (feature, latlng) {
+                    const redMarker = L.ExtraMarkers.icon({
+                        icon: 'glyphicon-fire',
+                        markerColor: 'red',
+                        shape: 'circle',
+                        prefix: 'glyphicon'
+                    });
+                    return L.marker(latlng, {icon: redMarker});
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.DateTime.toString());
+                }
+            });//incidents
+            incidents.addTo(map);
+            //incidents
+
+            const incidentCount = new L.GeoJSON.AJAX("{% url 'barangay_incident_count' %}", {
+                pointToLayer: function (feature, latlng) {
+                    const blueMarker = L.ExtraMarkers.icon({
+                        icon: 'fa-number',
+                        markerColor: 'blue',
+                        shape: 'circle',
+                        number: feature.properties.IncidentCount.toString()
+                    });
+                    console.log(feature.properties.IncidentCount);
+                    return L.marker(latlng, {icon: blueMarker});
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.Name.toString());
+                }
+            });
+            incidentCount.addTo(map)
+
+        }//function our_marker(map, options) {
+
+
+    </script>
+{% endblock %}

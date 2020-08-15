@@ -7,6 +7,12 @@ class Barangay(models.Model):
     Name = models.CharField(max_length=255, unique=True)
     Location = models.PointField(blank=True, null=True)
 
+    def IncidentCount(self):
+        return self.incident_set.count()
+
+    def IncidentInstances(self):
+        return self.incident_set.all()
+
     def __str__(self):
         return self.Name
 
