@@ -21,7 +21,7 @@
     function our_layers(map, options){
         var datasets = new L.GeoJSON.AJAX("{% url 'incidents' %}", {
             onEachFeature: function(feature,layer){
-				layer.bindPopup(feature.properties.OccupancyType.toString());
+				layer.bindPopup(feature.properties.DateTime.toString());
 			}
         });
         datasets.addTo(map);
