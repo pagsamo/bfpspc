@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'bootstrap3',
     'leaflet',
+    'chartjs',
     'home',
 ]
 
