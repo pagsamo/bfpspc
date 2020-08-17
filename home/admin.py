@@ -6,7 +6,6 @@ from .models import Barangay, InvestigatorRank, Investigator, Incident, Occupanc
 class BarangayAdmin(LeafletGeoAdmin):
     list_display = ('Name',)
     search_fields = ('Name',)
-    readonly_fields = ('id',)
 
 @admin.register(InvestigatorRank)
 class InvestigatorRankAdmin(LeafletGeoAdmin):
@@ -15,13 +14,16 @@ class InvestigatorRankAdmin(LeafletGeoAdmin):
 @admin.register(Investigator)
 class InvestigatorAdmin(LeafletGeoAdmin):
     list_display = ('Rank', 'LastName', 'FirstName',)
+    search_fields = ('Name',)
 
 @admin.register(OccupancyType)
 class OccupancyTypeAdmin(LeafletGeoAdmin):
     list_display = ('Description', )
+    search_fields = ('Description',)
 
 @admin.register(Incident)
 class IncidentAdmin(LeafletGeoAdmin):
-    list_display = ('DateTime', 'HouseNumber', 'Street', 'Barangay', 'OwnerEstablishmentName',)
+    list_display = ('DateTime', 'Barangay', 'OwnerEstablishmentName',)
     exclude = ('TotalFatalities',)
-    readonly_fields = ('id',)
+    search_fields = ('DateTime', 'Barangay', 'OwnerEstablishment',)
+    filter = ('Barangay',)
