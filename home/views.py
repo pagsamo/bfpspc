@@ -24,7 +24,9 @@ class CustomSerializer(Serializer):
 
 
 def home(request):
-    return render(request, 'index.html')
+    test = 'test'
+    barangays = Barangay.objects.all()
+    return render(request, 'index.html', {'test': test, 'barangays': barangays})
 
 
 def bfpmap(request):
@@ -68,6 +70,12 @@ class LineChartJSONView(BaseLineChartView):
 line_chart = TemplateView.as_view(template_name='test.html')
 line_chart_json = LineChartJSONView.as_view()
 
-
 def test(request):
     return render(request, 'test.html')
+
+
+def trythis():
+    barangays = Barangay.objects.all()
+    for b in barangays:
+        if b.incident_set.all().count() != 0:
+            print(b, b.incident_set.all().count())

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+
+{% endblock style %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <canvas id="perBarangay" width="500" height="200"></canvas>
+        </div>
+    </div>
+{% endblock content %}
+{% block scripts %}
+    <script src="{% static 'js/charts.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            var ctx = document.getElementById('perBarangay').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [{% for b in barangays %}
+                        {% if b.IncidentCount %}
+                            '{{ b.Name  }}',
+                        {% endif %}
+                    {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Number of Fire Incidents Per Barangay',
+                        data: [{% for b in barangays %}
+                            {% if b.IncidentCount %}
+                            '{{ b.IncidentCount  }}',
+                        {% endif %}
+                        {% endfor %}
+                        ],
+                        backgroundColor: 'pink',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+            console.log('{{ test }}')
+            console.log('{{ perBarangay }}')
+        })
+    </script>
+{% endblock %}

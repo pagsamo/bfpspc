@@ -5,6 +5,7 @@ from .models import Barangay, InvestigatorRank, Investigator, Incident, Occupanc
 @admin.register(Barangay)
 class BarangayAdmin(LeafletGeoAdmin):
     list_display = ('Name',)
+    search_fields = ('Name',)
     readonly_fields = ('id',)
 
 @admin.register(InvestigatorRank)
