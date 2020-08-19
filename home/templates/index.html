@@ -5,17 +5,23 @@
 {% endblock style %}
 {% block content %}
     <div class="row">
-        <div class="col-md-12">
-            <canvas id="perBarangay" width="500" height="200"></canvas>
+        <div class="col-md-2 hiden-xs"></div>
+        <div class="col-md-8 col-xs-12">
+            <canvas id="perBarangay" width="500" height="300"></canvas>
         </div>
+        <div class="col-md-2 hidden-xs"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6"><canvas id="perDay" width="500" height="300"></canvas></div>
+        <div class="col-md-6"><canvas id="perHour" width="500" height="300"></canvas></div>
     </div>
 {% endblock content %}
 {% block scripts %}
     <script src="{% static 'js/charts.js' %}"></script>
     <script>
         $(document).ready(function () {
-            var ctx = document.getElementById('perBarangay').getContext('2d');
-            var myChart = new Chart(ctx, {
+            const perBarangay = document.getElementById('perBarangay').getContext('2d');
+            const perBarangayChart = new Chart(perBarangay, {
                 type: 'horizontalBar',
                 data: {
                     labels: [{% for b in barangays %}
@@ -28,8 +34,8 @@
                         label: 'Number of Fire Incidents Per Barangay',
                         data: [{% for b in barangays %}
                             {% if b.IncidentCount %}
-                            '{{ b.IncidentCount  }}',
-                        {% endif %}
+                                '{{ b.IncidentCount  }}',
+                            {% endif %}
                         {% endfor %}
                         ],
                         backgroundColor: 'pink',
@@ -43,7 +49,7 @@
                                 beginAtZero: true
                             }
                         }],
-                        xAxes:[{
+                        xAxes: [{
                             ticks: {
                                 beginAtZero: true
                             }
@@ -51,8 +57,84 @@
                     }
                 }
             });
-            console.log('{{ test }}')
-            console.log('{{ perBarangay }}')
-        })
+
+            const perDay = document.getElementById('perDay').getContext('2d');
+            const perDayChart = new Chart(perDay, {
+                type: 'horizontalBar',
+                data: {
+                    labels: [{% for b in barangays %}
+                        {% if b.IncidentCount %}
+                            '{{ b.Name  }}',
+                        {% endif %}
+                    {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Number of Fire Incidents Per Barangay',
+                        data: [{% for b in barangays %}
+                            {% if b.IncidentCount %}
+                                '{{ b.IncidentCount  }}',
+                            {% endif %}
+                        {% endfor %}
+                        ],
+                        backgroundColor: 'pink',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            const perHour = document.getElementById('perHour').getContext('2d');
+            const perHourChart = new Chart(perHour, {
+                type: 'horizontalBar',
+                data: {
+                    labels: [{% for b in barangays %}
+                        {% if b.IncidentCount %}
+                            '{{ b.Name  }}',
+                        {% endif %}
+                    {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Number of Fire Incidents Per Barangay',
+                        data: [{% for b in barangays %}
+                            {% if b.IncidentCount %}
+                                '{{ b.IncidentCount  }}',
+                            {% endif %}
+                        {% endfor %}
+                        ],
+                        backgroundColor: 'pink',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+        })//document ready
     </script>
 {% endblock %}
