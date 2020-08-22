@@ -1,20 +1,23 @@
 from django.contrib.gis.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
-from django.urls import reverse
+
+
+# class Barangay(models.Model):
+#     Name = models.CharField(max_length=255, unique=True)
+#     Location = models.PointField(blank=True, null=True)
+#
+#     def IncidentCount(self):
+#         return self.incident_set.count()
+#
+#     def IncidentInstances(self):
+#         return self.incident_set.all()
+#
+#     def __str__(self):
+#         return self.Name
 
 class Barangay(models.Model):
-    Name = models.CharField(max_length=255, unique=True)
-    Location = models.PointField(blank=True, null=True)
-
-    def IncidentCount(self):
-        return self.incident_set.count()
-
-    def IncidentInstances(self):
-        return self.incident_set.all()
-
-    def __str__(self):
-        return self.Name
+    Name = models.CharField(max_length=75)
+    geom = models.MultiPolygonField(srid=4326, null=True, blank=True)
 
 
 class InvestigatorRank(models.Model):
@@ -53,7 +56,7 @@ class Incident(models.Model):
     FireOutDateTime = models.DateTimeField(null=True, blank=True)
     HouseNumber = models.CharField(max_length=255,blank=True, null=True)
     Street = models.CharField(max_length=255,blank=True, null=True)
-    Barangay = models.ForeignKey(Barangay, on_delete=models.SET_NULL, null=True)
+    Barangay = models.ForeignKey(Barangay, on_delete=models.SET_NULL, null=True, blank=True)
     Location = models.PointField(blank=True, null=True)
     OccupancyType = models.ForeignKey(OccupancyType, on_delete=models.SET_NULL, null=True)
     OwnerEstablishmentName = models.CharField(max_length=255)
@@ -89,6 +92,6 @@ class Incident(models.Model):
     
     class Meta:
         unique_together = (('DateTime', 'OwnerEstablishmentName'),)
-    
+
 
 

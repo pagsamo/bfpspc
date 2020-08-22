@@ -41,7 +41,7 @@ def incident_datasets(request):
 def barangay_incident_count(request):
     geojsonformat = CustomSerializer().serialize(
         Barangay.objects.all(),
-        geometry_field='Location',
+        geometry_field='geom',
         fields=(
             'Name',
             'IncidentCount'
@@ -49,33 +49,3 @@ def barangay_incident_count(request):
     )
     return HttpResponse(geojsonformat, content_type="json")
 
-
-class LineChartJSONView(BaseLineChartView):
-    def get_labels(self):
-        """Return 7 labels for the x-axis."""
-        return ["January", "February", "March", "April", "May", "June", "July"]
-
-    def get_providers(self):
-        """Return names of datasets."""
-        return ["Central", "Eastside", "Westside"]
-
-    def get_data(self):
-        """Return 3 datasets to plot."""
-
-        return [[75, 44, 92, 11, 44, 95, 35],
-                [41, 92, 18, 3, 73, 87, 92],
-                [87, 21, 94, 3, 90, 13, 65]]
-
-
-line_chart = TemplateView.as_view(template_name='test.html')
-line_chart_json = LineChartJSONView.as_view()
-
-def test(request):
-    return render(request, 'test.html')
-
-
-def trythis():
-    barangays = Barangay.objects.all()
-    for b in barangays:
-        if b.incident_set.all().count() != 0:
-            print(b, b.incident_set.all().count())
