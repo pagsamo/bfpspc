@@ -8,7 +8,7 @@
         function our_marker(map, options) {
             const incidentCount = new L.GeoJSON.AJAX("{% url 'barangay_incident_count' %}", {
                 onEachFeature: function (feature, layer) {
-                    layer.bindPopup(feature.properties.Name.toString());
+                    layer.bindPopup('<h3 style="color: red">Incident Count: '+feature.properties.IncidentCount.toString()+'</h3><p>Barangay: '+feature.properties.Name.toString()+'<p>');
                 }
             });
             incidentCount.addTo(map)

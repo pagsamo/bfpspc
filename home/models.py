@@ -19,6 +19,15 @@ class Barangay(models.Model):
     Name = models.CharField(max_length=75)
     geom = models.MultiPolygonField(srid=4326, null=True, blank=True)
 
+    def IncidentCount(self):
+        return self.incident_set.count()
+
+    def IncidentInstances(self):
+        return self.incident_set.all()
+
+    def __str__(self):
+        return self.Name
+
 
 class InvestigatorRank(models.Model):
     Code = models.CharField(max_length=100, unique=True)
