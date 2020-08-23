@@ -2,10 +2,10 @@ from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
 from .models import Barangay, InvestigatorRank, Investigator, Incident, OccupancyType
 
-@admin.register(Barangay)
-class BarangayAdmin(LeafletGeoAdmin):
-    list_display = ('Name',)
-    search_fields = ('Name',)
+# @admin.register(Barangay)
+# class BarangayAdmin(LeafletGeoAdmin):
+#     list_display = ('Name',)
+#     search_fields = ('Name',)
 
 @admin.register(InvestigatorRank)
 class InvestigatorRankAdmin(LeafletGeoAdmin):

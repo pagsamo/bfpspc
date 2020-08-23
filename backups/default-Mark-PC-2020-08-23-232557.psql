@@ -1,0 +1,1925 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.3
+-- Dumped by pg_dump version 12.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+ALTER TABLE ONLY public.home_investigator DROP CONSTRAINT "home_investigator_Rank_id_34a0654f_fk_home_investigatorrank_id";
+ALTER TABLE ONLY public.home_incident DROP CONSTRAINT "home_incident_OccupancyType_id_14882aab_fk_home_occu";
+ALTER TABLE ONLY public.home_incident DROP CONSTRAINT "home_incident_FireArsonInvestigato_d9c1b64c_fk_home_inve";
+ALTER TABLE ONLY public.home_incident DROP CONSTRAINT "home_incident_Barangay_id_5674cce9_fk_home_barangay_id";
+ALTER TABLE ONLY public.django_admin_log DROP CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id;
+ALTER TABLE ONLY public.django_admin_log DROP CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co;
+ALTER TABLE ONLY public.auth_user_user_permissions DROP CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id;
+ALTER TABLE ONLY public.auth_user_user_permissions DROP CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm;
+ALTER TABLE ONLY public.auth_user_groups DROP CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id;
+ALTER TABLE ONLY public.auth_user_groups DROP CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id;
+ALTER TABLE ONLY public.auth_permission DROP CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co;
+ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id;
+ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm;
+DROP INDEX public."home_investigatorrank_Code_3f61e76b_like";
+DROP INDEX public."home_investigator_Rank_id_34a0654f";
+DROP INDEX public."home_incident_OccupancyType_id_14882aab";
+DROP INDEX public."home_incident_Location_id";
+DROP INDEX public."home_incident_FireArsonInvestigator_id_d9c1b64c";
+DROP INDEX public."home_incident_Barangay_id_5674cce9";
+DROP INDEX public.home_barangay_geom_id;
+DROP INDEX public.django_session_session_key_c0390e0f_like;
+DROP INDEX public.django_session_expire_date_a5c62663;
+DROP INDEX public.django_admin_log_user_id_c564eba6;
+DROP INDEX public.django_admin_log_content_type_id_c4bce8eb;
+DROP INDEX public.auth_user_username_6821ab7c_like;
+DROP INDEX public.auth_user_user_permissions_user_id_a95ead1b;
+DROP INDEX public.auth_user_user_permissions_permission_id_1fbb5f2c;
+DROP INDEX public.auth_user_groups_user_id_6a12ed8b;
+DROP INDEX public.auth_user_groups_group_id_97559544;
+DROP INDEX public.auth_permission_content_type_id_2f476e4b;
+DROP INDEX public.auth_group_permissions_permission_id_84c5c92e;
+DROP INDEX public.auth_group_permissions_group_id_b120cbf9;
+DROP INDEX public.auth_group_name_a6ea08ec_like;
+ALTER TABLE ONLY public.home_occupancytype DROP CONSTRAINT home_occupancytype_pkey;
+ALTER TABLE ONLY public.home_investigatorrank DROP CONSTRAINT home_investigatorrank_pkey;
+ALTER TABLE ONLY public.home_investigatorrank DROP CONSTRAINT "home_investigatorrank_Code_3f61e76b_uniq";
+ALTER TABLE ONLY public.home_investigator DROP CONSTRAINT home_investigator_pkey;
+ALTER TABLE ONLY public.home_investigator DROP CONSTRAINT "home_investigator_FirstName_LastName_697f8849_uniq";
+ALTER TABLE ONLY public.home_incident DROP CONSTRAINT home_incident_pkey;
+ALTER TABLE ONLY public.home_incident DROP CONSTRAINT "home_incident_DateTime_OwnerEstablishmentName_e9427a85_uniq";
+ALTER TABLE ONLY public.home_barangay DROP CONSTRAINT home_barangay_pkey;
+ALTER TABLE ONLY public.django_session DROP CONSTRAINT django_session_pkey;
+ALTER TABLE ONLY public.django_migrations DROP CONSTRAINT django_migrations_pkey;
+ALTER TABLE ONLY public.django_content_type DROP CONSTRAINT django_content_type_pkey;
+ALTER TABLE ONLY public.django_content_type DROP CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq;
+ALTER TABLE ONLY public.django_admin_log DROP CONSTRAINT django_admin_log_pkey;
+ALTER TABLE ONLY public.auth_user DROP CONSTRAINT auth_user_username_key;
+ALTER TABLE ONLY public.auth_user_user_permissions DROP CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq;
+ALTER TABLE ONLY public.auth_user_user_permissions DROP CONSTRAINT auth_user_user_permissions_pkey;
+ALTER TABLE ONLY public.auth_user DROP CONSTRAINT auth_user_pkey;
+ALTER TABLE ONLY public.auth_user_groups DROP CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq;
+ALTER TABLE ONLY public.auth_user_groups DROP CONSTRAINT auth_user_groups_pkey;
+ALTER TABLE ONLY public.auth_permission DROP CONSTRAINT auth_permission_pkey;
+ALTER TABLE ONLY public.auth_permission DROP CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq;
+ALTER TABLE ONLY public.auth_group DROP CONSTRAINT auth_group_pkey;
+ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissions_pkey;
+ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq;
+ALTER TABLE ONLY public.auth_group DROP CONSTRAINT auth_group_name_key;
+ALTER TABLE public.home_occupancytype ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.home_investigatorrank ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.home_investigator ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.home_incident ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.home_barangay ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.django_migrations ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.django_content_type ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.django_admin_log ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_user_user_permissions ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_user_groups ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_user ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_permission ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_group_permissions ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_group ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.home_occupancytype_id_seq;
+DROP TABLE public.home_occupancytype;
+DROP SEQUENCE public.home_investigatorrank_id_seq;
+DROP TABLE public.home_investigatorrank;
+DROP SEQUENCE public.home_investigator_id_seq;
+DROP TABLE public.home_investigator;
+DROP SEQUENCE public.home_incident_id_seq;
+DROP TABLE public.home_incident;
+DROP SEQUENCE public.home_barangay_id_seq;
+DROP TABLE public.home_barangay;
+DROP TABLE public.django_session;
+DROP SEQUENCE public.django_migrations_id_seq;
+DROP TABLE public.django_migrations;
+DROP SEQUENCE public.django_content_type_id_seq;
+DROP TABLE public.django_content_type;
+DROP SEQUENCE public.django_admin_log_id_seq;
+DROP TABLE public.django_admin_log;
+DROP SEQUENCE public.auth_user_user_permissions_id_seq;
+DROP TABLE public.auth_user_user_permissions;
+DROP SEQUENCE public.auth_user_id_seq;
+DROP SEQUENCE public.auth_user_groups_id_seq;
+DROP TABLE public.auth_user_groups;
+DROP TABLE public.auth_user;
+DROP SEQUENCE public.auth_permission_id_seq;
+DROP TABLE public.auth_permission;
+DROP SEQUENCE public.auth_group_permissions_id_seq;
+DROP TABLE public.auth_group_permissions;
+DROP SEQUENCE public.auth_group_id_seq;
+DROP TABLE public.auth_group;
+DROP EXTENSION postgis_topology;
+DROP EXTENSION postgis;
+DROP SCHEMA topology;
+--
+-- Name: topology; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA topology;
+
+
+ALTER SCHEMA topology OWNER TO postgres;
+
+--
+-- Name: SCHEMA topology; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA topology IS 'PostGIS Topology schema';
+
+
+--
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
+--
+-- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
+
+
+--
+-- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO bfpspc;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO bfpspc;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO bfpspc;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO bfpspc;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO bfpspc;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO bfpspc;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO bfpspc;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO bfpspc;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO bfpspc;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO bfpspc;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO bfpspc;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO bfpspc;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO bfpspc;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO bfpspc;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO bfpspc;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO bfpspc;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO bfpspc;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO bfpspc;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO bfpspc;
+
+--
+-- Name: home_barangay; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.home_barangay (
+    id integer NOT NULL,
+    "Name" character varying(75) NOT NULL,
+    geom public.geometry(MultiPolygon,4326)
+);
+
+
+ALTER TABLE public.home_barangay OWNER TO bfpspc;
+
+--
+-- Name: home_barangay_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.home_barangay_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.home_barangay_id_seq OWNER TO bfpspc;
+
+--
+-- Name: home_barangay_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.home_barangay_id_seq OWNED BY public.home_barangay.id;
+
+
+--
+-- Name: home_incident; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.home_incident (
+    id integer NOT NULL,
+    "DateTime" timestamp with time zone NOT NULL,
+    "FireOutDateTime" timestamp with time zone,
+    "HouseNumber" character varying(255),
+    "Street" character varying(255),
+    "OccupancyType_id" integer,
+    "OwnerEstablishmentName" character varying(255) NOT NULL,
+    "AlarmLevel" character varying(1) NOT NULL,
+    "Injuries" integer NOT NULL,
+    "FatalitiesMale" integer NOT NULL,
+    "FatalitiesFemale" integer NOT NULL,
+    "EstimatedDamageCost" integer NOT NULL,
+    "FinalDamageCost" integer NOT NULL,
+    "Origin" character varying(255),
+    "Cause" text,
+    "Remarks" character varying(255) NOT NULL,
+    "Barangay_id" integer,
+    "FireArsonInvestigator_id" integer,
+    "Notes" text,
+    "Location" public.geometry(Point,4326)
+);
+
+
+ALTER TABLE public.home_incident OWNER TO bfpspc;
+
+--
+-- Name: home_incident_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.home_incident_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.home_incident_id_seq OWNER TO bfpspc;
+
+--
+-- Name: home_incident_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.home_incident_id_seq OWNED BY public.home_incident.id;
+
+
+--
+-- Name: home_investigator; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.home_investigator (
+    id integer NOT NULL,
+    "FirstName" character varying(100),
+    "MiddleName" character varying(100),
+    "LastName" character varying(100) NOT NULL,
+    "Rank_id" integer
+);
+
+
+ALTER TABLE public.home_investigator OWNER TO bfpspc;
+
+--
+-- Name: home_investigator_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.home_investigator_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.home_investigator_id_seq OWNER TO bfpspc;
+
+--
+-- Name: home_investigator_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.home_investigator_id_seq OWNED BY public.home_investigator.id;
+
+
+--
+-- Name: home_investigatorrank; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.home_investigatorrank (
+    id integer NOT NULL,
+    "Code" character varying(100) NOT NULL,
+    "Definition" character varying(250) NOT NULL
+);
+
+
+ALTER TABLE public.home_investigatorrank OWNER TO bfpspc;
+
+--
+-- Name: home_investigatorrank_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.home_investigatorrank_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.home_investigatorrank_id_seq OWNER TO bfpspc;
+
+--
+-- Name: home_investigatorrank_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.home_investigatorrank_id_seq OWNED BY public.home_investigatorrank.id;
+
+
+--
+-- Name: home_occupancytype; Type: TABLE; Schema: public; Owner: bfpspc
+--
+
+CREATE TABLE public.home_occupancytype (
+    id integer NOT NULL,
+    "Description" character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.home_occupancytype OWNER TO bfpspc;
+
+--
+-- Name: home_occupancytype_id_seq; Type: SEQUENCE; Schema: public; Owner: bfpspc
+--
+
+CREATE SEQUENCE public.home_occupancytype_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.home_occupancytype_id_seq OWNER TO bfpspc;
+
+--
+-- Name: home_occupancytype_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bfpspc
+--
+
+ALTER SEQUENCE public.home_occupancytype_id_seq OWNED BY public.home_occupancytype.id;
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: home_barangay id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_barangay ALTER COLUMN id SET DEFAULT nextval('public.home_barangay_id_seq'::regclass);
+
+
+--
+-- Name: home_incident id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_incident ALTER COLUMN id SET DEFAULT nextval('public.home_incident_id_seq'::regclass);
+
+
+--
+-- Name: home_investigator id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_investigator ALTER COLUMN id SET DEFAULT nextval('public.home_investigator_id_seq'::regclass);
+
+
+--
+-- Name: home_investigatorrank id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_investigatorrank ALTER COLUMN id SET DEFAULT nextval('public.home_investigatorrank_id_seq'::regclass);
+
+
+--
+-- Name: home_occupancytype id; Type: DEFAULT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_occupancytype ALTER COLUMN id SET DEFAULT nextval('public.home_occupancytype_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+21	Can add session	6	add_session
+22	Can change session	6	change_session
+23	Can delete session	6	delete_session
+24	Can view session	6	view_session
+25	Can add barangay	7	add_barangay
+26	Can change barangay	7	change_barangay
+27	Can delete barangay	7	delete_barangay
+28	Can view barangay	7	view_barangay
+29	Can add investigator rank	8	add_investigatorrank
+30	Can change investigator rank	8	change_investigatorrank
+31	Can delete investigator rank	8	delete_investigatorrank
+32	Can view investigator rank	8	view_investigatorrank
+33	Can add investigator	9	add_investigator
+34	Can change investigator	9	change_investigator
+35	Can delete investigator	9	delete_investigator
+36	Can view investigator	9	view_investigator
+37	Can add incident	10	add_incident
+38	Can change incident	10	change_incident
+39	Can delete incident	10	delete_incident
+40	Can view incident	10	view_incident
+41	Can add occupancy type	11	add_occupancytype
+42	Can change occupancy type	11	change_occupancytype
+43	Can delete occupancy type	11	delete_occupancytype
+44	Can view occupancy type	11	view_occupancytype
+45	Can add test data	12	add_testdata
+46	Can change test data	12	change_testdata
+47	Can delete test data	12	delete_testdata
+48	Can view test data	12	view_testdata
+49	Can add laguna	13	add_laguna
+50	Can change laguna	13	change_laguna
+51	Can delete laguna	13	delete_laguna
+52	Can view laguna	13	view_laguna
+\.
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+1	pbkdf2_sha256$180000$AZ4RXewr7sm5$X+kltk9DlP8CZXIbRN3PFxMPAh/qun3dZ2RPPyhWQN4=	2020-08-15 19:04:08.344193+08	t	admin			admin@admin.admin	t	t	2020-08-14 11:22:58.870818+08
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2020-08-14 23:55:45.867406+08	80	2016-04-29 04:30:00+00:00 Rosana Caguite	2	[{"changed": {"fields": ["Location", "Remarks"]}}]	10	1
+2	2020-08-15 00:12:07.945328+08	71	2016-11-13 09:30:00+00:00 January Pearl Docot	2	[{"changed": {"fields": ["Location", "Remarks"]}}]	10	1
+3	2020-08-15 22:50:36.580079+08	78	2016-05-21 04:15:00+00:00 Ronald Badiola	2	[{"changed": {"fields": ["Location", "Remarks"]}}]	10	1
+4	2020-08-15 23:00:35.11972+08	80	Soledad (Macopa)	2	[{"changed": {"fields": ["Location"]}}]	7	1
+5	2020-08-15 23:00:45.804413+08	79	Santo Niño (Arsum)	2	[{"changed": {"fields": ["Location"]}}]	7	1
+6	2020-08-17 19:22:38.697737+08	46	San Francisco	2	[{"changed": {"fields": ["Name"]}}]	7	1
+7	2020-08-17 19:23:04.090556+08	46	San Gabriel	2	[{"changed": {"fields": ["Name"]}}]	7	1
+8	2020-08-17 19:51:56.387368+08	86	2019-04-13 22:05:00+00:00 Rica Valencia	1	[{"added": {}}]	10	1
+9	2020-08-17 19:54:06.439793+08	87	2017-11-23 18:48:00+00:00 Romeo B Race	1	[{"added": {}}]	10	1
+10	2020-08-23 20:20:51.782261+08	84	2016-01-17 01:10:00+00:00 Sumiran, Ilaw, dela Cruz, Capuno, Riafor and Perez residences	2	[{"changed": {"fields": ["Barangay", "Location", "Remarks"]}}]	10	1
+11	2020-08-23 20:21:05.210194+08	83	2016-01-31 11:15:00+00:00 Donard Deñado	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+12	2020-08-23 20:21:15.303199+08	82	2016-02-16 11:50:00+00:00 Mila Flores	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+13	2020-08-23 20:21:31.090793+08	81	2016-04-12 02:21:00+00:00 Angelito Sahagun	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+14	2020-08-23 20:21:57.811091+08	80	2016-04-29 04:30:00+00:00 Rosana Caguite	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+15	2020-08-23 20:22:28.669046+08	79	2016-05-08 07:00:00+00:00 Magical Ox Company	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+16	2020-08-23 20:22:48.389708+08	78	2016-05-21 04:15:00+00:00 Ronald Badiola	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+17	2020-08-23 20:23:15.156875+08	77	2016-06-05 12:56:00+00:00 Alma Cabrera	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+18	2020-08-23 20:23:36.874796+08	76	2016-07-09 11:26:00+00:00 Lilia Deriquito	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+19	2020-08-23 20:23:46.403697+08	75	2016-07-10 15:20:00+00:00 Nico Aningalan	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+20	2020-08-23 20:27:10.206637+08	74	2016-07-18 03:30:00+00:00 Nuñez, Lait, Roco, and Maglupay residence	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+21	2020-08-23 20:27:30.571062+08	73	2016-11-08 05:21:00+00:00 Emiliano Leonor, dela Guardia, Rombawa, Gonzales and Dimayuga Residences	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+22	2020-08-23 20:27:41.524347+08	72	2016-11-09 12:10:00+00:00 Zenaida Perez	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+23	2020-08-23 20:28:08.198671+08	71	2016-11-13 09:30:00+00:00 January Pearl Docot	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+24	2020-08-23 20:28:28.288613+08	70	2016-12-01 04:05:00+00:00 Family Federation for World Peace	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+25	2020-08-23 20:28:42.900052+08	69	2016-12-17 18:45:00+00:00 Mary Jane Alvero, Magdalena Villanueva, Orbel Biglete	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+26	2020-08-23 20:28:56.674922+08	68	2017-03-06 04:45:00+00:00 Minor family	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+27	2020-08-23 20:29:05.877196+08	67	2017-03-07 00:55:00+00:00 Ailyn Ambion, Randy Ambion, Edwin Guinto, Cynthia Kalaw, Nicomedez Desamero, Nelita Pamanano, Manolito Dalwampo, Aristeo Ambion Jr., Ronalyn Guevarra, Nenita Fernandez	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+28	2020-08-23 20:29:16.157198+08	66	2017-03-25 00:53:00+00:00 Lolita Valbuena	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+29	2020-08-23 20:29:35.363116+08	65	2017-04-11 11:08:00+00:00 Annalisa Paterson	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+30	2020-08-23 20:29:44.918696+08	64	2017-04-15 18:00:00+00:00 Nino Arrogancia	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+31	2020-08-23 20:29:56.193677+08	63	2017-04-22 08:00:00+00:00 Rea Lou Artillaga	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+32	2020-08-23 20:30:10.16293+08	62	2017-05-09 08:20:00+00:00 Adina Rivera Divera	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+33	2020-08-23 20:30:20.830437+08	61	2017-05-13 04:50:00+00:00 Ervert Avanzado	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+34	2020-08-23 20:30:58.783819+08	60	2017-05-19 04:20:00+00:00 Heidie Yanoc	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+35	2020-08-23 20:31:11.81132+08	59	2017-06-13 04:59:00+00:00 Marvin Bandoy	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+36	2020-08-23 20:31:12.26966+08	59	2017-06-13 04:59:00+00:00 Marvin Bandoy	2	[]	10	1
+37	2020-08-23 20:31:26.331029+08	58	2017-07-05 05:00:00+00:00 Emetrio Arambulo	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+38	2020-08-23 20:31:39.470115+08	57	2017-08-13 10:10:00+00:00 Chairman Gamara	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+39	2020-08-23 20:31:48.890659+08	56	2017-08-13 09:58:00+00:00 Ronald Allen Uy	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+40	2020-08-23 20:32:03.644987+08	55	2017-08-16 06:50:00+00:00 Edwin Ramirez	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+41	2020-08-23 20:32:16.891621+08	54	2017-08-24 13:20:00+00:00 Oscar Carlos	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+42	2020-08-23 20:32:26.10768+08	53	2017-09-12 10:40:00+00:00 Reneboy Hemor	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+43	2020-08-23 20:32:38.893284+08	52	2017-10-02 21:13:00+00:00 Nonilon Mendoza	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+44	2020-08-23 20:32:48.692764+08	51	2017-10-04 00:20:00+00:00 San Miguel Elementary School	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+45	2020-08-23 20:33:04.539319+08	50	2017-10-10 04:11:00+00:00 Ricardo R Reyes	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+46	2020-08-23 20:33:16.024601+08	49	2017-10-21 12:53:00+00:00 Lilibeth Manalo	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+47	2020-08-23 20:33:35.316834+08	48	2017-11-27 00:00:00+00:00 Nicko Aningalan	2	[{"changed": {"fields": ["Barangay", "Origin", "Remarks"]}}]	10	1
+48	2020-08-23 20:34:07.001641+08	48	2017-11-27 00:00:00+00:00 Nicko Aningalan	2	[{"changed": {"fields": ["Barangay"]}}]	10	1
+49	2020-08-23 20:34:24.895306+08	47	2017-12-10 01:55:00+00:00 Aleli Banayo	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+50	2020-08-23 20:34:37.614035+08	46	2018-03-10 23:20:00+00:00 Alvin A Mendoza	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+51	2020-08-23 20:35:08.358846+08	45	2018-03-12 00:00:00+00:00 Edwin Mendoza Dichoso	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+52	2020-08-23 20:35:41.998558+08	44	2018-03-23 13:25:00+00:00 Elsa Hapin, Marilyn Buesa	2	[{"changed": {"fields": ["DateTime", "Barangay", "Remarks"]}}]	10	1
+53	2020-08-23 20:36:01.717587+08	43	2018-04-10 02:10:00+00:00 Ronaldo Laroza	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+54	2020-08-23 20:36:34.770763+08	42	2018-04-21 11:15:00+00:00 Marcelita P Maglalang	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+55	2020-08-23 20:36:50.969698+08	41	2018-04-30 17:25:00+00:00 Fortunata Hernandez	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+56	2020-08-23 20:37:09.40799+08	40	2018-05-21 13:00:00+00:00 Monsignor Jerry Bitoon	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+57	2020-08-23 20:37:32.806855+08	39	2018-05-30 19:30:00+00:00 Teresita H Ramos	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+58	2020-08-23 20:37:43.083636+08	38	2018-06-12 13:38:00+00:00 Teodora Alvero	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+59	2020-08-23 20:37:59.375573+08	37	2018-06-25 19:30:00+00:00 Mercy Aller, Rolly Chozas, Dolores Guardian, Babylyn Chozas, Fe Punzalan	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+60	2020-08-23 20:38:13.176475+08	36	2018-07-13 02:55:00+00:00 Edgardo Cipres	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+61	2020-08-23 20:38:24.489651+08	35	2018-07-15 12:39:00+00:00 Expeditus Tiongson	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+62	2020-08-23 20:38:45.595776+08	34	2018-08-01 02:39:00+00:00 Nilo Cortez	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+63	2020-08-23 20:38:55.545943+08	33	2018-08-08 00:43:00+00:00 Danilo Baldovino, Cerelina Morales, Lorna Hilario	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+64	2020-08-23 20:39:05.032223+08	32	2018-08-13 08:00:00+00:00 Percival M Gutierrez	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+65	2020-08-23 20:39:16.862965+08	31	2018-08-15 05:00:00+00:00 Kenelyn M Maralit	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+66	2020-08-23 20:39:27.802256+08	30	2018-08-24 11:36:00+00:00 Arnold M Esquivias	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+67	2020-08-23 20:39:38.787533+08	29	2018-08-28 05:36:00+00:00 Morena Bundalian	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+68	2020-08-23 20:39:53.071143+08	28	2018-09-22 08:15:00+00:00 Cristeta Ramirez, Erlinda Aguda, Rolando Aguda, Walfredo Aguda, Marissa Ricaforte, Carolina Ragardao, Arthuro Tec, Yolanda Atrera, Arvin Astrera, Loida Cas, Ernesto Blanca, A	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+69	2020-08-23 20:40:08.312486+08	27	2018-10-17 01:46:00+00:00 Romnick Larita, Chairmaine Ignacio and Harlene Angeles	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+70	2020-08-23 20:40:20.965805+08	26	2018-11-05 11:42:00+00:00 Rizalina Villegas	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+71	2020-08-23 20:40:35.005781+08	25	2018-11-08 19:20:00+00:00 Kaysson B Belen	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+72	2020-08-23 20:40:49.036199+08	24	2018-11-22 12:26:00+00:00 Roberto Archeta	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+73	2020-08-23 20:41:10.125033+08	23	2019-01-11 13:47:00+00:00 Diana M Ordonio	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+74	2020-08-23 20:41:27.135672+08	22	2019-01-20 00:30:00+00:00 Cristina T Malabanan	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+75	2020-08-23 20:41:38.134554+08	21	2019-01-22 03:30:00+00:00 Cresencia Canayunan, Manny Canayunan, Marlon Cosico	2	[{"changed": {"fields": ["Barangay", "Cause", "Remarks"]}}]	10	1
+76	2020-08-23 20:41:49.409323+08	20	2019-01-22 05:47:00+00:00 Acel Baltazar	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+77	2020-08-23 20:42:05.371588+08	19	2019-01-31 03:00:00+00:00 Angelito B Centeno	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+78	2020-08-23 20:42:18.859987+08	18	2019-02-01 13:45:00+00:00 Rosmelie Alvero	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+79	2020-08-23 20:42:43.312525+08	17	2019-02-03 02:20:00+00:00 Mirando Gutierrez	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+80	2020-08-23 20:42:59.963946+08	16	2019-02-05 08:52:00+00:00 Joy Paclar & Catherine Estrada	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+81	2020-08-23 20:43:14.180738+08	15	2019-02-20 14:10:00+00:00 Wilfredo Sandoval	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+82	2020-08-23 20:43:27.301162+08	14	2019-02-20 18:05:00+00:00 Ryan A Moit & Jose D Azuela	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+83	2020-08-23 20:45:57.614117+08	13	2019-03-01 02:48:00+00:00 Emelito Hernandez	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+84	2020-08-23 20:46:11.437728+08	12	2019-03-18 07:27:00+00:00 Crisanto Francia	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+85	2020-08-23 20:47:35.734019+08	88	2019-04-13 22:05:00+00:00 Rica Valencia	1	[{"added": {}}]	10	1
+86	2020-08-23 20:47:54.712624+08	11	2019-05-10 00:56:00+00:00 JericoM Larona & Loven Villanueva	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+87	2020-08-23 20:48:06.075736+08	10	2019-06-06 06:47:00+00:00 Rhesa C Concepcion	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+88	2020-08-23 20:48:20.041048+08	9	2019-06-11 15:50:00+00:00 Bella Dioso	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+89	2020-08-23 20:48:33.777091+08	8	2019-06-12 06:25:00+00:00 Roswell  delas Alas, Adelaida delas Alas, Virgilio Enriquez & Rosa  Reyes	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+90	2020-08-23 20:48:47.647784+08	7	2019-06-14 12:02:00+00:00 Bgry. Del Remedio Elem. Sch., San Pablo City	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+91	2020-08-23 20:49:05.100797+08	6	2019-07-17 06:53:00+00:00 Malinao Masonic Foundation Inc.	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+92	2020-08-23 20:49:21.825598+08	5	2019-07-19 01:57:00+00:00 Paul Jane Fix & Gadgets; Agnes Malabanan, Jonathan delos Reyes, Margiere Liwag, Luis Go, Samson Belda and Christopher Abrigo Auto spare parts and car accessories; and Bernard	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+93	2020-08-23 20:49:35.153923+08	4	2019-10-02 23:00:00+00:00 Mercedez Mayo Galangga	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+94	2020-08-23 20:49:47.461762+08	3	2019-11-05 03:30:00+00:00 Evelina Albay	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+95	2020-08-23 20:49:58.532997+08	2	2019-11-09 10:58:00+00:00 Arsenia Amparo, Maria Juvy Salvan and Joveth Ramos	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+96	2020-08-23 20:50:08.308885+08	1	2019-11-28 23:10:00+00:00 Tick Villa	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	home	barangay
+8	home	investigatorrank
+9	home	investigator
+10	home	incident
+11	home	occupancytype
+12	home	testdata
+13	home	laguna
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2020-08-14 11:22:31.048162+08
+2	auth	0001_initial	2020-08-14 11:22:31.17511+08
+3	admin	0001_initial	2020-08-14 11:22:31.360959+08
+4	admin	0002_logentry_remove_auto_add	2020-08-14 11:22:31.405631+08
+5	admin	0003_logentry_add_action_flag_choices	2020-08-14 11:22:31.434403+08
+6	contenttypes	0002_remove_content_type_name	2020-08-14 11:22:31.504407+08
+7	auth	0002_alter_permission_name_max_length	2020-08-14 11:22:31.514788+08
+8	auth	0003_alter_user_email_max_length	2020-08-14 11:22:31.556369+08
+9	auth	0004_alter_user_username_opts	2020-08-14 11:22:31.6003+08
+10	auth	0005_alter_user_last_login_null	2020-08-14 11:22:31.631541+08
+11	auth	0006_require_contenttypes_0002	2020-08-14 11:22:31.660042+08
+12	auth	0007_alter_validators_add_error_messages	2020-08-14 11:22:31.679571+08
+13	auth	0008_alter_user_username_max_length	2020-08-14 11:22:31.742825+08
+14	auth	0009_alter_user_last_name_max_length	2020-08-14 11:22:31.769185+08
+15	auth	0010_alter_group_name_max_length	2020-08-14 11:22:31.792201+08
+16	auth	0011_update_proxy_permissions	2020-08-14 11:22:31.839065+08
+17	home	0001_initial	2020-08-14 11:22:31.969904+08
+18	home	0002_auto_20200728_0000	2020-08-14 11:22:32.088291+08
+19	home	0003_auto_20200728_0026	2020-08-14 11:22:32.105864+08
+20	home	0004_auto_20200728_0055	2020-08-14 11:22:32.212292+08
+21	home	0005_auto_20200729_2010	2020-08-14 11:22:32.231986+08
+22	home	0006_auto_20200729_2018	2020-08-14 11:22:32.25737+08
+23	home	0007_auto_20200729_2032	2020-08-14 11:22:32.31561+08
+24	home	0008_auto_20200729_2051	2020-08-14 11:22:32.45911+08
+25	home	0009_auto_20200730_2205	2020-08-14 11:22:32.545592+08
+26	home	0010_auto_20200730_2256	2020-08-14 11:22:32.732484+08
+27	home	0011_auto_20200730_2344	2020-08-14 11:22:32.751974+08
+28	home	0012_auto_20200730_2345	2020-08-14 11:22:32.775293+08
+29	home	0013_auto_20200803_2117	2020-08-14 11:22:32.839914+08
+30	home	0014_auto_20200805_0930	2020-08-14 11:22:32.880721+08
+31	home	0015_remove_incident_totalfatalities	2020-08-14 11:22:32.899265+08
+32	home	0016_auto_20200805_1212	2020-08-14 11:22:32.968943+08
+33	sessions	0001_initial	2020-08-14 11:22:32.997285+08
+34	home	0017_auto_20200814_1251	2020-08-14 12:51:13.317456+08
+35	home	0018_auto_20200814_1254	2020-08-14 12:54:41.141404+08
+36	home	0019_auto_20200814_1300	2020-08-14 13:00:21.663878+08
+37	home	0020_auto_20200814_2333	2020-08-14 23:33:08.955527+08
+38	home	0021_incident_location	2020-08-14 23:41:45.656609+08
+39	home	0022_testdata	2020-08-22 18:43:34.352567+08
+40	home	0023_auto_20200822_1846	2020-08-22 18:46:46.981649+08
+41	home	0024_auto_20200822_1847	2020-08-22 18:47:37.86508+08
+42	home	0025_auto_20200822_1848	2020-08-22 18:48:21.999007+08
+43	home	0026_laguna	2020-08-22 19:01:44.589064+08
+44	home	0027_auto_20200822_1913	2020-08-22 19:14:55.76108+08
+45	home	0028_auto_20200822_2001	2020-08-22 20:18:49.836296+08
+46	home	0029_remove_barangay_city	2020-08-22 22:01:58.709571+08
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+55deqa4t6rfl7s10gko9j958rmhvytml	YzczMDYyNGIyN2NiN2ZiOWQ5NTlmYWFmNThiMDhhZDhjYjNjOGFmNTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIwZTAzMTc2MjFkYjVkOTk4MTgxNDA1ZmM0ODNlNmZiMWEzZGI2NjlkIn0=	2020-08-28 11:24:30.812992+08
+4edqimn2wi8mt92rz5lb5rtb0oj82cxf	YzczMDYyNGIyN2NiN2ZiOWQ5NTlmYWFmNThiMDhhZDhjYjNjOGFmNTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIwZTAzMTc2MjFkYjVkOTk4MTgxNDA1ZmM0ODNlNmZiMWEzZGI2NjlkIn0=	2020-08-28 23:33:27.082992+08
+\.
+
+
+--
+-- Data for Name: home_barangay; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.home_barangay (id, "Name", geom) FROM stdin;
+494	Barangay III-A	0106000020E610000001000000010300000001000000090000001A000080FA545E40490000404E212C40180000A000555E40090000E09F202C40250000E0E7545E40150000A039202C40F1FFFFDFE2545E4016000060AA202C40020000E0DD545E403D0000202C212C4009000080E7545E40E8FFFFBFDB212C40140000E0EC545E40370000E026212C4000000000F4545E404300006031212C401A000080FA545E40490000404E212C40
+512	Barangay VII-B	0106000020E6100000010000000103000000010000000D000000F9FFFF5FC2545E4036000020D6222C4009000080CB545E40500000E0BB222C40F3FFFFBFC4545E40010000C040222C4021000020BC545E403F000000A6212C40E3FFFF9FB3545E40F9FFFF9FC1212C400F000020AD545E400C000080DA212C40EAFFFF3FA9545E40040000C093212C40F9FFFF5FA2545E403F000000A6212C40070000A0A5545E40E6FFFF3FEA212C40E6FFFF7FAD545E40220000E084222C40E3FFFF9FB3545E402A00000004232C40E6FFFF7FB9545E4004000000F3222C40F9FFFF5FC2545E4036000020D6222C40
+513	Barangay VII-C	0106000020E61000000100000001030000000100000008000000160000C0D2545E40230000A0A5222C40F3FFFFBFDC545E400900008087222C40250000E0CB545E40120000006F212C40E3FFFF9FC3545E400C0000808A212C4021000020BC545E403F000000A6212C40F3FFFFBFC4545E40010000C040222C4009000080CB545E40500000E0BB222C40160000C0D2545E40230000A0A5222C40
+514	Barangay VII-D	0106000020E61000000100000001030000000100000008000000E1FFFFBFE5545E400E0000006C222C40FCFFFF3FF0545E40DBFFFF7F50222C4009000080E7545E40E8FFFFBFDB212C40020000E0DD545E403D0000202C212C40F7FFFF7FD4545E401D00002041212C40250000E0CB545E40120000006F212C40F3FFFFBFDC545E400900008087222C40E1FFFFBFE5545E400E0000006C222C40
+515	Barangay VII-E	0106000020E61000000100000001030000000100000007000000020000E0DD545E403D0000202C212C402A0000A0D7545E402F000020E0202C40040000C0C7545E401500000072202C40040000C0BB545E400E0000009C202C40FEFFFF1FC6545E40290000E0DA202C40F7FFFF7FD4545E401D00002041212C40020000E0DD545E403D0000202C212C40
+493	Barangay II-F	0106000020E6100000010000000103000000010000000D000000F9FFFF5FD2545E40EDFFFF7F7F1F2C40140000E0C8545E40160000C0121F2C40020000E0C1545E403A000080C11E2C4000000000C0545E40E4FFFF5FD01D2C40160000C0BA545E4035000060951D2C40180000A0B0545E40230000A0351D2C401F000040A2545E4045000080BA1C2C401F00004092545E400B0000C0491C2C402100002090545E40DFFFFF7F031E2C40E6FFFF7F9D545E40F5FFFF3F961E2C40140000E0A4545E402E000060EF1E2C40F7FFFF7FB4545E40DBFFFF7FE01F2C40F9FFFF5FD2545E40EDFFFF7F7F1F2C40
+483	Atisan	0106000020E6100000010000000103000000010000001C0000001A0000801E525E400C0000808AF12B40160000C016525E402A00000084F12B40ECFFFF1FE7515E400300004062F02B40250000E0DF515E40FAFFFF1FE3EF2B40F1FFFFDFCE515E40ECFFFF1FE7EF2B40160000C0BA515E40DEFFFF1F9BEF2B400F000020B5515E40FEFFFF1F36EF2B40070000A0AD515E40F8FFFFDF30EF2B400000000098515E40F3FFFF1F3DEE2B40F5FFFF9F8E515E4038000000E0ED2B40F3FFFFBF74515E400B000000A9ED2B40160000C04E515E400700000006EE2B40020000E015515E40070000608EEE2B40070000A00D515E40500000A05CEE2B400900008003515E40EEFFFF3F70EE2B40F9FFFF5FF2505E40DFFFFF3F24EE2B4000000000D8505E40DBFFFF7F10EE2B400F000020B9505E40110000A0E6ED2B40F7FFFF7F94505E402C0000E07DF02B40070000A0B1505E40600000C0D1F02B401F0000402A515E40E7FFFF9F82F12B401D00006090515E404F000080D3F22B40EAFFFF3F9D515E40DDFFFF5F2AF22B40F1FFFFDFC6515E40100000E0E5F22B40F5FFFF9FFA515E40E3FFFFDFDEF32B40180000A018525E404E0000604AF42B40FCFFFF3F50525E40190000601DF52B401A0000801E525E400C0000808AF12B40
+484	Bagong Bayan II-A	0106000020E6100000010000000103000000010000001D000000160000C052545E40610000E02A212C40EEFFFFFF74545E402F000020E0202C40FEFFFF1F82545E40090000E09F202C40040000C08B545E400D0000407B202C40070000A089545E402D00004066202C400000000088545E40150000A039202C400B00006081545E4020000060D31F2C40E1FFFFBF81545E401C000000681F2C40F7FFFF7F84545E40110000402E1F2C40ECFFFF1F87545E40F6FFFFBFD71E2C40DFFFFFDF8B545E40DBFFFF1F781E2C402100002090545E40DFFFFF7F031E2C401F00004092545E400B0000C0491C2C401200000077545E40250000807F1C2C40F7FFFF7F50545E40210000802C1D2C40F9FFFF5F1A545E40370000400F1E2C40FEFFFF1FF6535E40280000209A1E2C40250000E0FB535E40160000C0121F2C40EAFFFF3FFD535E4028000080721F2C40250000E0FF535E40380000A0C71F2C40070000A005545E401F0000401A202C40EAFFFF3F01545E400F0000C06C202C40070000A005545E4047000060D4202C40000000000C545E40250000804F212C40FCFFFF3F08545E4018000040C4212C400D0000400F545E40F3FFFFBFF4212C40FCFFFF3F10545E40EDFFFF7FEF212C40E8FFFF5F27545E40FAFFFF1FB3212C40160000C052545E40610000E02A212C40
+485	Bagong Pook VI-C	0106000020E61000000100000001030000000100000014000000160000C0A2545E40F7FFFF1F00262C40ECFFFF1FA3545E403A000020C9252C40280000C0A5545E402C0000E09D252C4012000000A7545E401A0000208E252C4012000000AB545E40EEFFFFFF80252C4021000020B0545E40120000C07F252C40F9FFFF5FB6545E40140000E088252C4000000000B8545E40FAFFFF1F53252C40FEFFFF1F9A545E4037000040AF242C40E8FFFF5F9F545E40230000005E242C402100002090545E40EEFFFF9F18242C40F9FFFF5F82545E401800004094232C401F0000406E545E402000006043252C40EEFFFFFF68545E40E3FFFFDFAE252C400F00002065545E4028000020DA252C40E3FFFF9F5F545E402800008012262C40180000A07C545E402E0000602F262C40DFFFFFDF97545E40490000E085262C40FEFFFF1F9E545E402E000000F7252C40160000C0A2545E40F7FFFF1F00262C40
+486	Barangay I-A	0106000020E61000000100000001030000000100000010000000E8FFFF5F5F545E401500000012242C40020000E05D545E4007000060AE232C400B00006055545E403E000040A5232C40E3FFFF9F4F545E40190000609D232C40140000E048545E40190000609D232C40EEFFFFFF40545E400D0000E092232C401A0000803A545E403F0000A08D232C40280000C035545E40E7FFFFFF8A232C400D00004033545E40D9FFFFFF3E232C40EEFFFFFF2C545E40DFFFFF3F44232C40160000C02E545E40EEFFFF3F90232C400000000030545E40E8FFFF5F13242C40F7FFFF7F30545E40220000E0A4242C40180000A034545E4018000040C4242C402300000042545E40210000806C242C40E8FFFF5F5F545E401500000012242C40
+487	Barangay I-B	0106000020E6100000010000000103000000010000001B000000160000C052545E40610000E02A212C40E8FFFF5F27545E40FAFFFF1FB3212C40FCFFFF3F10545E40EDFFFF7FEF212C400D0000400F545E40F3FFFFBFF4212C400B0000601D545E402E00000057222C40250000E02B545E401D000060F0222C40EEFFFFFF2C545E40DFFFFF3F44232C400D00004033545E40D9FFFFFF3E232C40280000C035545E40E7FFFFFF8A232C401A0000803A545E403F0000A08D232C40EEFFFFFF40545E400D0000E092232C40140000E048545E40190000609D232C40E3FFFF9F4F545E40190000609D232C400B00006055545E403E000040A5232C40020000E05D545E4007000060AE232C400000000060545E40370000E046232C40FEFFFF1F6A545E40320000C04A232C40180000A06C545E4056000020C1222C40180000A064545E40FEFFFF7FBE222C40140000E060545E40EDFFFFDF27222C401200000063545E40FAFFFF1F03222C40E1FFFFBF65545E40320000C0CA212C40140000E064545E4037000040AF212C400F00002061545E40F4FFFF7F75212C401F0000405E545E40370000405F212C40E8FFFF5F5B545E401F0000404A212C40160000C052545E40610000E02A212C40
+488	Barangay II-A	0106000020E61000000100000001030000000100000016000000F9FFFF5F82545E401800004094232C40FEFFFF1F96545E40F4FFFFDFFD212C40020000E099545E403200006092212C402100002094545E403D0000C0F3202C40040000C08B545E400D0000407B202C40FEFFFF1F82545E40090000E09F202C40EEFFFFFF74545E402F000020E0202C40160000C052545E40610000E02A212C40E8FFFF5F5B545E401F0000404A212C401F0000405E545E40370000405F212C400F00002061545E40F4FFFF7F75212C40140000E064545E4037000040AF212C40E1FFFFBF65545E40320000C0CA212C401200000063545E40FAFFFF1F03222C40140000E060545E40EDFFFFDF27222C40180000A064545E40FEFFFF7FBE222C40180000A06C545E4056000020C1222C40FEFFFF1F6A545E40320000C04A232C400000000060545E40370000E046232C40020000E05D545E4007000060AE232C40E8FFFF5F5F545E401500000012242C40F9FFFF5F82545E401800004094232C40
+489	Barangay II-B	0106000020E6100000010000000103000000010000000E000000F7FFFF7FB4545E40DBFFFF7FE01F2C40140000E0A4545E402E000060EF1E2C40E6FFFF7F9D545E40F5FFFF3F961E2C402100002090545E40DFFFFF7F031E2C40DFFFFFDF8B545E40DBFFFF1F781E2C40ECFFFF1F87545E40F6FFFFBFD71E2C40F7FFFF7F84545E40110000402E1F2C40E1FFFFBF81545E401C000000681F2C400B00006081545E4020000060D31F2C400000000088545E40150000A039202C40070000A089545E402D00004066202C40040000C08B545E400D0000407B202C40FCFFFF3FAC545E40EDFFFFDF07202C40F7FFFF7FB4545E40DBFFFF7FE01F2C40
+490	Barangay II-C	0106000020E61000000100000001030000000100000009000000040000C0BB545E400E0000009C202C40040000C0C7545E401500000072202C40070000A0BD545E40DAFFFF5F27202C40F7FFFF7FB4545E40DBFFFF7FE01F2C40FCFFFF3FAC545E40EDFFFFDF07202C40040000C08B545E400D0000407B202C402100002094545E403D0000C0F3202C40E8FFFF5F9F545E403D0000C0F3202C40040000C0BB545E400E0000009C202C40
+491	Barangay II-D	0106000020E6100000010000000103000000010000000E00000021000020BC545E403F000000A6212C40E3FFFF9FC3545E400C0000808A212C40250000E0CB545E40120000006F212C40F7FFFF7FD4545E401D00002041212C40FEFFFF1FC6545E40290000E0DA202C40040000C0BB545E400E0000009C202C40E8FFFF5F9F545E403D0000C0F3202C402100002094545E403D0000C0F3202C40020000E099545E403200006092212C40F9FFFF5FA2545E403F000000A6212C40EAFFFF3FA9545E40040000C093212C400F000020AD545E400C000080DA212C40E3FFFF9FB3545E40F9FFFF9FC1212C4021000020BC545E403F000000A6212C40
+492	Barangay II-E	0106000020E6100000010000000103000000010000000C000000250000E0E7545E40150000A039202C4023000000EE545E40E7FFFFFFEA1F2C4012000000E7545E400B0000C0E91F2C40DFFFFFDFDB545E40DBFFFF7FE01F2C40F9FFFF5FD2545E40EDFFFF7F7F1F2C40F7FFFF7FB4545E40DBFFFF7FE01F2C40070000A0BD545E40DAFFFF5F27202C40040000C0C7545E401500000072202C402A0000A0D7545E402F000020E0202C40020000E0DD545E403D0000202C212C40F1FFFFDFE2545E4016000060AA202C40250000E0E7545E40150000A039202C40
+495	Barangay III-B	0106000020E61000000100000001030000000100000013000000180000A000555E401E00008079212C401A000080FA545E40490000404E212C4000000000F4545E404300006031212C40140000E0EC545E40370000E026212C4009000080E7545E40E8FFFFBFDB212C40FCFFFF3FF0545E40DBFFFF7F50222C40F3FFFFBFF4545E40030000A0BA222C40F3FFFFBFF8545E40F1FFFF9F1B232C40040000C007555E403C0000602B232C400000000010555E402900004033232C40F9FFFF5F1E555E402C00008045232C40040000C01F555E40E5FFFF1F11232C40FCFFFF3F10555E400B00006001232C40FCFFFF3F10555E402F0000C0C7222C40090000800F555E40EBFFFFFF8D222C40F3FFFFBF0C555E40F5FFFF3F36222C40FEFFFF1F0A555E4021000080FC212C40020000E005555E401A0000C0B5212C40180000A000555E401E00008079212C40
+496	Barangay III-C	0106000020E61000000100000001030000000100000016000000020000E051555E404B000020C8212C40120000005B555E4020000000BB212C40EEFFFFFF64555E403F000000A6212C40F7FFFF7F5C555E400000000080212C400F0000204D555E40100000802D212C40F1FFFFDF3A555E40FDFFFFBFCD202C40F7FFFF7F24555E40350000005D202C40040000C013555E400D0000402B202C40140000E0F8545E402C000080F51F2C4023000000EE545E40E7FFFFFFEA1F2C40250000E0E7545E40150000A039202C40180000A000555E40090000E09F202C401F0000400A555E4043000000F9202C40FCFFFF3F10555E401D00002041212C401F00004016555E401D00002091212C40120000001B555E4019000000E5212C40020000E01D555E40080000C016222C40E3FFFF9F23555E40070000A00D222C40F9FFFF5F36555E4012000060F7212C400F00002041555E40E6FFFF3FEA212C40E1FFFFBF49555E40250000E0D7212C40020000E051555E404B000020C8212C40
+497	Barangay III-D	0106000020E61000000100000001030000000100000021000000020000E051555E404B000020C8212C40E1FFFFBF49555E40250000E0D7212C400F00002041555E40E6FFFF3FEA212C40F9FFFF5F36555E4012000060F7212C40E3FFFF9F23555E40070000A00D222C40020000E01D555E40080000C016222C40120000001B555E4019000000E5212C401F00004016555E401D00002091212C40FCFFFF3F10555E401D00002041212C40180000A000555E401E00008079212C40020000E005555E401A0000C0B5212C40FEFFFF1F0A555E4021000080FC212C40F3FFFFBF0C555E40F5FFFF3F36222C40090000800F555E40EBFFFFFF8D222C40FCFFFF3F10555E402F0000C0C7222C40FCFFFF3F10555E400B00006001232C40040000C01F555E40E5FFFF1F11232C40F9FFFF5F1E555E402C00008045232C40ECFFFF1F2F555E40FBFFFF7F6B232C40180000A048555E4001000020A9232C40ECFFFF1F53555E40390000C0C0232C40280000C05D555E40EFFFFFBFD1232C40F3FFFFBF60555E401F0000406A232C402300000062555E40310000A041232C40040000C063555E402F00002000232C401A0000805A555E4050000040F4222C40ECFFFF1F5B555E40E3FFFF9FCF222C40ECFFFF1F5B555E4042000040A8222C40F1FFFFDF5A555E402800008072222C40E1FFFFBF59555E40020000E049222C40250000E057555E402D0000A01E222C40EEFFFFFF54555E40EDFFFF7FEF212C40020000E051555E404B000020C8212C40
+498	Barangay III-E	0106000020E6100000010000000103000000010000001C000000140000E0C4555E401B000040C7232C40ECFFFF1FAF555E40F1FFFF9F1B232C40E8FFFF5F9B555E400F0000C0DC222C401D0000608C555E405C000060C6222C40090000807B555E401B0000E0AE222C40F1FFFFDF6A555E400900008087222C40DFFFFFDF6B555E400600004025222C40E1FFFFBF69555E4040000060DE212C40EEFFFFFF64555E403F000000A6212C40120000005B555E4020000000BB212C40020000E051555E404B000020C8212C40EEFFFFFF54555E40EDFFFF7FEF212C40250000E057555E402D0000A01E222C40E1FFFFBF59555E40020000E049222C40F1FFFFDF5A555E402800008072222C40ECFFFF1F5B555E4042000040A8222C40ECFFFF1F5B555E40E3FFFF9FCF222C401A0000805A555E4050000040F4222C40040000C063555E402F00002000232C402300000062555E40310000A041232C40F3FFFFBF60555E401F0000406A232C40280000C05D555E40EFFFFFBFD1232C401A0000807A555E402F0000C047242C40DDFFFFFF8D555E40F7FFFF1FD0242C401F0000409E555E40FCFFFF9F64242C40F7FFFF7FAC555E401300008020242C400B000060B1555E404D000040F1232C40140000E0C4555E401B000040C7232C40
+499	Barangay III-F	0106000020E61000000100000001030000000100000006000000FCFFFF3F10555E401D00002041212C401F0000400A555E4043000000F9202C40180000A000555E40090000E09F202C401A000080FA545E40490000404E212C40180000A000555E401E00008079212C40FCFFFF3F10555E401D00002041212C40
+500	Barangay IV-A	0106000020E61000000100000001030000000100000036000000DDFFFFFF8D555E40F7FFFF1FD0242C401A0000807A555E402F0000C047242C40280000C05D555E40EFFFFFBFD1232C40ECFFFF1F53555E40390000C0C0232C40180000A048555E4001000020A9232C40ECFFFF1F2F555E40FBFFFF7F6B232C40F9FFFF5F1E555E402C00008045232C400000000010555E402900004033232C40040000C007555E403C0000602B232C40EEFFFFFF14555E4053000080F6232C40E3FFFF9F17555E40230000A025242C40210000201C555E40080000206F242C401A0000801E555E40F0FFFF7F92242C40E8FFFF5F27555E40100000807D242C40EAFFFF3F29555E400A00004078242C401F0000402E555E40DCFFFF9F79242C401A00008032555E400A00004078242C400D00004033555E40DCFFFF9F79242C40ECFFFF1F37555E400A0000A060242C40160000C03A555E40E8FFFFBF4B242C400D00004043555E400200008031242C40DBFFFF1F44555E40530000E02E242C40140000E04C555E400200008031242C40020000E051555E406100008042242C40EAFFFF3F55555E40F8FFFFDF50242C40250000E057555E40040000605B242C40000000005C555E405B0000A075242C40F1FFFFDF62555E401C0000A09F242C40140000E064555E40E0FFFF9FAC242C40020000E065555E4029000040B3242C400D00004067555E400B0000C0B9242C40EEFFFFFF6C555E403B0000A0DA242C40F5FFFF9F72555E4037000040FF242C400F00002075555E40450000E012252C400B00006079555E405600002031252C40FEFFFF1F7A555E402400006036252C40140000E080555E40200000005B252C40070000A081555E40070000A05D252C40F3FFFFBF84555E40080000C066252C40160000C086555E400E0000006C252C40EAFFFF3F89555E40380000A087252C40ECFFFF1F8B555E40210000809C252C40090000808B555E40520000C0A5252C401D0000608C555E4038000000C0252C40180000A08C555E404E000060CA252C40140000E08C555E4009000080D7252C40EAFFFF3F8D555E40F1FFFFDFFA252C402C0000808D555E40F5FFFF9F0E262C40D8FFFF3F8E555E40160000203B262C40160000C08E555E40E5FFFF1F61262C40ECFFFF1F8F555E40180000A07C262C402C000080A5555E4019000060BD252C401F0000409A555E40E6FFFF3F3A252C40DDFFFFFF8D555E40F7FFFF1FD0242C40
+501	Barangay IV-B	0106000020E610000001000000010300000001000000110000001A0000801E555E40F0FFFF7F92242C40210000201C555E40080000206F242C40E3FFFF9F17555E40230000A025242C40EEFFFFFF14555E4053000080F6232C40040000C007555E403C0000602B232C40F3FFFFBFF8545E40F1FFFF9F1B232C40F3FFFFBFF4545E40030000A0BA222C40FCFFFF3FF0545E40DBFFFF7F50222C40E1FFFFBFE5545E400E0000006C222C40E3FFFF9FEB545E4036000020D6222C40020000E0F9545E405F0000A0C8232C400B00006001555E40EAFFFF3F3D242C400B0000600D555E402F00008008252C40230000000E555E403E00008004252C40EEFFFFFF14555E400A000040C8242C401F00004016555E403C000000C3242C401A0000801E555E40F0FFFF7F92242C40
+502	Barangay IV-C	0106000020E6100000010000000103000000010000000D0000000B0000600D555E402F00008008252C400B00006001555E40EAFFFF3F3D242C40020000E0F9545E405F0000A0C8232C40E3FFFF9FEB545E4036000020D6222C40E1FFFFBFE5545E400E0000006C222C40F3FFFFBFDC545E400900008087222C40160000C0D2545E40230000A0A5222C400F000020ED545E40110000A086242C40020000E0F5545E40250000E027252C40EEFFFFFFFC545E40070000A0AD252C401A00008002555E40DBFFFF1F68252C40F3FFFFBF0C555E40120000000F252C400B0000600D555E402F00008008252C40
+503	Barangay V-A	0106000020E610000001000000010300000001000000240000000B000060ED545E401D0000C0F8272C40140000E0E8545E403F000000B6272C40F7FFFF7FE8545E40470000C0AC272C4021000020E8545E40350000009D272C4021000020E8545E400F00002095272C402A0000A0E7545E40250000E047272C402A0000A0E7545E404D00004041272C40250000E0E7545E400200008031272C40250000E0E7545E405D00002027272C4000000000E8545E40E6FFFFDF21272C400F000020E9545E404B0000C0FF262C40160000C0EA545E4023000000CE262C40180000A0EC545E401D00006090262C400B000060ED545E403600002076262C40020000E0ED545E40110000406E262C40040000C0EF545E403000004059262C40F5FFFF9FF2545E40F7FFFF7F38262C4012000000F3545E401500000032262C4021000020FC545E40400000C0B6252C40EEFFFFFFFC545E40070000A0AD252C40280000C0F9545E400D0000E0B2252C40ECFFFF1FF7545E402C000080B5252C40F9FFFF5FF2545E4003000040D2252C40040000C0EF545E4052000020DE252C401F000040E6545E40F5FFFF3FD6252C40F7FFFF7FDC545E40FCFFFFFFCC252C402A0000A0CB545E401900000085252C4012000000CB545E4034000040AC252C40F5FFFF9FCA545E40260000A0E8252C4023000000CE545E405000004094262C400D000040CF545E4019000000B5262C40DFFFFFDFD3545E403300002023272C40E1FFFFBFD9545E400E0000A0A3272C401A000080DE545E404800002035282C40E1FFFFBFE5545E403B0000A02A282C400B000060ED545E401D0000C0F8272C40
+504	Barangay V-B	0106000020E61000000100000001030000000100000015000000EEFFFFFFE8545E400B000000E9242C40F9FFFF5FE6545E400B000000E9242C40F1FFFFDFE2545E400B000000E9242C4009000080DF545E40170000E0DB242C402C000080DD545E40160000C0D2242C401D000060DC545E402F000080B8242C40F9FFFF5FC2545E4036000020D6222C40E6FFFF7FB9545E4004000000F3222C40E3FFFF9FB3545E402A00000004232C40160000C0BE545E4000000000F0232C40F7FFFF7FC4545E40D6FFFF5F74242C40FCFFFF3FCC545E40060000E0EC242C40E8FFFF5FCF545E4031000000FA242C400B000060D5545E40050000201C252C400D000040D7545E403000004029252C40F3FFFFBFDC545E40EDFFFF7F3F252C40F9FFFF5FDE545E400C00002042252C401D000060E4545E40F3FFFFBF44252C4023000000EA545E403F00000046252C4030000040ED545E403F00000046252C40EEFFFFFFE8545E400B000000E9242C40
+505	Barangay V-C	0106000020E6100000010000000103000000010000000A00000009000080CB545E40500000E0BB222C40F9FFFF5FC2545E4036000020D6222C401D000060DC545E402F000080B8242C402C000080DD545E40160000C0D2242C4009000080DF545E40170000E0DB242C40F1FFFFDFE2545E400B000000E9242C40F9FFFF5FE6545E400B000000E9242C40EEFFFFFFE8545E400B000000E9242C40EEFFFFFFE4545E40F8FFFFDFA0242C4009000080CB545E40500000E0BB222C40
+506	Barangay V-D	0106000020E6100000010000000103000000010000000C000000EEFFFFFFFC545E40070000A0AD252C40020000E0F5545E40250000E027252C400F000020ED545E40110000A086242C40160000C0D2545E40230000A0A5222C4009000080CB545E40500000E0BB222C40EEFFFFFFE4545E40F8FFFFDFA0242C40EEFFFFFFE8545E400B000000E9242C4030000040ED545E403F00000046252C40F9FFFF5FF2545E4003000040D2252C40ECFFFF1FF7545E402C000080B5252C40280000C0F9545E400D0000E0B2252C40EEFFFFFFFC545E40070000A0AD252C40
+507	Barangay VI-A	0106000020E6100000010000000103000000010000000D000000F9FFFF5F82545E401800004094232C40E8FFFF5F5F545E401500000012242C402300000042545E40210000806C242C40180000A034545E4018000040C4242C40140000E040545E40240000C01E252C401F0000404A545E403200006082252C401200000057545E404E000060CA252C402A0000A057545E401C0000A0CF252C40E3FFFF9F5F545E402800008012262C400F00002065545E4028000020DA252C40EEFFFFFF68545E40E3FFFFDFAE252C401F0000406E545E402000006043252C40F9FFFF5F82545E401800004094232C40
+508	Barangay VI-B	0106000020E6100000010000000103000000010000002D000000F9FFFF5FF2545E4003000040D2252C4030000040ED545E403F00000046252C4023000000EA545E403F00000046252C401D000060E4545E40F3FFFFBF44252C40F9FFFF5FDE545E400C00002042252C40F3FFFFBFDC545E40EDFFFF7F3F252C400D000040D7545E403000004029252C400B000060D5545E40050000201C252C40E8FFFF5FCF545E4031000000FA242C40FCFFFF3FCC545E40060000E0EC242C40F7FFFF7FC4545E40D6FFFF5F74242C40160000C0BE545E4000000000F0232C40E3FFFF9FB3545E402A00000004232C40EAFFFF3F99545E400B00006051232C40210000208C545E40260000A078232C40F9FFFF5F82545E401800004094232C402100002090545E40EEFFFF9F18242C40E8FFFF5F9F545E40230000005E242C40FEFFFF1F9A545E4037000040AF242C4000000000B8545E40FAFFFF1F53252C40F9FFFF5FB6545E40140000E088252C4021000020B0545E40120000C07F252C4012000000AB545E40EEFFFFFF80252C4012000000A7545E401A0000208E252C40280000C0A5545E402C0000E09D252C40ECFFFF1FA3545E403A000020C9252C40160000C0A2545E40F7FFFF1F00262C400D000040AB545E401A00008016262C40EEFFFFFFAC545E400F0000C0DC252C40ECFFFF1FAF545E4003000040D2252C4035000000B5545E40FBFFFF7FDB252C40F5FFFF9FBA545E40E9FFFF7FEC252C400D000040BF545E401C00000008262C40F7FFFF7FC0545E400A0000A030262C40140000E0BC545E4035000060A5262C40D8FFFF3FC6545E40170000E0AB262C400D000040CF545E4019000000B5262C4023000000CE545E405000004094262C40F5FFFF9FCA545E40260000A0E8252C4012000000CB545E4034000040AC252C402A0000A0CB545E401900000085252C40F7FFFF7FDC545E40FCFFFFFFCC252C401F000040E6545E40F5FFFF3FD6252C40040000C0EF545E4052000020DE252C40F9FFFF5FF2545E4003000040D2252C40
+509	Barangay VI-D	0106000020E61000000100000001030000000100000010000000E1FFFFBF81545E401A000020AE272C400B0000607D545E400200008081272C40250000E067545E403E0000E0BC262C401200000063545E403600002026262C40E3FFFF9F5F545E402800008012262C402A0000A057545E401C0000A0CF252C401200000057545E404E000060CA252C401F0000404A545E403200006082252C40280000C041545E4042000040F8252C40E1FFFFBF3D545E40E3FFFF9F6F262C40F5FFFF9F42545E40D2FFFF9FD0262C40F3FFFFBF54545E40460000003C272C40EAFFFF3F59545E400E0000A053272C400000000068545E402F00008008282C40F3FFFFBF78545E4059000020D4272C40E1FFFFBF81545E401A000020AE272C40
+510	Barangay VI-E	0106000020E610000001000000010300000001000000200000001A000080DE545E404800002035282C40E1FFFFBFD9545E400E0000A0A3272C40DFFFFFDFD3545E403300002023272C400D000040CF545E4019000000B5262C40D8FFFF3FC6545E40170000E0AB262C40140000E0BC545E4035000060A5262C40F7FFFF7FC0545E400A0000A030262C400D000040BF545E401C00000008262C40F5FFFF9FBA545E40E9FFFF7FEC252C4035000000B5545E40FBFFFF7FDB252C40ECFFFF1FAF545E4003000040D2252C40EEFFFFFFAC545E400F0000C0DC252C400D000040AB545E401A00008016262C40160000C0A2545E40F7FFFF1F00262C40FEFFFF1F9E545E402E000000F7252C40DFFFFFDF97545E40490000E085262C40180000A07C545E402E0000602F262C40E3FFFF9F5F545E402800008012262C401200000063545E403600002026262C40250000E067545E403E0000E0BC262C400B0000607D545E400200008081272C40E1FFFFBF81545E401A000020AE272C40ECFFFF1F8B545E40160000C0D2272C40F3FFFFBF98545E4041000080F7272C40280000C0A5545E404300006021282C40E6FFFF7FB5545E40F8FFFF3F29282C401A000080BE545E402F00008008282C40F1FFFFDFCA545E40610000E01A282C40180000A0CC545E404300006021282C40180000A0D0545E40F0FFFF7F32282C400B000060D1545E402400006036282C401A000080DE545E404800002035282C40
+511	Barangay VII-A	0106000020E6100000010000000103000000010000000A000000E3FFFF9FB3545E402A00000004232C40E6FFFF7FAD545E40220000E084222C40070000A0A5545E40E6FFFF3FEA212C40F9FFFF5FA2545E403F000000A6212C40020000E099545E403200006092212C40FEFFFF1F96545E40F4FFFFDFFD212C40F9FFFF5F82545E401800004094232C40210000208C545E40260000A078232C40EAFFFF3F99545E400B00006051232C40E3FFFF9FB3545E402A00000004232C40
+516	Bautista	0106000020E6100000010000000103000000010000007F0000000900008047515E400C000020C2062C40FCFFFF3F50515E4047000060F4052C40E3FFFF9F5B515E404C0000E038052C40FCFFFF3F64515E404E0000C0D2042C401D0000606C515E40290000E0CA042C400F00002075515E4028000020AA042C40020000E07D515E40F0FFFF7F42042C40F1FFFFDF82515E40F5FFFF9F3E042C40070000A091515E40460000A003042C40180000A0A0515E400E000000EC032C401F000040AE515E405400004017042C40F7FFFF7FB4515E40150000A029042C4023000000BE515E400E000000EC032C402A0000A0C7515E40330000E0F3032C40E6FFFF7FD9515E40450000E092032C40E1FFFFBFE5515E40F3FFFFBFC4032C40E6FFFF7FD9515E40E3FFFFDF2E042C40F9FFFF5FE2515E40160000206B042C401D000060F0515E40040000605B042C40F3FFFFBFFC515E4036000020A6042C40070000A005525E404300006081042C40E1FFFFBF0D525E40150000A079042C40ECFFFF1F13525E40FEFFFF1F56042C400F00002019525E40E3FFFFDF2E042C401A00008026525E404E0000609A042C40FCFFFF3F2C525E40230000A0C5042C40140000E034525E40FFFFFFDFC6042C40EEFFFFFF40525E4012000060F7042C40120000004F525E40EBFFFFFFFD042C400D0000405F525E402C000020DD042C40F5FFFF9F66525E4048000080CD042C40F7FFFF7F70525E400B000060D1042C401D00006078525E4044000020F2042C40DFFFFFDF87525E40500000A04C052C40070000A099525E404400002042052C4000000000B0525E40FBFFFF7F3B052C40280000C0BD525E40F3FFFFBFF4042C4012000000C3525E401D00006070042C401F000040C6525E40220000E054042C40DDFFFFFFD1525E405400004017042C40E8FFFF5FDF525E401C0000A0FF032C40DFFFFFDFE7525E40070000A0DD032C40E6FFFF7FF9525E402D0000A09E032C40DDFFFFFF01535E40FCFFFF3FDC032C400D00004013535E40F6FFFF5F0F042C40E8FFFF5F1F535E4045000040CB032C40000000002C535E401F0000A052032C401200000037535E40D2FFFF9FE0022C401D00006044535E40D8FFFF7FAD022C40FCFFFF3F50535E40F7FFFF7F98022C40180000A004535E400900008007012C40DFFFFFDFF7525E40330000E053002C400F000020ED525E401A0000C035002C40FCFFFF3FF8525E404100008037FF2B40FEFFFF1FDA525E400F00006064FE2B40EAFFFF3FE1525E40EBFFFFFFBDFD2B40EAFFFF3FC9525E40D2FFFFFF58FD2B400D000040C7525E404B000020A8FC2B40040000C05B525E401B0000E0AEF52B40FCFFFF3F50525E40190000601DF52B40180000A018525E404E0000604AF42B40F5FFFF9FFA515E40E3FFFFDFDEF32B40F1FFFFDFC6515E40100000E0E5F22B40EAFFFF3F9D515E40DDFFFF5F2AF22B401D00006090515E404F000080D3F22B401F0000402A515E40E7FFFF9F82F12B40070000A0B1505E40600000C0D1F02B40F7FFFF7F94505E402C0000E07DF02B40ECFFFF1F8B505E40160000C0E2F02B40040000C0AF505E401D000060B0FB2B40160000C0AA505E4035000060C5FB2B40EAFFFF3F95505E40110000408EFB2B40EAFFFF3F89505E400F00006064FB2B401F00004076505E40300000E090FB2B401200000067505E40F7FFFF7F58FB2B40160000C05E505E40280000204AFB2B40F5FFFF9F56505E401C00000078FB2B40040000C04F505E40F7FFFF7F58FB2B400F00002049505E402700006079FB2B40070000A03D505E401D00006060FB2B40280000C02D505E40EBFFFFFF9DFB2B40180000A020505E403C00000063FB2B400D0000400B505E404E0000603AFB2B400D00004003505E40330000804BFB2B40EEFFFFFFEC4F5E404E0000603AFB2B40F9FFFF5FE24F5E400300004042FB2B40020000E0DD4F5E40E3FFFF9F8FFB2B401D000060C04F5E40020000E009FB2B40F7FFFF7F844F5E40100000E025FA2B40F9FFFF5F4E4F5E40340000A0A4FB2B40E6FFFF7FB54F5E40E7FFFFFF4AFC2B4009000080EB4F5E400C00002082FC2B400D000040FB4F5E401C00000048FD2B40DDFFFFFFF94F5E401C00000098FD2B40ECFFFF1FFF4F5E401D000020A1FD2B40DFFFFFDF03505E40F2FFFFFF93FD2B40070000A009505E40220000409DFD2B400F0000200D505E4018000040D4FD2B402300000012505E401D000060D0FD2B40180000A01C505E40320000C0DAFD2B40F9FFFF5F0E505E40050000202CFE2B400F00002019505E40FDFFFF5F15FF2B40070000A015505E40170000E06BFF2B40FEFFFF1F1E505E40170000E06BFF2B40EAFFFF3F29505E40DEFFFF1F9BFF2B40F7FFFF7F40505E402700000011002C40F7FFFF7F94505E40540000A02F022C401D000060AC505E40440000C069012C400F000020C5505E403300002003022C40040000C0C3505E40590000C07B022C4009000080E7505E40100000E035032C40EEFFFFFFE4505E40E2FFFF1F6E032C40EAFFFF3FF9505E40220000403D042C4012000000F3505E40100000807D042C40F3FFFFBFFC505E400B000060D1042C40140000E000515E40EDFFFFDF27052C40F3FFFFBF14515E40030000A00A062C40FEFFFF1F0E515E40E4FFFFFF57062C400000000010515E401D00002001072C40F1FFFFDF16515E405D0000800F072C40120000001F515E4045000080AA062C40160000C026515E40D2FFFFFFB8062C40120000002B515E40310000A091062C400B00006035515E40E4FFFF5F90062C40160000C036515E40160000C0A2062C402100002044515E40100000809D062C400900008047515E400C000020C2062C40
+517	Concepcion	0106000020E61000000100000001030000000100000037000000E8FFFF5F8F565E403D000020EC262C402300000076565E40050000204C262C40070000A065565E40FBFFFFDF13262C40FCFFFF3F6C565E4014000040C1252C401A0000805A565E402E000000A7252C40090000804B565E40FCFFFF9F94252C400900008043565E40070000A05D252C40F7FFFF7F38565E402C0000202D252C40E1FFFFBF31565E40060000E0EC242C40040000C017565E4004000060AB242C402C00008009565E40F0FFFF1F5A242C4035000000FD555E40030000A03A242C40180000A0EC555E40EEFFFF3FE0232C40DFFFFFDFD3555E405F0000A0C8232C40140000E0C4555E401B000040C7232C400B000060B1555E404D000040F1232C40F7FFFF7FAC555E401300008020242C401F0000409E555E40FCFFFF9F64242C40DDFFFFFF8D555E40F7FFFF1FD0242C401F0000409A555E40E6FFFF3F3A252C402C000080A5555E4019000060BD252C40ECFFFF1F8F555E40180000A07C262C40040000C08F555E402F000020A0262C40040000C08F555E40EBFFFF5FB6262C402A0000A08F555E40E1FFFFBFD5262C400D0000408F555E4045000080FA262C40EAFFFF3F8D555E40F4FFFF7F35272C40EAFFFF3F89555E403A0000E069272C402100002088555E40200000007B272C40E3FFFF9F87555E4059000020D4272C40F1FFFFDF86555E40100000801D282C40FEFFFF1F7E555E40F6FFFFBF37282C40E3FFFF9F7B555E402900004053282C40000000007C555E40360000C05D282C40180000A078555E402400006086282C402300000076555E401A0000C0A5282C40E8FFFF5F6F555E4051000060BD282C40020000E069555E40EEFFFFFFD0282C40FEFFFF1F66555E40EDFFFF7FDF282C401D0000605C555E40D7FFFFBF2C292C40040000C063555E4024000060562A2C401A00008066555E4007000060EE2A2C40F9FFFF5F7E555E4000000000E02A2C40180000A08C555E4051000000A52A2C40DFFFFFDF9B555E4033000080AB2A2C40FEFFFF1FAE555E402C0000E06D2A2C4021000020C0555E404B0000C09F2A2C401F000040EA555E40FCFFFF9F042B2C400000000008565E401C0000A03F2B2C40040000C01B565E4043000000892B2C40E6FFFF7F3D565E40250000E0172C2C400D0000404F565E40DBFFFF1F582C2C40F5FFFF9F52565E4062000040F32B2C40280000C071565E402E0000602F292C40E8FFFF5F8F565E403D000020EC262C40
+518	Del Remedio	0106000020E61000000100000001030000000100000028000000280000C0B1545E401D000020A12D2C4000000000C0545E40F8FFFFDF902B2C40ECFFFF1FB7545E40FEFFFF1F962B2C40250000E0AB545E400F000020352B2C401F0000409E545E40E8FFFF5FB32A2C40E1FFFFBF9D545E404F0000202B2A2C40DFFFFFDF97545E4046000000AC292C40F1FFFFDF8A545E40E9FFFF1F54292C40FCFFFF3F7C545E40F5FFFF3FD6282C40F5FFFF9F6E545E40FEFFFF7F7E282C400000000068545E402F00008008282C40EAFFFF3F59545E400E0000A053272C40F3FFFFBF54545E40460000003C272C40F5FFFF9F42545E40D2FFFF9FD0262C40F3FFFFBF14545E403900006028272C40040000C007545E402700006039272C401D000060F0535E40FCFFFF3F7C272C400D00004057535E40F9FFFF9F61282C40F3FFFFBF14535E40330000805B272C40140000E00C535E401A0000C075272C401F00004012535E401D0000C0F8272C40F3FFFFBF2C535E402700000071292C40E8FFFF5F43535E40120000C04F2A2C401F0000405E535E403F0000A0CD2A2C40FCFFFF3F80535E40DCFFFF9F692B2C400D00004097535E40F2FFFF5FFC2B2C40F1FFFFDFB2535E404C000080402C2C40F5FFFF9FC6535E4009000080C72C2C40FEFFFF1FD2535E402F0000C0072D2C40160000C0DA535E4009000080172D2C40140000E0F0535E4002000080412D2C40FCFFFF3F08545E4028000080522D2C401200000017545E4028000080522D2C402A0000A01F545E403C0000606B2D2C40DFFFFFDF27545E40FFFFFFDF862D2C401A00008032545E40EAFFFF3F9D2D2C40180000A044545E40570000404A2E2C40EEFFFFFF4C545E4035000060C52E2C40E6FFFF7F6D545E402D000040462E2C40280000C0B1545E401D000020A12D2C40
+519	Dolores	0106000020E6100000010000000103000000010000003D000000DDFFFFFF8D555E40E7FFFFFF2A372C400D00004097555E401300008020372C40ECFFFF1FAB555E40000000A007372C402A0000A0CB555E4058000000DB362C4012000000F3555E40180000A0CC362C401D000060F4555E403C000060CB362C40ECFFFF1F0B565E40EDFFFFDFF7362C40180000A00C565E4045000080FA362C40F1FFFFDF12565E40170000E0FB362C40EAFFFF3F15565E40EDFFFFDFF7362C401A00008016565E40070000A0DD362C400D00004017565E4005000080D4362C401D00006014565E40EBFFFF5FB6362C40ECFFFF1F0B565E40480000809D362C401A0000800A565E40290000E09A362C40EEFFFFFF08565E40440000C089362C400B00006009565E40110000406E362C402C00008009565E40030000A05A362C40070000A009565E40E3FFFF3F37362C40DDFFFFFF05565E402800008012362C40DFFFFFDF17565E402E0000602F362C40ECFFFF1F27565E400900008027362C40160000C02E565E403B0000A00A362C400B00006041565E40E8FFFFBF7B352C40F5FFFF9F42565E401400004071352C401D00006048565E40DAFFFFBF2F352C400F00002049565E40F8FFFF3F29352C40EAFFFF3F49565E401F0000A022352C40210000204C565E401D000020E1342C40140000E04C565E40160000C0D2342C40F1FFFFDF56565E403D0000C093342C40F9FFFF5F6E565E404D0000A079342C40E6FFFF7F85565E40110000A086342C40FEFFFF1F9A565E40220000E0A4342C4009000080A7565E40E4FFFFFF87342C40F3FFFFBFB0565E40220000E0A4342C40040000C0BF565E40170000E08B342C401F000040C6565E402F00002080342C402C000080D1565E40F1FFFF9F9B342C4021000020E4565E401500000012342C40F7FFFF7FF8565E40F5FFFF9FEE332C402100002000575E402F0000C0F7332C400F00002001575E40210000C0FB332C40180000A000575E40070000A08D332C40160000C002575E40080000C016322C40140000E008575E4011000040FE302C401A00008092565E40330000806B302C40EAFFFF3F59555E40100000E0452F2C40F3FFFFBF58555E40F9FFFF9F512F2C402100002058555E40F9FFFF9F512F2C40DFFFFFDF3F555E404B000020C8312C40E8FFFF5F3F555E401F0000A0D2312C40070000A035555E40330000800B342C40E8FFFF5F2F555E404300006021352C40E6FFFF7F31555E40280000C0F1352C400900008033555E40160000208B362C40EAFFFF3F39555E40260000A018372C40070000A039555E400500008024372C40E8FFFF5F4F555E401300008020372C401D0000608C555E40070000A02D372C40DDFFFFFF8D555E40E7FFFFFF2A372C40
+520	San Antonio 1	0106000020E61000000100000001030000000100000014000000F9FFFF5F3A565E401A00008046042C400B00006031565E40280000C021042C40330000202F565E40E6FFFF3FBA032C40230000002A565E40190000604D032C40180000A014565E400B00000069032C400000000000565E405B000040BD022C40040000C0D7555E404A000060F7012C400D00004047555E40330000E0A3032C402100002058555E403A00002049042C400F00002065555E40230000A0C5042C402A0000A073555E404A00006047052C40140000E088555E402500002057052C40F1FFFFDF96555E40E7FFFFFF5A052C40ECFFFF1FAF555E4021000020B4052C40070000A0BD555E402F00002050062C40070000A0D1555E4024000060B6062C40ECFFFF1FEF555E402C0000204D072C40F9FFFF5F0A565E40210000803C062C40160000C02E565E4009000080A7042C40F9FFFF5F3A565E401A00008046042C40
+521	San Antonio 2	0106000020E61000000100000001030000000100000030000000040000C0D7555E404A000060F7012C40E8FFFF5FD3555E4007000000A6012C40040000C0CB555E403E0000E04C012C4009000080C3555E40FEFFFF7F3E012C402E000060BB555E40160000C032012C40EEFFFFFFB8555E40470000C06C002C4012000000B3555E40080000C046002C4012000000B3555E4019000060ADFF2B40040000C0A7555E400B0000C049FF2B4009000080A7555E4021000020C4FE2B40E8FFFF5FA3555E403A00002039FE2B40F3FFFFBF90555E405B0000A035FD2B402C00008055555E40F1FFFF3FA3FB2B402100002048555E403600002016FA2B401F0000401A555E403200006022F92B400B00006001555E4020000000FBF82B4012000000E7545E40110000A076F82B40160000C0C6545E401700008093F82B40F1FFFFDFC6545E402C0000E0EDF82B40F1FFFFDFD2545E401500000082F92B40040000C0DF545E4014000040B1F92B40F5FFFF9FE2545E401D00006030FA2B40E6FFFF7FE9545E403000004099FA2B402C000080E1545E402E00000017FB2B40FCFFFF3FCC545E40E3FFFF3F57FB2B40E6FFFF7FCD545E403E00004015FC2B40280000C0D1545E402C0000206DFC2B40250000E0CB545E4015000000D2FC2B4009000080C7545E40EAFFFF3FFDFC2B40020000E0C1545E40F6FFFFBF57FD2B40DDFFFFFFBD545E4037000040BFFD2B40EAFFFF3FB9545E402B0000601CFE2B400F000020C1545E40F5FFFF9F7EFE2B40ECFFFF1FB7545E40160000602AFF2B40F7FFFF7FB4545E4038000000B0FF2B40F1FFFFDFBE545E40E6FFFFDFE1FF2B40250000E0C7545E40390000C020002C40E8FFFF5FCF545E40DCFFFF9F89002C40040000C0DF545E40360000C01D012C40FCFFFF3FF0545E40380000A047012C4023000000FE545E40E5FFFFBF58012C401D0000600C555E403000004089012C40F3FFFFBF14555E401E0000E0B1012C401D0000601C555E401500000042022C40F7FFFF7F24555E401C0000A0CF022C40140000E034555E401D00002011032C400D00004047555E40330000E0A3032C40040000C0D7555E404A000060F7012C40
+522	San Bartolome	0106000020E61000000100000001030000000100000039000000180000A0D8525E40410000202F102C40070000A0E1525E40110000402E0F2C401D000060D4525E40E6FFFF3F4A0E2C40070000A0D9525E40280000206A0D2C40F5FFFF9FEA525E403A0000E0D90C2C401A000080EE525E404A000060370C2C40F3FFFFBFFC525E400F0000C09C0B2C40F7FFFF7F04535E400D0000E0220B2C40E1FFFFBF01535E400E000000DC0A2C40ECFFFF1FFF525E40020000E0D9092C40020000E001535E401700008093082C40F1FFFFDF02535E402E000060FF072C40000000000C535E40320000C08A072C40140000E028535E40370000E0E6062C40F3FFFFBF30535E40ECFFFFBF4E062C40FEFFFF1F36535E405400000008062C40070000A03D535E40EAFFFFDFD4052C40FCFFFF3F40535E402B0000605C052C400D0000404B535E4030000040D9042C40EAFFFF3F4D535E40300000E0A0042C40210000204C535E40340000402C042C40E8FFFF5F4F535E4008000020CF032C40020000E055535E403F00000076032C40070000A051535E40ECFFFFBFFE022C40FCFFFF3F50535E40F7FFFF7F98022C401D00006044535E40D8FFFF7FAD022C401200000037535E40D2FFFF9FE0022C40000000002C535E401F0000A052032C40E8FFFF5F1F535E4045000040CB032C400D00004013535E40F6FFFF5F0F042C40DDFFFFFF01535E40FCFFFF3FDC032C40E6FFFF7FF9525E402D0000A09E032C40DFFFFFDFE7525E40070000A0DD032C40E8FFFF5FDF525E401C0000A0FF032C40DDFFFFFFD1525E405400004017042C401F000040C6525E40220000E054042C4012000000C3525E401D00006070042C40280000C0BD525E40F3FFFFBFF4042C4000000000B0525E40FBFFFF7F3B052C401200000017525E40170000E00B132C40180000A01C525E40FFFFFFDFF6122C40140000E020525E402B0000603C132C402100002030525E4056000080F9122C400B00006039525E40F5FFFFFFA6122C400000000040525E402A000000B4122C40E8FFFF5F47525E40FDFFFF5FB5122C40F7FFFF7F50525E40F1FFFF3F93122C40F1FFFFDF5A525E401400004021122C403300002063525E4008000020FF112C401D00006074525E405E00004010122C40140000E074525E401F000040EA112C40F9FFFF5F7E525E4006000040D5112C402100002090525E4040000060DE112C40000000009C525E40FAFFFFBF7A112C4012000000A7525E40550000C008112C4012000000C3525E4035000000AD102C40180000A0D8525E40410000202F102C40
+539	San Mateo	0106000020E6100000010000000103000000010000002500000023000000CA545E40460000003C372C402100002058535E40F0FFFF1FBA302C40040000C08F525E401B000040272D2C402300000046525E402000006043322C40EEFFFFFF54525E40FFFFFF3F2F332C400000000068525E40010000C0C0332C40180000A078525E401300008020342C40230000007E525E40110000A0D6342C40ECFFFF1F83525E402700006069352C401F000040E6525E4004000000C3372C40EEFFFFFFE4525E40280000C011382C40F7FFFF7FF8525E40F8FFFFDF40382C4000000000F8525E402C0000207D382C40F5FFFF9F06535E40440000C0A9382C401F0000400A535E4031000000EA382C40090000801B535E40DBFFFF1F08392C40040000C01F535E40520000C045392C40230000002A535E403A00008051392C40180000A02C535E401900000025392C40160000C066535E400F00002035382C400D0000406B535E401D0000C048382C401A00008082535E401C0000A0EF372C40250000E07F535E40230000A0C5372C40140000E090535E40200000007B372C40E8FFFF5F93535E40350000009D372C40180000A0DC535E401D00006040362C401F00004006545E401A0000208E352C40040000C02B545E40D7FFFF1F65362C40160000C052545E402800008092372C40E8FFFF5F7B545E402A000000C4382C40140000E0A8545E40150000A099392C401F0000408E545E4019000000A53A2C40180000A09C545E40300000E0603D2C40020000E0E1545E401F000040FA3D2C40ECFFFF1F37555E40370000E0263E2C402C00008055555E4012000060573E2C4023000000CA545E40460000003C372C40
+523	San Buenaventura	0106000020E6100000010000000103000000020000002800000021000020C8555E4006000040653C2C4009000080BF555E403D000020BC3B2C40DDFFFFFFB9555E40490000E0553B2C400B000060B1555E40E6FFFF7F893A2C40F3FFFFBFA4555E40FDFFFF5FF5392C401D0000609C555E40DDFFFFFF81392C40160000C09A555E40400000601E392C40E1FFFFBF9D555E40310000009A382C40180000A0A0555E40310000A061382C40140000E0A8555E40E4FFFFFF27382C401A000080A2555E401B00004007382C40E1FFFFBFA1555E402900004003382C40230000009E555E405B000040DD372C40EAFFFF3F9D555E40080000C0D6372C40F7FFFF7F9C555E402F000020D0372C40F5FFFF9F9A555E403A0000E0B9372C400F00002099555E40F0FFFF1FAA372C40F9FFFF5F96555E402700006089372C40F9FFFF5F92555E40060000E05C372C40090000808F555E40320000C03A372C40DDFFFFFF8D555E40E7FFFFFF2A372C401D0000608C555E40070000A02D372C40E8FFFF5F4F555E401300008020372C40070000A039555E400500008024372C40EAFFFF3F39555E40260000A018372C4023000000CA545E40460000003C372C402C00008055555E4012000060573E2C402A0000A077555E404A000000EF3F2C40EEFFFFFF80555E4006000040B53F2C40000000008C555E40120000004F3F2C40F1FFFFDF96555E40630000604C3F2C40F3FFFFBFA0555E40F0FFFF7F223F2C4012000000A7555E40F0FFFF7F223F2C400B000060A9555E4041000080E73E2C40EAFFFF3FB1555E40DEFFFFBFC23E2C401D000060B8555E40D6FFFFFF7B3E2C40FEFFFF1FBE555E4019000060DD3D2C40140000E0C0555E40480000803D3D2C40070000A0C1555E40EDFFFFDFB73C2C4021000020C8555E4006000040653C2C402C0000000F00002095555E40E6FFFFDFF13B2C40F5FFFF9F9E555E40520000C0953C2C40F5FFFF9F9E555E40200000009B3C2C401F0000409E555E40EEFFFFFFC03C2C40230000009E555E404D000000D23C2C40E1FFFFBF9D555E40280000C0E13C2C40140000E09C555E401A000080063D2C40F1FFFFDF9A555E401D000060303D2C400000000098555E402E0000606F3D2C40040000C097555E40340000A0743D2C401D00006094555E40DFFFFFDF9B3D2C400B00006091555E40EBFFFF5FA63D2C40EAFFFF3F8D555E4044000020B23D2C402100002084555E4036000020B63D2C40F7FFFF7F80555E401E0000E0C13D2C40EEFFFFFF78555E40320000C0DA3D2C402A0000A073555E4019000000F53D2C40090000806B555E40120000001F3E2C40140000E060555E40F9FFFF5FF23D2C40FEFFFF1F5E555E40EDFFFFDFE73D2C40E3FFFF9F53555E40110000405E3D2C40F9FFFF5F52555E40090000E04F3D2C40FEFFFF1F4E555E4009000080173D2C40070000A04D555E4027000000113D2C40E1FFFFBF49555E40220000E0C43C2C40000000004C555E4018000040543C2C40ECFFFF1F53555E40490000A0163C2C40EEFFFFFF54555E4018000040043C2C40F3FFFFBF58555E4029000040F33B2C401F0000405E555E40D2FFFFFFD83B2C400B00006061555E40D2FFFFFFD83B2C400000000064555E40F6FFFFBFD73B2C400F00002069555E402F000080A83B2C401D0000606C555E40EAFFFF3F7D3B2C40F3FFFFBF6C555E40080000C0763B2C401A00008072555E404D0000A0693B2C402100002078555E4027000060793B2C40EEFFFFFF78555E400E0000007C3B2C40FEFFFF1F82555E40360000C0AD3B2C40F5FFFF9F82555E40E4FFFF5FB03B2C40230000008A555E40F2FFFFFFC33B2C401D0000608C555E40F8FFFF3FC93B2C40040000C08F555E4048000020D53B2C400F00002095555E40E6FFFFDFF13B2C40
+524	San Crispin	0106000020E61000000100000001030000000100000046000000F9FFFF5F4A525E403B00004052242C40E3FFFF9F43525E40F4FFFFDF1D242C40140000E038525E40310000A091232C40020000E035525E40310000A041232C40EEFFFFFF40525E401300002048232C40090000804B525E403E0000E01C232C40160000C04E525E40300000E0D0222C401D00006048525E400F0000C08C222C40FEFFFF1F46525E404200004058222C40040000C033525E403300002053222C400900008033525E406200004093222C400000000024525E406200004093222C40FCFFFF3F20525E40030000A0BA222C40180000A018525E40F1FFFFDFAA222C401A00008016525E40FDFFFF5F65222C400B0000600D525E404C0000E038222C401A0000800A525E403E0000E0EC212C4023000000FA515E40E2FFFF7FD6212C4030000040E9515E4051000060CD212C40160000C0E6515E40070000A00D222C40160000C0D2515E40F4FFFFDFFD212C40F7FFFF7FDC515E401200006057212C40F5FFFF9FCE515E40040000C043212C40ECFFFF1FBF515E40FBFFFF7FEB212C4012000000B3515E40E6FFFF3FEA212C40020000E0B1515E40200000000B222C40F1FFFFDFB2515E401A00008026222C40F3FFFFBFB0515E401500000092222C402A0000A09B515E40F1FFFFDF5A222C40040000C097515E400100002079222C40F7FFFF7F78515E404D00000042222C40FCFFFF3F70515E400F0000C08C222C40070000A079515E4003000040D2222C40020000E079515E402900004033232C401D00006088515E40210000C0AB232C400B00006089515E400F000020F5232C40F9FFFF5F92515E401A0000200E242C40040000C097515E4018000040C4242C40140000E094515E40250000E027252C40090000807F515E40100000E005252C40180000A070515E402700006069252C40F9FFFF5F62515E404A0000005F252C40040000C057515E400D0000E0B2252C40E8FFFF5F5B515E40EFFFFF5F09262C40F9FFFF5F6A515E404E0000C052262C402E0000606F515E401E0000E081262C402100002078515E402500002087262C400000000078515E4064000080E5262C40F5FFFF9F7E515E40D4FFFF7F4A272C40250000E06F515E40F6FFFF5FAF272C40020000E079515E403B000040F2272C40DDFFFFFF71515E40380000A087282C400900008083515E40E1FFFF5F0D292C40FCFFFF3F80515E40EFFFFF5F59292C40F1FFFFDF76515E401B0000E04E292C40F7FFFF7F70515E40480000809D292C401F0000408E515E40120000002F2A2C401D00006090515E40150000A0C92A2C40F1FFFFDFBA515E40050000200C2C2C40070000A0C1515E4024000060D62B2C40FEFFFF1FCA515E4043000060C12B2C4009000080F7515E4055000060302A2C40F5FFFF9F22525E40070000A0FD282C40E8FFFF5F2B525E40580000A0C2282C40180000A034525E40220000E044282C40140000E030525E403300002023272C40E3FFFF9F2F525E4011000040BE262C40280000C031525E40620000A06B262C40F1FFFFDF3A525E40020000E099252C40F9FFFF5F4A525E403B00004052242C40
+525	San Cristobal	0106000020E6100000010000000103000000010000006E000000EAFFFF3F995B5E402F00002030212C400B0000604D5B5E402B0000C0841C2C40E6FFFF7F555B5E40DEFFFF1F5B1B2C40ECFFFF1F3B5B5E402B0000C0641A2C402C000080315B5E40350000000D1A2C4000000000385B5E40E3FFFF9FBF192C4021000020345B5E401A00008016192C40E8FFFF5F2F5B5E40E9FFFF7F3C192C40020000E0215B5E401F0000402A192C40DFFFFFDF1B5B5E400B000060C1182C40EAFFFF3FFD5A5E403D0000201C182C40040000C0F35A5E40F2FFFFFF23182C400F000020ED5A5E4028000020AA172C40F9FFFF5FC25A5E4019000060ED162C40F5FFFF9FB65A5E405D000020D7162C40E6FFFF7FB15A5E40FFFFFF3FCF162C40ECFFFF1FA35A5E40160000606A162C40FCFFFF3F9C5A5E40F7FFFF7F38162C40FCFFFF3F945A5E40EBFFFFFF2D162C402A0000A08B5A5E40E9FFFF7FEC152C40F7FFFF7F805A5E40320000C0BA152C40020000E06D5A5E40EBFFFFFFFD142C40FCFFFF3F685A5E4005000020CC142C40ECFFFF1F575A5E401C000000D8142C4009000080435A5E402400006096142C40F7FFFF7F385A5E40340000402C142C400D000040335A5E40100000802D142C40090000801F5A5E401F0000A0A2132C400D0000401B5A5E4051000000B5132C40EAFFFF3F155A5E403300002083132C40F7FFFF7F105A5E401F0000406A132C400D000040075A5E40F1FFFF9F1B132C4000000000005A5E40F9FFFF5F12132C40020000E0F1595E40120000C00F132C40F5FFFF9FF2595E405800006073132C402A0000A0EB595E40E6FFFFDF81132C40F9FFFF5FDE595E400B00006051132C40140000E0D0595E4053000080A6132C40FCFFFF3FC8595E40EEFFFF9F18142C400B000060B1595E4000000060D8132C40140000E0A4595E400F000020F5132C401A00008092595E40060000E06C132C402A0000A07B595E40F2FFFFFF53132C40E3FFFF9F73595E40370000407F132C40F1FFFFDF6A595E404A00006027132C40F5FFFF9F3A595E40F7FFFF1F60122C40180000A030595E404200004058122C402100002014595E40060000E04C112C40DFFFFFDFFF585E40040000C0F3102C40F5FFFF9FE6585E40220000403D112C40140000E0C0585E402D0000A04E102C401A000080AA585E4029000040930F2C40230000009A585E402A000000640F2C40160000C02E585E40300000E0B00D2C40ECFFFF1F13585E4035000060450D2C402100002004585E403A000020090D2C40F9FFFF5FFE575E400F0000C0CC0C2C4000000000C8575E40FFFFFF3F3F0C2C401A000080BE575E40F1FFFF3FF30B2C4012000000A7575E4021000020740B2C40EAFFFF3F75575E40120000007F0A2C40F9FFFF5F22575E40470000C06C0D2C40FCFFFF3F38575E4043000060910D2C40E1FFFFBF41575E403C000000D30D2C401F0000404A575E40450000405B0E2C40F7FFFF7F58575E40320000C07A0E2C40F9FFFF5F66575E401A000080860E2C401D0000606C575E40EBFFFFFFED0E2C40020000E079575E40FEFFFF7F1E0F2C400B0000607D575E40E9FFFF7FFC0E2C40EAFFFF3F8D575E4042000040080F2C402100002090575E404A0000004F0F2C40020000E099575E40F9FFFFFF890F2C40E8FFFF5F9B575E401E000080F90F2C40DFFFFFDFB3575E4024000060F6102C4021000020B8575E4045000040AB112C40E8FFFF5FCF575E401E000080C9112C40F5FFFF9FDE575E40EDFFFFDFD7112C40EEFFFFFFE0575E400700000046122C40E8FFFF5FEB575E406600000057122C400F000020F1575E4042000040A8122C402A0000A0FB575E4035000000CD122C40140000E000585E400F000020C5122C40F9FFFF5F0A585E40FDFFFFBFED122C40E8FFFF5F07585E40000000A0B7132C401D00006014585E400E0000A003142C402100002020585E40420000E03F142C40EEFFFFFF28585E40100000802D142C402100002030585E40490000A086142C40070000A03D585E40F9FFFF9FC1142C40070000A049585E40120000C02F152C40FEFFFF1F52585E402C0000E04D152C40E1FFFFBF59585E401F0000408A152C401F0000405A585E400200008001162C40120000006B585E403C0000602B162C40230000007E585E404300000069162C40070000A089585E40F2FFFFFFF3162C40F5FFFF9F96585E40450000E032172C40140000E0A0585E40140000E0A8172C4009000080AB585E40DFFFFF7F43182C40F7FFFF7FC4585E400C000080CA182C40F9FFFF5FD2585E40F9FFFF5F22192C40040000C00F595E4037000040EF1B2C402100002048595E40300000E0001E2C40ECFFFF1F6F595E40EBFFFFFF8D1F2C40ECFFFF1FA3595E40600000206A202C4009000080DB595E401C00000038212C400F000020095A5E4012000060F7212C40ECFFFF1F3F5A5E402C00008045232C40EAFFFF3F995B5E402F00002030212C40
+526	San Diego	0106000020E6100000010000000103000000010000002000000012000000B3595E4005000080B4242C401D0000604C595E401C00000008262C401F000040BE575E402100002034272C40280000C029575E402D0000A07E2E2C40F9FFFF5F42575E402B0000C0542E2C40F1FFFFDF4E575E402D000040462E2C40FCFFFF3F68575E4000000060682E2C40F3FFFFBF6C575E40F0FFFF1F9A2E2C40F5FFFF9F82575E401D000060A02F2C40F9FFFF5F92575E40070000A0ED2F2C40EAFFFF3F9D575E40540000A05F302C40180000A0B4575E40220000409D302C40F3FFFFBFCC575E40D8FFFF7FDD302C400D000040DB575E4021000080CC302C4000000000F0575E40290000E0DA302C40280000C001585E4009000080B7302C40040000C007585E4004000000D3302C40F7FFFF7F10585E40F7FFFF7FC8302C40E8FFFF5F17585E4035000060E5302C400F00002021585E40370000803E312C400F00002035585E401F0000404A312C40250000E047585E40E4FFFFFF37312C400D0000405B585E400000000080312C401D00006064585E40190000607D312C401A000080AA585E402C0000E02D302C40F7FFFF7FC0585E40140000E0E8312C40E6FFFF7FD1585E4033000080EB312C401A000080D2585E40DEFFFF1F6B312C401D000060F8585E40520000C0E52F2C400F00002001595E40330000E003302C40EAFFFF3F7D595E40F2FFFF5FAC282C4012000000B3595E4005000080B4242C40
+527	San Francisco	0106000020E6100000010000000103000000010000001D000000180000A0EC555E4024000060861B2C402A0000A0DB555E40140000E0F81A2C40EAFFFF3FCD555E400C000020B21A2C4021000020BC555E401D000020511A2C40FEFFFF1FAA555E400B000060F1192C400F000020A1555E401D00006090192C40070000A0AD555E4058000000FB182C40EEFFFFFFB0555E401900000085182C40020000E0A5555E40080000200F182C40EAFFFF3F9D555E403B0000A0DA172C40250000E08F555E40FBFFFF7FAB172C40F5FFFF9F82555E40380000A057172C40DFFFFFDF7F555E401D000020B1162C400B00006079555E403B00004022162C400B0000606D555E405A0000809C152C40020000E0C1545E403A000080C11E2C40140000E0C8545E40160000C0121F2C40F9FFFF5FD2545E40EDFFFF7F7F1F2C40DFFFFFDFDB545E40DBFFFF7FE01F2C4012000000E7545E400B0000C0E91F2C4023000000EE545E40E7FFFFFFEA1F2C40140000E0F8545E402C000080F51F2C40040000C013555E400D0000402B202C40F7FFFF7F24555E40350000005D202C40F1FFFFDF3A555E40FDFFFFBFCD202C400F0000204D555E40100000802D212C401D0000605C555E400700000076202C400D0000407B555E4038000000B01F2C40180000A0EC555E4024000060861B2C40
+528	San Gabriel	0106000020E610000001000000010300000001000000250000001F00004092545E400B0000C0491C2C400D0000407F545E401E000080B91B2C40E6FFFF7F6D545E40140000E0A81A2C40FCFFFF3F5C545E40160000208B192C40F5FFFF9F56545E401A0000C045192C40FEFFFF1F52545E402C00008005192C400D0000403F545E401E0000E051182C40DDFFFFFF29545E405900002084172C40F5FFFF9F16545E40F3FFFF1FAD162C400F00002009545E400B00006051162C40F9FFFF5F06545E404D00004011162C40070000A005545E4041000020EF152C40E6FFFF7FF5535E400F000060F4152C40E6FFFF7FE9535E400900008027162C40ECFFFF1FDB535E40100000809D162C40E3FFFF9FCF535E40FFFFFF3FCF162C40EAFFFF3F71535E400D0000E0B2182C40180000A068535E400100002069192C40F9FFFF5F62535E40E8FFFF5F83192C40FCFFFF3F64535E40DEFFFFBFF2192C40FCFFFF3F64535E400C000020621A2C40040000C067535E40340000401C1B2C40180000A074535E40340000A0A41B2C40000000007C535E40000000A0771C2C400B00006081535E40E2FFFF1FCE1C2C40F1FFFFDF86535E404E0000C0F21C2C40070000A091535E40350000000D1D2C40070000A095535E404D0000A0391D2C40DFFFFFDFB3535E40D8FFFF7F3D1D2C40ECFFFF1FCF535E400A000040881D2C4000000000DC535E4031000000BA1D2C401A000080EE535E402B0000C0041E2C40FEFFFF1FF6535E40280000209A1E2C40F9FFFF5F1A545E40370000400F1E2C40F7FFFF7F50545E40210000802C1D2C401200000077545E40250000807F1C2C401F00004092545E400B0000C0491C2C40
+529	San Gregorio	0106000020E610000001000000010300000001000000200000000B0000606D555E405A0000809C152C40020000E065555E40EDFFFF7FEF142C401A0000805E555E40F6FFFF5F5F142C400000000054555E404B000020E8132C40F1FFFFDF42555E400500008084132C40ECFFFF1F3F555E40190000604D132C40EAFFFF3F39555E4016000060CA122C40F3FFFFBF2C555E401A00008076122C40E8FFFF5F27555E400100002079122C401A0000801A555E40F5FFFF9F6E122C40140000E008555E40520000C005122C40160000C002555E4025000020B7112C40250000E003555E404300006031112C40160000C0FE545E40EAFFFF3F9D102C4009000080F7545E400100002059102C40F7FFFF7FF4545E4004000000A30F2C40E1FFFFBFE9545E4009000080370F2C40180000A0F0545E4033000020B30E2C40180000A0F0545E40DBFFFF1F280E2C40040000C0E3545E4057000040AA0D2C4023000000CE545E40390000C010142C40EEFFFFFFC0545E401C000000D8172C4033000020BB545E400F00006044192C40DFFFFFDFB7545E40120000002F1A2C40FCFFFF3FAC545E40080000205F1B2C4012000000A7545E4006000040151C2C401F000040A2545E4045000080BA1C2C40180000A0B0545E40230000A0351D2C40160000C0BA545E4035000060951D2C4000000000C0545E40E4FFFF5FD01D2C40020000E0C1545E403A000080C11E2C400B0000606D555E405A0000809C152C40
+530	San Ignacio	0106000020E61000000100000001030000000100000039000000F5FFFF9FF2575E40450000806A1C2C401D00006050575E40000000A0A71A2C400D0000401B575E40DBFFFFDF78192C40F1FFFFDFFA565E4020000000AB182C40160000C0C6565E405900002084172C4012000000AF565E400B0000C089162C4023000000A2565E405B0000405D162C400B00006099565E40070000A0AD152C40E1FFFFBF9D565E4011000040EE142C40180000A0A8565E40120000C0DF142C40F7FFFF7FC0565E40020000E069142C4000000000CC565E401B00004017142C40070000A0B1565E40FAFFFFBFEA132C40000000009C565E40F9FFFF5F62132C40FEFFFF1F8A565E4023000000DE122C40F5FFFF9F7E565E40D7FFFF1F75122C40FCFFFF3F70565E40210000C02B122C400000000060565E401A00008026122C401F00004052565E40F5FFFF3FE6112C40F5FFFF9F42565E400B00000099112C401F00004036565E401900000095112C400000000024565E403E00008064112C401D00006014565E403E00008014112C400D00004007565E40F8FFFF3FE9102C40E6FFFF7FFD555E4024000060F6102C400D000040E7555E40140000E068102C40EEFFFFFFDC555E404100008067102C40160000C0DA555E403D000020FC0F2C40E6FFFF7FC9555E400B000060B10F2C400F000020C5555E40EBFFFFFF3D0F2C40EEFFFFFFB0555E401900000085182C40070000A0AD555E4058000000FB182C400F000020A1555E401D00006090192C40FEFFFF1FAA555E400B000060F1192C4021000020BC555E401D000020511A2C40EAFFFF3FCD555E400C000020B21A2C402A0000A0DB555E40140000E0F81A2C40180000A0EC555E4024000060861B2C40F1FFFFDFFE555E40280000204A1B2C40E6FFFF7F11565E40FCFFFFFF8C1B2C40020000E01D565E401C000000781B2C400900008033565E403A000080711B2C401200000047565E4024000060861B2C400F00002051565E4035000000DD1B2C40F1FFFFDF5A565E40FAFFFF1F431C2C401F0000406E565E400D0000408B1C2C40EEFFFFFF84565E40F5FFFFFFE61C2C40FEFFFF1FB2565E40110000A0961D2C40E1FFFFBFCD565E402A0000A0FB1D2C401F000040E6565E400E0000007C1E2C40E3FFFF9FFB565E4045000040AB1E2C40F1FFFFDF12575E403A000080111F2C401D00006028575E4044000020821F2C40E1FFFFBF2D575E401E0000E0911F2C40EAFFFF3F39575E401E0000E0E11F2C402300000052575E401E000080591F2C40F5FFFF9FF2575E40450000806A1C2C40
+531	San Isidro	0106000020E6100000010000000103000000010000004B000000160000C0C6545E401700008093F82B40DFFFFFDFB7545E400B000060C1F82B40020000E0AD545E40F3FFFF1FCDF82B40140000E05C545E403D0000C033F82B40040000C0F7535E403F00000016F72B40ECFFFF1FDB535E40280000C0F1F52B40160000C0AA535E40FFFFFFDFC6F42B40F9FFFF5F9E535E401D000060C0F42B403500000089535E40FAFFFF1FD3F32B402A0000A04B535E402900004093F22B40F5FFFF9F42535E40E4FFFFFFB7F22B40F3FFFFBF30535E40DEFFFFBF62F22B40180000A030535E402B0000C0F4F12B400B00006029535E402600004070F12B40FEFFFF1F22535E403C00000023F12B40140000E018535E401F000040EAF12B40FCFFFF3F10535E40F8FFFF3F59F32B402100002010535E40E2FFFF7FA6F32B402100002010535E40420000E03FF42B40EAFFFF3F0D535E40E3FFFF3F67F42B40E3FFFF9F07535E40FFFFFFDFC6F42B40EEFFFFFF0C535E40FFFFFF3F4FF52B40040000C00B535E40F9FFFF5F82F52B40EAFFFF3F0D535E40F0FFFF1FDAF52B40F7FFFF7F14535E402E000000F7F52B40FEFFFF1F1E535E40F0FFFF7F62F62B40020000E025535E4032000060B2F62B40FCFFFF3F30535E40440000C0D9F62B40160000C032535E40450000401BF72B40F5FFFF9F3E535E402E0000605FF72B40E8FFFF5F3B535E40E3FFFF3FB7F72B40E6FFFF7F49535E40FDFFFF5FD5F72B40160000C04A535E40EBFFFF5F36F82B40F1FFFFDF52535E40300000E040F82B40E6FFFF7F55535E40100000806DF82B40E1FFFFBF59535E401D00006060F82B40E1FFFFBF59535E40120000C07FF82B40280000C05D535E400A0000A0A0F82B400000000064535E4005000080A4F82B402E00006063535E400200008001F92B400D00004067535E401500000032F92B40EAFFFF3F71535E400F0000C02CF92B40ECFFFF1F83535E40D8FFFF3F0EFA2B40FEFFFF1F86535E40F9FFFF9F31FA2B40160000C08A535E40E0FFFFFF54FA2B40F5FFFF9F96535E40FFFFFF3FBFFA2B40FCFFFF3FC8535E400B00000089FB2B40140000E004545E40290000E0BAFB2B40E3FFFF9F0B545E40500000A0ECFB2B40E6FFFF7F09545E40000000A077FC2B40F3FFFFBF14545E40390000C080FC2B40EEFFFFFF14545E4021000080DCFC2B40DFFFFFDF27545E40360000C02DFD2B400900008033545E4002000080F1FC2B402100002044545E400E000000FCFC2B40160000C04E545E402400006056FD2B401A00008056545E403500006045FD2B40140000E05C545E40E4FFFFFFF7FC2B400D00004083545E402E0000606FFD2B40EEFFFFFFA0545E400B000000F9FD2B40EAFFFF3FB9545E402B0000601CFE2B40DDFFFFFFBD545E4037000040BFFD2B40020000E0C1545E40F6FFFFBF57FD2B4009000080C7545E40EAFFFF3FFDFC2B40250000E0CB545E4015000000D2FC2B40280000C0D1545E402C0000206DFC2B40E6FFFF7FCD545E403E00004015FC2B40FCFFFF3FCC545E40E3FFFF3F57FB2B402C000080E1545E402E00000017FB2B40E6FFFF7FE9545E403000004099FA2B40F5FFFF9FE2545E401D00006030FA2B40040000C0DF545E4014000040B1F92B40F1FFFFDFD2545E401500000082F92B40F1FFFFDFC6545E402C0000E0EDF82B40160000C0C6545E401700008093F82B40
+532	San Joaquin	0106000020E610000001000000010300000001000000480000000F000020C5555E40EBFFFFFF3D0F2C40EEFFFFFFCC555E4000000060C80A2C40FCFFFF3FC4555E400B000000590A2C40FCFFFF3FB8555E40F2FFFFFFF3092C4012000000A7555E403900006048092C40F1FFFFDF92555E4030000040C9082C40F1FFFFDF82555E402F0000C037082C40FCFFFF3F64555E40280000C0C1072C40120000005F555E40330000E093072C402100002048555E402600004030072C402100002030555E4000000000F0062C40F1FFFFDF16555E40100000804D062C40F1FFFFDF12555E4013000080A0052C4021000020F4545E400C0000802A052C40E6FFFF7FE5545E40620000A0EB042C40F1FFFFDFD2545E403E000080B4042C4021000020C4545E40280000205A042C4000000000B4545E40340000402C042C4021000020A8545E4040000060FE032C40F1FFFFDF9E545E402D000040B6032C40F1FFFFDF9A545E40EEFFFF3F40032C40F1FFFFDF96545E40490000E0E5022C40070000A089545E40090000E06F022C40FEFFFF1F7E545E40490000E095022C40E3FFFF9F5F545E400C00002022032C40E1FFFFBF55545E402400006066032C400B00006051545E402F00002030042C40FEFFFF1F56545E40F1FFFF3FB3042C40160000C05E545E4011000040EE042C401A0000806A545E404C0000E088052C40F1FFFFDF6A545E40F7FFFF7F38062C40F9FFFF5F7E545E40040000C0B3062C40ECFFFF1F83545E40F4FFFFDF1D072C40250000E083545E40010000C0B0072C401D00006084545E40370000807E082C40EAFFFF3F85545E40320000C0BA082C40F5FFFF9F86545E40390000C030092C400F00002089545E40FCFFFF3F9C092C40DFFFFFDF8B545E40F6FFFF5FCF092C40040000C093545E40D4FFFF7F4A0A2C40040000C0A7545E40FBFFFF7F4B0B2C40F1FFFFDFB6545E40310000A0010C2C40070000A0C5545E40030000A0FA0C2C40180000A0D4545E40F6FFFFBF570D2C40040000C0E3545E4057000040AA0D2C40180000A0F0545E40DBFFFF1F280E2C40180000A0F0545E4033000020B30E2C40E1FFFFBFE9545E4009000080370F2C40F7FFFF7FF4545E4004000000A30F2C4009000080F7545E400100002059102C40160000C0FE545E40EAFFFF3F9D102C40250000E003555E404300006031112C40160000C002555E4025000020B7112C40140000E008555E40520000C005122C401A0000801A555E40F5FFFF9F6E122C40E8FFFF5F27555E400100002079122C40F3FFFFBF2C555E401A00008076122C40EAFFFF3F39555E4016000060CA122C40ECFFFF1F3F555E40190000604D132C40F1FFFFDF42555E400500008084132C400000000054555E404B000020E8132C401A0000805E555E40F6FFFF5F5F142C40020000E065555E40EDFFFF7FEF142C400B0000606D555E405A0000809C152C400B00006079555E403B00004022162C40DFFFFFDF7F555E401D000020B1162C40F5FFFF9F82555E40380000A057172C40250000E08F555E40FBFFFF7FAB172C40EAFFFF3F9D555E403B0000A0DA172C40020000E0A5555E40080000200F182C40EEFFFFFFB0555E401900000085182C400F000020C5555E40EBFFFFFF3D0F2C40
+533	San Jose	0106000020E6100000010000000103000000010000001A0000001F000040BE575E402100002034272C401D0000604C595E401C00000008262C4012000000B3595E4005000080B4242C40FCFFFF3FC0595E40E9FFFF7FCC232C40ECFFFF1FEF595E404D000040A1232C40FCFFFF3FF0595E40F5FFFFFFD6232C40EAFFFF3F255A5E402B0000608C232C40ECFFFF1F3F5A5E402C00008045232C400F000020095A5E4012000060F7212C4009000080DB595E401C00000038212C40ECFFFF1FA3595E40600000206A202C40ECFFFF1F6F595E40EBFFFFFF8D1F2C402100002048595E40300000E0001E2C40040000C00F595E4037000040EF1B2C40F9FFFF5FD2585E40F9FFFF5F22192C40040000C07B585E4038000000401A2C40F5FFFF9FF2575E40450000806A1C2C402300000052575E401E000080591F2C40EAFFFF3F39575E401E0000E0E11F2C4023000000BE565E4016000060FA232C402300000076565E40050000204C262C40E8FFFF5F8F565E403D000020EC262C40E8FFFF5FCF565E404B0000C04F272C40E8FFFF5F17575E400E0000A0A3272C40160000C046575E4008000020BF272C401F000040BE575E402100002034272C40
+534	San Juan	0106000020E610000001000000010300000001000000190000002100002078535E400D0000400B2E2C400D00004097535E40F2FFFF5FFC2B2C40FCFFFF3F80535E40DCFFFF9F692B2C401F0000405E535E403F0000A0CD2A2C40E8FFFF5F43535E40120000C04F2A2C40F3FFFFBF2C535E402700000071292C401F00004012535E401D0000C0F8272C40140000E00C535E401A0000C075272C40160000C006535E401300002038272C400900008003535E400700000016272C40FCFFFF3FF8525E40060000E00C272C40DFFFFFDFEB525E40310000001A272C401F000040E2525E402D00004006272C40E1FFFFBFD9525E4037000080AE262C40E1FFFFBFD5525E40F1FFFF9FBB262C40F5FFFF9FCE525E4019000000B5262C40020000E0C5525E40FFFFFF3F7F262C40140000E0BC525E40370000404F282C4021000020BC525E403F000000E6282C40ECFFFF1FB7525E40FCFFFFFF6C292C40040000C0AF525E4043000000592A2C40040000C08F525E401B000040272D2C402100002058535E40F0FFFF1FBA302C40E6FFFF7F5D535E405C0000C0FE2F2C402100002078535E400D0000400B2E2C40
+535	San Lorenzo	0106000020E6100000010000000103000000010000006F0000001F00004016575E400F00006084402C40FEFFFF1F1A575E40E3FFFFDF3E402C40120000002F575E40FBFFFF7F1B402C400F00002049575E40280000203A3F2C40E1FFFFBF5D575E403C000000533F2C400B00006065575E402F0000C0D73E2C40000000005C575E40250000E0873E2C402A0000A05B575E40FBFFFFDF833E2C400F0000204D575E4049000040FE3D2C401F00004046575E402A0000A05B3D2C40250000E03F575E40120000C0BF3C2C40E3FFFF9F37575E401F0000A0123C2C40F3FFFFBF30575E4027000060793B2C40140000E028575E40000000A0A73A2C40090000801F575E401C000000A8392C40ECFFFF1F17575E40440000C0A9382C40E8FFFF5F0F575E40DBFFFFDF58372C40ECFFFF1F07575E401C0000A0CF352C40180000A004575E4012000000BF342C400F00002001575E40210000C0FB332C402100002000575E402F0000C0F7332C40F7FFFF7FF8565E40F5FFFF9FEE332C4021000020E4565E401500000012342C402C000080D1565E40F1FFFF9F9B342C401F000040C6565E402F00002080342C40040000C0BF565E40170000E08B342C40F3FFFFBFB0565E40220000E0A4342C4009000080A7565E40E4FFFFFF87342C40FEFFFF1F9A565E40220000E0A4342C40E6FFFF7F85565E40110000A086342C40F9FFFF5F6E565E404D0000A079342C40F1FFFFDF56565E403D0000C093342C40140000E04C565E40160000C0D2342C40210000204C565E401D000020E1342C40EAFFFF3F49565E401F0000A022352C400F00002049565E40F8FFFF3F29352C401D00006048565E40DAFFFFBF2F352C40F5FFFF9F42565E401400004071352C400B00006041565E40E8FFFFBF7B352C40160000C02E565E403B0000A00A362C40ECFFFF1F27565E400900008027362C40DFFFFFDF17565E402E0000602F362C40DDFFFFFF05565E402800008012362C40070000A009565E40E3FFFF3F37362C402C00008009565E40030000A05A362C400B00006009565E40110000406E362C40EEFFFFFF08565E40440000C089362C401A0000800A565E40290000E09A362C40ECFFFF1F0B565E40480000809D362C401D00006014565E40EBFFFF5FB6362C400D00004017565E4005000080D4362C401A00008016565E40070000A0DD362C40EAFFFF3F15565E40EDFFFFDFF7362C40F1FFFFDF12565E40170000E0FB362C40180000A00C565E4045000080FA362C40ECFFFF1F0B565E40EDFFFFDFF7362C401D000060F4555E403C000060CB362C4012000000F3555E40180000A0CC362C402A0000A0CB555E4058000000DB362C40ECFFFF1FAB555E40000000A007372C400D00004097555E401300008020372C40DDFFFFFF8D555E40E7FFFFFF2A372C40090000808F555E40320000C03A372C40F9FFFF5F92555E40060000E05C372C40F9FFFF5F96555E402700006089372C400F00002099555E40F0FFFF1FAA372C40F5FFFF9F9A555E403A0000E0B9372C40F7FFFF7F9C555E402F000020D0372C40EAFFFF3F9D555E40080000C0D6372C40230000009E555E405B000040DD372C40E1FFFFBFA1555E402900004003382C401A000080A2555E401B00004007382C40140000E0A8555E40E4FFFFFF27382C40180000A0A0555E40310000A061382C40E1FFFFBF9D555E40310000009A382C40160000C09A555E40400000601E392C401D0000609C555E40DDFFFFFF81392C40F3FFFFBFA4555E40FDFFFF5FF5392C400B000060B1555E40E6FFFF7F893A2C40DDFFFFFFB9555E40490000E0553B2C4009000080BF555E403D000020BC3B2C4021000020C8555E4006000040653C2C4035000000E1555E4000000060483C2C400B000060F1555E4023000000EE3B2C40070000A001565E40ECFFFFBFBE3B2C40F7FFFF7F0C565E40100000806D3B2C40E1FFFFBF21565E4001000020393B2C40090000803B565E40030000A02A3B2C40120000004B565E40F7FFFF7F583B2C401A0000805A565E4054000000283B2C40DBFFFF1F70565E40290000E06A3B2C40090000807B565E4004000000633B2C40F5FFFF9F7E565E40350000003D3B2C40F1FFFFDF8A565E4054000000283B2C400D00004097565E400F0000C04C3B2C40DFFFFFDFA7565E402E000000673B2C40180000A0BC565E40F6FFFF5F9F3B2C40040000C0C7565E4059000020743B2C401D000060DC565E40490000408E3B2C40F7FFFF7FFC565E403E0000E07C3C2C40F7FFFF7F08575E40D7FFFF1F553D2C40180000A004575E40F3FFFF1FED3D2C40E1FFFFBF01575E401A0000C0653E2C400B000060F5565E40030000A0CA3E2C401F000040EE565E40170000E01B3F2C4000000000F4565E4029000040433F2C4000000000F8565E402A0000A0CB3F2C40E6FFFF7FF9565E400F0000C06C402C400000000008575E4001000020A9402C402A0000A013575E401B0000E08E402C401F00004016575E400F00006084402C40
+536	San Lucas 1	0106000020E610000001000000010300000001000000480000001A00008066555E4007000060EE2A2C40040000C063555E4024000060562A2C401D0000605C555E40D7FFFFBF2C292C40F9FFFF5F5A555E400D0000403B292C40ECFFFF1F57555E402C00008055292C40040000C04B555E402800008062292C40E1FFFFBF49555E40FBFFFFDF63292C400900008047555E40FBFFFFDF63292C40F5FFFF9F3E555E40FBFFFFDF63292C40EEFFFFFF3C555E402800008062292C401200000037555E401300002058292C40F9FFFF5F32555E403A00008051292C40FCFFFF3F30555E40070000A04D292C40070000A02D555E402000006033292C40F5FFFF9F2A555E40E9FFFF1F04292C40E3FFFF9F27555E40140000E0D8282C40180000A024555E4000000060A8282C40F7FFFF7F20555E40F8FFFF3F79282C40040000C01F555E404300006071282C401A0000801E555E40EAFFFF9F65282C40FCFFFF3F1C555E402900004053282C401200000017555E40550000C048282C401F00004016555E401200006047282C40140000E014555E401200006047282C40E8FFFF5F0F555E404F00008043282C40090000800B555E404F00008043282C40FEFFFF1F0A555E400300004042282C400B00006009555E404F00008043282C40020000E005555E40220000E044282C400900008003555E401200006047282C40E6FFFF7F01555E40FEFFFF1F46282C4009000080FB545E404F00008043282C40F7FFFF7FF8545E40FCFFFFFF3C282C4021000020F4545E40040000C033282C40040000C0EF545E40360000C00D282C400B000060ED545E401D0000C0F8272C40E1FFFFBFE5545E403B0000A02A282C401A000080DE545E404800002035282C400B000060D1545E402400006036282C40180000A0D0545E40F0FFFF7F32282C40180000A0CC545E404300006021282C40F1FFFFDFCA545E40610000E01A282C401A000080BE545E402F00008008282C40E6FFFF7FB5545E40F8FFFF3F29282C40280000C0A5545E404300006021282C40F3FFFFBF98545E4041000080F7272C40ECFFFF1F8B545E40160000C0D2272C40E1FFFFBF81545E401A000020AE272C40F3FFFFBF78545E4059000020D4272C400000000068545E402F00008008282C40F5FFFF9F6E545E40FEFFFF7F7E282C40FCFFFF3F7C545E40F5FFFF3FD6282C40F1FFFFDF8A545E40E9FFFF1F54292C40DFFFFFDF97545E4046000000AC292C40E1FFFFBF9D545E404F0000202B2A2C401F0000409E545E40E8FFFF5FB32A2C40250000E0AB545E400F000020352B2C40ECFFFF1FB7545E40FEFFFF1F962B2C4000000000C0545E40F8FFFFDF902B2C40F3FFFFBFD8545E402D0000A02E2B2C400B000060F5545E403F000000062B2C400000000008555E40FAFFFF1F132B2C40FEFFFF1F12555E40FBFFFF7F4B2B2C401A0000801E555E402E000000672B2C40160000C01E555E40020000E0A92B2C401A00008022555E4042000040B82B2C40180000A030555E403D000020BC2B2C40F1FFFFDF42555E40490000A0C62B2C40FCFFFF3F4C555E404F000080932B2C40020000E055555E4035000060752B2C402100002058555E4002000080212B2C401A00008066555E4007000060EE2A2C40
+537	San Lucas 2	0106000020E61000000100000001030000000100000029000000180000A020555E4061000080A22D2C401D0000602C555E40E3FFFF9F5F2D2C400B00006031555E40290000E03A2D2C40E1FFFFBF49555E400E0000A0132D2C40F9FFFF5F52555E40030000A0FA2C2C40070000A061555E4008000020DF2C2C400900008067555E40E9FFFF7FDC2C2C40F7FFFF7F6C555E400E000000AC2C2C400F00002071555E40140000E0782C2C40140000E07C555E40520000C0452C2C40F3FFFFBF84555E4012000060372C2C40230000008A555E40D3FFFF5F112C2C401D00006094555E40240000C00E2C2C400F00002099555E400A0000A0F02B2C40EAFFFF3FA5555E40DFFFFF7FE32B2C40F5FFFF9FAA555E405F000060792B2C4021000020C0555E404B0000C09F2A2C40FEFFFF1FAE555E402C0000E06D2A2C40DFFFFFDF9B555E4033000080AB2A2C40180000A08C555E4051000000A52A2C40F9FFFF5F7E555E4000000000E02A2C401A00008066555E4007000060EE2A2C402100002058555E4002000080212B2C40020000E055555E4035000060752B2C40FCFFFF3F4C555E404F000080932B2C40F1FFFFDF42555E40490000A0C62B2C40180000A030555E403D000020BC2B2C401A00008022555E4042000040B82B2C40160000C01E555E40020000E0A92B2C401A0000801E555E402E000000672B2C40FEFFFF1F12555E40FBFFFF7F4B2B2C400000000008555E40FAFFFF1F132B2C400B000060F5545E403F000000062B2C40F3FFFFBFD8545E402D0000A02E2B2C4000000000C0545E40F8FFFFDF902B2C40280000C0B1545E401D000020A12D2C40160000C0D2545E4061000080A22D2C400D000040EF545E4025000080AF2D2C40040000C0F7545E40F1FFFF9F5B2D2C402100002008555E40F1FFFF9F5B2D2C40180000A020555E4061000080A22D2C40
+538	San Marcos	0106000020E61000000100000001030000000100000011000000EAFFFF3F39555E40260000A018372C400900008033555E40160000208B362C40E6FFFF7F31555E40280000C0F1352C40E8FFFF5F2F555E404300006021352C40070000A035555E40330000800B342C40E8FFFF5F3F555E401F0000A0D2312C40DFFFFFDF3F555E404B000020C8312C40F9FFFF5FE2545E402700006019322C40180000A078545E40EEFFFF9FA8312C40EEFFFFFF1C545E40F5FFFFFFD6302C4030000040DD535E4013000020F82F2C402A0000A083535E40630000601C2E2C402100002078535E400D0000400B2E2C40E6FFFF7F5D535E405C0000C0FE2F2C402100002058535E40F0FFFF1FBA302C4023000000CA545E40460000003C372C40EAFFFF3F39555E40260000A018372C40
+540	San Miguel	0106000020E6100000010000000103000000010000002D000000070000A005545E4041000020EF152C40EAFFFF3F05545E400000006058152C4009000080FF535E4003000040A2142C40F1FFFFDFF2535E4047000060D4132C40020000E0ED535E403D0000C0C3122C40180000A0EC535E403A00008011122C40180000A0E4535E40500000E08B112C40F7FFFF7FDC535E4016000060AA102C40070000A0DD535E40FAFFFFBF4A102C40F5FFFF9FDA535E4019000000C50F2C40070000A0D1535E4004000000530F2C402C000080C5535E400F000060B40E2C40ECFFFF1FBB535E403E000080140E2C40160000C08A535E40E8FFFFBF3B0E2C40090000806B535E402C0000E05D0E2C40F5FFFF9F3E535E4034000040BC0E2C40FCFFFF3F10535E4033000020B30E2C4030000040F9525E40660000A07E0E2C401D000060D4525E40E6FFFF3F4A0E2C40070000A0E1525E40110000402E0F2C40180000A0D8525E40410000202F102C40E1FFFFBFD5525E403B000040B2102C40F7FFFF7FD4525E402A0000A04B112C40160000C0D2525E401C0000A02F122C40160000C0D2525E40540000A07F122C400B000060C5525E400500008034132C4021000020CC525E40DCFFFF3FF1132C400B000060D1525E40F0FFFF1F0A142C40070000A0D9525E40100000802D142C40ECFFFF1FDF525E40F6FFFFBF47142C402E000060E3525E402F00002030142C402A0000A0E7525E40160000604A142C40F9FFFF5FF6525E4012000000BF142C40E8FFFF5F03535E405E0000E027152C400D00004013535E40E5FFFFBFF8142C40F1FFFFDF1E535E4012000060F7142C40EAFFFF3F2D535E40120000C07F152C40F5FFFF9F3E535E40110000401E162C40090000804B535E401E0000E081162C40EAFFFF3F71535E400D0000E0B2182C40E3FFFF9FCF535E40FFFFFF3FCF162C40ECFFFF1FDB535E40100000809D162C40E6FFFF7FE9535E400900008027162C40E6FFFF7FF5535E400F000060F4152C40070000A005545E4041000020EF152C40
+541	San Nicolas	0106000020E61000000100000001030000000100000036000000020000E0C5525E40FFFFFF3F7F262C401A000080FE525E40F1FFFFDF6A1B2C401F000040FE525E4006000040E51A2C40140000E0F8525E4000000000901A2C40180000A0F0525E40E6FFFFDF711A2C401A000080E6525E403E000080741A2C401A0000808E525E400A000040381A2C40E3FFFF9F87525E40060000E0AC1A2C40020000E081525E40F4FFFFDFBD1A2C400D0000407F525E40D6FFFF5F141B2C40020000E06D525E40160000603A1B2C40070000A06D525E401A0000204E1B2C40230000006A525E402E000000671B2C40F3FFFFBF6C525E401C0000A08F1B2C40FEFFFF1F76525E400A0000A0A01B2C40FCFFFF3F7C525E40D3FFFF5FC11B2C40E1FFFFBF75525E40E5FFFF1F211C2C40000000007C525E400B0000C0491C2C40E8FFFF5F83525E40340000409C1C2C401A0000807A525E40080000C0461D2C401D00006074525E401F000040AA1D2C40230000007A525E40D4FFFF7FEA1D2C40E6FFFF7F71525E40070000A06D1E2C40FEFFFF1F6A525E400C0000808A1E2C40DFFFFFDF67525E402F000080F81E2C40E1FFFFBF61525E40F2FFFF5F4C1F2C40F5FFFF9F66525E403C0000608B1F2C40EAFFFF3F71525E4005000080941F2C40280000C06D525E40F6FFFF5FBF202C401200000063525E40FCFFFF3FDC202C40070000A061525E400C00002052212C401A0000805A525E405100000045212C40E6FFFF7F4D525E4000000060B8212C40140000E050525E40280000C001222C40FEFFFF1F46525E404200004058222C401D00006048525E400F0000C08C222C40160000C04E525E40300000E0D0222C40090000804B525E403E0000E01C232C40EEFFFFFF40525E401300002048232C40020000E035525E40310000A041232C40140000E038525E40310000A091232C40E3FFFF9F43525E40F4FFFFDF1D242C40F9FFFF5F4A525E403B00004052242C40140000E060525E401D000020E1242C402300000072525E400C000020F2242C401A0000807A525E4032000060E2242C40FEFFFF1F96525E40450000404B252C40140000E094525E40320000C06A252C40F9FFFF5F96525E40FBFFFFDFC3252C40040000C09B525E40030000A00A262C40E1FFFFBF9D525E40EBFFFF5F66262C40180000A0AC525E40F1FFFF3F83262C40DDFFFFFFAD525E403A0000E039262C40020000E0C5525E40FFFFFF3F7F262C40
+542	San Pedro	0106000020E610000001000000010300000001000000190000000D0000404F565E40DBFFFF1F582C2C40E6FFFF7F3D565E40250000E0172C2C40040000C01B565E4043000000892B2C400000000008565E401C0000A03F2B2C401F000040EA555E40FCFFFF9F042B2C4021000020C0555E404B0000C09F2A2C40F5FFFF9FAA555E405F000060792B2C40EAFFFF3FA5555E40DFFFFF7FE32B2C400F00002099555E400A0000A0F02B2C401D00006094555E40240000C00E2C2C40230000008A555E40D3FFFF5F112C2C40F3FFFFBF84555E4012000060372C2C40140000E07C555E40520000C0452C2C400F00002071555E40140000E0782C2C40F7FFFF7F6C555E400E000000AC2C2C400900008067555E40E9FFFF7FDC2C2C40070000A061555E4008000020DF2C2C40F9FFFF5F52555E40030000A0FA2C2C40E1FFFFBF49555E400E0000A0132D2C400B00006031555E40290000E03A2D2C401D0000602C555E40E3FFFF9F5F2D2C40180000A020555E4061000080A22D2C40EAFFFF3F59555E40100000E0452F2C401A00008092565E40330000806B302C400D0000404F565E40DBFFFF1F582C2C40
+543	San Rafael	0106000020E61000000100000001030000000100000024000000FCFFFF3F50535E40FBFFFFDF53202C40E1FFFFBF49535E40060000E01C202C40E1FFFFBF39535E40FDFFFFBF9D1F2C40280000C025535E400B000000791F2C401D00006020535E40F1FFFF3F431F2C402100002018535E4009000080E71E2C401F00004016535E4043000060311E2C40F5FFFF9F0E535E401D000020A11D2C40FEFFFF1F0A535E40210000802C1D2C400B00006009535E400E0000A0C31C2C40EEFFFFFF0C535E40400000606E1C2C40E3FFFF9F07535E400B000000D91B2C401A000080FE525E40F1FFFFDF6A1B2C40020000E0C5525E40FFFFFF3F7F262C40F5FFFF9FCE525E4019000000B5262C40E1FFFFBFD5525E40F1FFFF9FBB262C40E1FFFFBFD9525E4037000080AE262C401F000040E2525E402D00004006272C40DFFFFFDFEB525E40310000001A272C40FCFFFF3FF8525E40060000E00C272C400900008003535E400700000016272C40160000C006535E401300002038272C40140000E00C535E401A0000C075272C40F3FFFFBF14535E40330000805B272C400D00004057535E40F9FFFF9F61282C40020000E051535E40020000E0B9272C40070000A051535E402D00004056272C40020000E051535E4044000020C2262C40E8FFFF5F57535E40520000C0A5252C40020000E051535E40060000E0EC242C400000000050535E40FBFFFFDFF3232C401F0000404E535E4009000080D7222C40F5FFFF9F4A535E403A00008011222C40F5FFFF9F4A535E400C000020A2212C40020000E051535E40E4FFFFFFE7202C40FCFFFF3F50535E40FBFFFFDF53202C40
+544	San Roque	0106000020E61000000100000001030000000100000034000000F5FFFF9F42545E40D2FFFF9FD0262C40E1FFFFBF3D545E40E3FFFF9F6F262C40280000C041545E4042000040F8252C401F0000404A545E403200006082252C40140000E040545E40240000C01E252C40180000A034545E4018000040C4242C40F7FFFF7F30545E40220000E0A4242C400000000030545E40E8FFFF5F13242C40160000C02E545E40EEFFFF3F90232C40EEFFFFFF2C545E40DFFFFF3F44232C40250000E02B545E401D000060F0222C400B0000601D545E402E00000057222C400D0000400F545E40F3FFFFBFF4212C40FCFFFF3F08545E4018000040C4212C40000000000C545E40250000804F212C40070000A005545E4047000060D4202C40EAFFFF3F01545E400F0000C06C202C40070000A005545E401F0000401A202C40250000E0FF535E40380000A0C71F2C40EAFFFF3FFD535E4028000080721F2C40F5FFFF9FE2535E4039000060E81F2C40250000E0D3535E40250000E057202C40F9FFFF5FCE535E40210000807C202C40160000C0CA535E40170000E0EB202C40040000C0C7535E4016000060FA202C40F3FFFFBFB4535E40110000A036212C40040000C0AB535E40340000A074202C40120000009F535E40FCFFFF3FDC202C40E3FFFF9F97535E40280000C0D1202C40160000C08A535E403B0000A0EA202C40120000008B535E4004000000D3202C40020000E081535E40530000E0DE202C40F1FFFFDF76535E40280000C0D1202C40E8FFFF5F6B535E400A000040D8202C40040000C063535E402E0000606F202C40070000A05D535E400700000026202C40FCFFFF3F50535E40FBFFFFDF53202C40020000E051535E40E4FFFFFFE7202C40F5FFFF9F4A535E400C000020A2212C40F5FFFF9F4A535E403A00008011222C401F0000404E535E4009000080D7222C400000000050535E40FBFFFFDFF3232C40020000E051535E40060000E0EC242C40E8FFFF5F57535E40520000C0A5252C40020000E051535E4044000020C2262C40070000A051535E402D00004056272C40020000E051535E40020000E0B9272C400D00004057535E40F9FFFF9F61282C401D000060F0535E40FCFFFF3F7C272C40040000C007545E402700006039272C40F3FFFFBF14545E403900006028272C40F5FFFF9F42545E40D2FFFF9FD0262C40
+545	San Vicente	0106000020E61000000100000001030000000100000029000000F9FFFF5F22575E40470000C06C0D2C40F9FFFF5F0E575E4001000020B90C2C401D00006000575E40E6FFFFDF910C2C401F000040E6565E40450000806A0C2C40280000C0D1565E40DFFFFF3F540C2C400F000020BD565E4005000080440C2C40F3FFFFBFB0565E4054000000C80B2C401F000040A2565E403C0000609B0B2C401F00004092565E40E5FFFFBF980B2C40160000C07A565E40EEFFFFFFF00A2C402A0000A06B565E40080000C0D60A2C40F3FFFFBF58565E40F9FFFFFFB90A2C40F1FFFFDF4A565E40360000C02D0A2C40F7FFFF7F40565E400F000020050A2C40090000803B565E401D0000C0C8092C40210000202C565E4027000060A9092C40E3FFFF9F17565E403900006048092C40F1FFFFDF0A565E402B0000C0E4082C400900008003565E40F3FFFFBF94082C400F000020F9555E4034000040CC072C40ECFFFF1FEF555E402C0000204D072C40070000A0D1555E4024000060B6062C40EEFFFFFFCC555E4000000060C80A2C400F000020C5555E40EBFFFFFF3D0F2C40E6FFFF7FC9555E400B000060B10F2C40160000C0DA555E403D000020FC0F2C40EEFFFFFFDC555E404100008067102C400D000040E7555E40140000E068102C40E6FFFF7FFD555E4024000060F6102C400D00004007565E40F8FFFF3FE9102C401D00006014565E403E00008014112C400000000024565E403E00008064112C401F00004036565E401900000095112C40F5FFFF9F42565E400B00000099112C401F00004052565E40F5FFFF3FE6112C400000000060565E401A00008026122C40FCFFFF3F70565E40210000C02B122C40F5FFFF9F7E565E40D7FFFF1F75122C40FEFFFF1F8A565E4023000000DE122C40000000009C565E40F9FFFF5F62132C40F9FFFF5F22575E40470000C06C0D2C40
+546	Santa Ana	0106000020E61000000100000001030000000100000035000000070000A0D1555E4024000060B6062C40070000A0BD555E402F00002050062C40ECFFFF1FAF555E4021000020B4052C40F1FFFFDF96555E40E7FFFFFF5A052C40140000E088555E402500002057052C402A0000A073555E404A00006047052C400F00002065555E40230000A0C5042C402100002058555E403A00002049042C400D00004047555E40330000E0A3032C40140000E034555E401D00002011032C40F7FFFF7F24555E401C0000A0CF022C401D0000601C555E401500000042022C40F3FFFFBF14555E401E0000E0B1012C401D0000600C555E403000004089012C4023000000FE545E40E5FFFFBF58012C40FCFFFF3FF0545E40380000A047012C40040000C0DF545E40360000C01D012C40E8FFFF5FCF545E40DCFFFF9F89002C40250000E0C7545E40390000C020002C40F1FFFFDFBE545E40E6FFFFDFE1FF2B40F7FFFF7FB4545E4038000000B0FF2B401F000040B6545E4039000060E8FF2B40F1FFFFDFB6545E40E8FFFF5F23002C4021000020B8545E40070000605E002C401A000080BA545E40420000E09F002C4000000000B4545E402A0000A0FB002C40180000A0A4545E40100000E015012C401A000080A2545E405600002041012C40F9FFFF5F9E545E403800000080012C40230000009E545E40E1FFFFBF05022C40070000A089545E40090000E06F022C40F1FFFFDF96545E40490000E0E5022C40F1FFFFDF9A545E40EEFFFF3F40032C40F1FFFFDF9E545E402D000040B6032C4021000020A8545E4040000060FE032C4000000000B4545E40340000402C042C4021000020C4545E40280000205A042C40F1FFFFDFD2545E403E000080B4042C40E6FFFF7FE5545E40620000A0EB042C4021000020F4545E400C0000802A052C40F1FFFFDF12555E4013000080A0052C40F1FFFFDF16555E40100000804D062C402100002030555E4000000000F0062C402100002048555E402600004030072C40120000005F555E40330000E093072C40FCFFFF3F64555E40280000C0C1072C40F1FFFFDF82555E402F0000C037082C40F1FFFFDF92555E4030000040C9082C4012000000A7555E403900006048092C40FCFFFF3FB8555E40F2FFFFFFF3092C40FCFFFF3FC4555E400B000000590A2C40EEFFFFFFCC555E4000000060C80A2C40070000A0D1555E4024000060B6062C40
+547	Santa Catalina	0106000020E61000000100000001030000000100000049000000E1FFFFBF21565E404E0000C0D2472C400F00002031565E4015000000B2472C402300000042565E40D5FFFF3F1B472C40F1FFFFDF4A565E401E0000E021472C40040000C03F565E40EFFFFFBF71472C40040000C03B565E40D6FFFFFFDB472C40EEFFFFFF5C565E403A00008081472C40020000E055565E40120000C0FF462C400900008067565E401D00006090462C401D00006084565E40650000E04D452C40E3FFFF9F83565E402B000060BC442C402100002090565E404D0000A079442C40F5FFFF9F9A565E40370000808E442C40F1FFFFDFA2565E40030000A03A442C40E8FFFF5F9B565E40280000C0D1432C40F1FFFFDF9A565E403E000040A5432C40F1FFFFDFAE565E40450000407B432C40E8FFFF5FB3565E40FBFFFF7F0B442C40F1FFFFDFCA565E401500000012442C402A0000A0CB565E400300004052442C40070000A0DD565E40420000A060442C400F000020ED565E40100000E035432C40DFFFFFDFEB565E4005000080B4412C40180000A010575E40DFFFFFDFEB402C401F00004016575E400F00006084402C402A0000A013575E401B0000E08E402C400000000008575E4001000020A9402C40E6FFFF7FF9565E400F0000C06C402C4000000000F8565E402A0000A0CB3F2C4000000000F4565E4029000040433F2C401F000040EE565E40170000E01B3F2C400B000060F5565E40030000A0CA3E2C40E1FFFFBF01575E401A0000C0653E2C40180000A004575E40F3FFFF1FED3D2C40F7FFFF7F08575E40D7FFFF1F553D2C40F7FFFF7FFC565E403E0000E07C3C2C401D000060DC565E40490000408E3B2C40040000C0C7565E4059000020743B2C40180000A0BC565E40F6FFFF5F9F3B2C40DFFFFFDFA7565E402E000000673B2C400D00004097565E400F0000C04C3B2C40F1FFFFDF8A565E4054000000283B2C40F5FFFF9F7E565E40350000003D3B2C40090000807B565E4004000000633B2C40DBFFFF1F70565E40290000E06A3B2C401A0000805A565E4054000000283B2C40120000004B565E40F7FFFF7F583B2C40090000803B565E40030000A02A3B2C40E1FFFFBF21565E4001000020393B2C40F7FFFF7F0C565E40100000806D3B2C40070000A001565E40ECFFFFBFBE3B2C400B000060F1555E4023000000EE3B2C4035000000E1555E4000000060483C2C4021000020C8555E4006000040653C2C40070000A0C1555E40EDFFFFDFB73C2C40140000E0C0555E40480000803D3D2C40FEFFFF1FBE555E4019000060DD3D2C401D000060B8555E40D6FFFFFF7B3E2C40EAFFFF3FB1555E40DEFFFFBFC23E2C400B000060A9555E4041000080E73E2C4012000000A7555E40F0FFFF7F223F2C40F3FFFFBFA0555E40F0FFFF7F223F2C40F1FFFFDF96555E40630000604C3F2C40000000008C555E40120000004F3F2C40EEFFFFFF80555E4006000040B53F2C402A0000A077555E404A000000EF3F2C400D0000405F555E40040000C0F3402C40000000004C555E40160000602A422C40F5FFFF9F82555E404C0000E0B8432C40DDFFFFFFA9555E40F0FFFF7F12462C40020000E0D9555E405100000085482C40040000C017565E40210000C0EB4A2C40E1FFFFBF21565E404E0000C0D2472C40
+548	Santa Cruz	0106000020E61000000100000001030000000100000028000000EAFFFF3F75575E40120000007F0A2C401D0000601C575E404B0000C01F092C40020000E0F9565E40120000C0CF082C4009000080EB565E401C00000028082C40E3FFFF9FE3565E40160000200B082C401D000060D0565E4009000080F7072C4033000020AF565E403F00000066072C40F3FFFFBF9C565E40120000C04F072C40040000C093565E40510000603D072C40DFFFFFDF8B565E40380000A007072C40ECFFFF1F77565E4004000060CB062C40DBFFFF1F70565E40050000204C062C40E3FFFF9F63565E40FBFFFFDFC3052C401200000047565E40110000A026052C40020000E041565E401D000060C0042C40F9FFFF5F3A565E401A00008046042C40160000C02E565E4009000080A7042C40F9FFFF5F0A565E40210000803C062C40ECFFFF1FEF555E402C0000204D072C400F000020F9555E4034000040CC072C400900008003565E40F3FFFFBF94082C40F1FFFFDF0A565E402B0000C0E4082C40E3FFFF9F17565E403900006048092C40210000202C565E4027000060A9092C40090000803B565E401D0000C0C8092C40F7FFFF7F40565E400F000020050A2C40F1FFFFDF4A565E40360000C02D0A2C40F3FFFFBF58565E40F9FFFFFFB90A2C402A0000A06B565E40080000C0D60A2C40160000C07A565E40EEFFFFFFF00A2C401F00004092565E40E5FFFFBF980B2C401F000040A2565E403C0000609B0B2C40F3FFFFBFB0565E4054000000C80B2C400F000020BD565E4005000080440C2C40280000C0D1565E40DFFFFF3F540C2C401F000040E6565E40450000806A0C2C401D00006000575E40E6FFFFDF910C2C40F9FFFF5F0E575E4001000020B90C2C40F9FFFF5F22575E40470000C06C0D2C40EAFFFF3F75575E40120000007F0A2C40
+549	Santa Elena	0106000020E61000000100000001030000000100000040000000F9FFFF5FD2585E40F9FFFF5F22192C40F7FFFF7FC4585E400C000080CA182C4009000080AB585E40DFFFFF7F43182C40140000E0A0585E40140000E0A8172C40F5FFFF9F96585E40450000E032172C40070000A089585E40F2FFFFFFF3162C40230000007E585E404300000069162C40120000006B585E403C0000602B162C401F0000405A585E400200008001162C40E1FFFFBF59585E401F0000408A152C40FEFFFF1F52585E402C0000E04D152C40070000A049585E40120000C02F152C40070000A03D585E40F9FFFF9FC1142C402100002030585E40490000A086142C40EEFFFFFF28585E40100000802D142C402100002020585E40420000E03F142C401D00006014585E400E0000A003142C40E8FFFF5F07585E40000000A0B7132C40F9FFFF5F0A585E40FDFFFFBFED122C40140000E000585E400F000020C5122C402A0000A0FB575E4035000000CD122C400F000020F1575E4042000040A8122C40E8FFFF5FEB575E406600000057122C40EEFFFFFFE0575E400700000046122C40F5FFFF9FDE575E40EDFFFFDFD7112C40E8FFFF5FCF575E401E000080C9112C4021000020B8575E4045000040AB112C40DFFFFFDFB3575E4024000060F6102C40E8FFFF5F9B575E401E000080F90F2C40020000E099575E40F9FFFFFF890F2C402100002090575E404A0000004F0F2C40EAFFFF3F8D575E4042000040080F2C400B0000607D575E40E9FFFF7FFC0E2C40020000E079575E40FEFFFF7F1E0F2C401D0000606C575E40EBFFFFFFED0E2C40F9FFFF5F66575E401A000080860E2C40F7FFFF7F58575E40320000C07A0E2C401F0000404A575E40450000405B0E2C40E1FFFFBF41575E403C000000D30D2C40FCFFFF3F38575E4043000060910D2C40F9FFFF5F22575E40470000C06C0D2C40000000009C565E40F9FFFF5F62132C40070000A0B1565E40FAFFFFBFEA132C4000000000CC565E401B00004017142C4012000000EB565E402400006096142C40F3FFFFBF0C575E40F1FFFF3F03152C400000000020575E40FFFFFF3F4F152C40F1FFFFDF32575E40070000A0AD152C40160000C042575E40FBFFFF7F8B152C401D0000604C575E40000000A087152C400F00002051575E401B0000E0AE152C401F00004062575E4028000080C2152C40280000C06D575E40E7FFFF9F72152C400F00002079575E40F5FFFF3F86152C40E6FFFF7F89575E40320000C06A152C400000000098575E40DFFFFFDF2B152C40FEFFFF1FB6575E40FAFFFF1F53152C4009000080C7575E40D5FFFF9FD3152C4023000000CE575E402C0000E0ED152C400B000060D9575E40410000203F162C400F000020E5575E401D0000C0C8162C400D000040EB575E4031000000CA162C40040000C07B585E4038000000401A2C40F9FFFF5FD2585E40F9FFFF5F22192C40
+550	Santa Felomina	0106000020E61000000100000001030000000100000025000000040000C08F525E401B000040272D2C40040000C0AF525E4043000000592A2C40ECFFFF1FB7525E40FCFFFFFF6C292C4021000020BC525E403F000000E6282C40140000E0BC525E40370000404F282C40020000E0C5525E40FFFFFF3F7F262C40DDFFFFFFAD525E403A0000E039262C40180000A0AC525E40F1FFFF3F83262C40E1FFFFBF9D525E40EBFFFF5F66262C40040000C09B525E40030000A00A262C40F9FFFF5F96525E40FBFFFFDFC3252C40140000E094525E40320000C06A252C40FEFFFF1F96525E40450000404B252C401A0000807A525E4032000060E2242C402300000072525E400C000020F2242C40140000E060525E401D000020E1242C40F9FFFF5F4A525E403B00004052242C40F1FFFFDF3A525E40020000E099252C40280000C031525E40620000A06B262C40E3FFFF9F2F525E4011000040BE262C40140000E030525E403300002023272C40180000A034525E40220000E044282C40E8FFFF5F2B525E40580000A0C2282C40F5FFFF9F22525E40070000A0FD282C4009000080F7515E4055000060302A2C40FEFFFF1FCA515E4043000060C12B2C40070000A0C1515E4024000060D62B2C40F1FFFFDFBA515E40050000200C2C2C40ECFFFF1FFB515E4006000040352E2C401A00008006525E4029000040432F2C40FEFFFF1F0E525E404C0000E018302C40F9FFFF5F0E525E40070000A03D302C401200000017525E4027000000B1302C40DFFFFFDF23525E403C000060BB302C40F5FFFF9F32525E40630000C0F4312C402300000046525E402000006043322C40040000C08F525E401B000040272D2C40
+551	Santa Isabel	0106000020E6100000010000000103000000010000000D000000280000C029575E402D0000A07E2E2C401F000040BE575E402100002034272C40160000C046575E4008000020BF272C40E8FFFF5F17575E400E0000A0A3272C40E8FFFF5FCF565E404B0000C04F272C40E8FFFF5F8F565E403D000020EC262C40280000C071565E402E0000602F292C40F5FFFF9F52565E4062000040F32B2C400D0000404F565E40DBFFFF1F582C2C401A00008092565E40330000806B302C40140000E008575E4011000040FE302C40120000000F575E402C0000E02D302C40280000C029575E402D0000A07E2E2C40
+552	Santa Maria Magdalena	0106000020E6100000010000000103000000010000001F000000DFFFFFDF3F555E404B000020C8312C402100002058555E40F9FFFF9F512F2C40F3FFFFBF58555E40F9FFFF9F512F2C40EAFFFF3F59555E40100000E0452F2C40180000A020555E4061000080A22D2C402100002008555E40F1FFFF9F5B2D2C40040000C0F7545E40F1FFFF9F5B2D2C400D000040EF545E4025000080AF2D2C40160000C0D2545E4061000080A22D2C40280000C0B1545E401D000020A12D2C40E6FFFF7F6D545E402D000040462E2C40EEFFFFFF4C545E4035000060C52E2C40180000A044545E40570000404A2E2C401A00008032545E40EAFFFF3F9D2D2C40DFFFFFDF27545E40FFFFFFDF862D2C402A0000A01F545E403C0000606B2D2C401200000017545E4028000080522D2C40FCFFFF3F08545E4028000080522D2C40140000E0F0535E4002000080412D2C40160000C0DA535E4009000080172D2C40FEFFFF1FD2535E402F0000C0072D2C40F5FFFF9FC6535E4009000080C72C2C40F1FFFFDFB2535E404C000080402C2C400D00004097535E40F2FFFF5FFC2B2C402100002078535E400D0000400B2E2C402A0000A083535E40630000601C2E2C4030000040DD535E4013000020F82F2C40EEFFFFFF1C545E40F5FFFFFFD6302C40180000A078545E40EEFFFF9FA8312C40F9FFFF5FE2545E402700006019322C40DFFFFFDF3F555E404B000020C8312C40
+553	Santa Maria	0106000020E6100000010000000103000000010000002A000000ECFFFF1FBB535E403E000080140E2C401D00006004545E40450000400B0E2C400D0000401F545E4004000000330D2C40250000E083545E40010000C0B0072C40020000E06D545E405D0000800F072C40040000C05B545E4024000060B6062C40F7FFFF7F4C545E40360000C08D062C40FEFFFF1F3A545E401C0000A01F062C40210000202C545E40EAFFFFDF24062C401200000003545E400E0000A0D3052C40ECFFFF1FE3535E401F0000408A052C40F3FFFFBFB4535E400B00006021052C40140000E09C535E402E00000077042C40FCFFFF3F50535E40F7FFFF7F98022C40070000A051535E40ECFFFFBFFE022C40020000E055535E403F00000076032C40E8FFFF5F4F535E4008000020CF032C40210000204C535E40340000402C042C40EAFFFF3F4D535E40300000E0A0042C400D0000404B535E4030000040D9042C40FCFFFF3F40535E402B0000605C052C40070000A03D535E40EAFFFFDFD4052C40FEFFFF1F36535E405400000008062C40F3FFFFBF30535E40ECFFFFBF4E062C40140000E028535E40370000E0E6062C40000000000C535E40320000C08A072C40F1FFFFDF02535E402E000060FF072C40020000E001535E401700008093082C40ECFFFF1FFF525E40020000E0D9092C40E1FFFFBF01535E400E000000DC0A2C40F7FFFF7F04535E400D0000E0220B2C40F3FFFFBFFC525E400F0000C09C0B2C401A000080EE525E404A000060370C2C40F5FFFF9FEA525E403A0000E0D90C2C40070000A0D9525E40280000206A0D2C401D000060D4525E40E6FFFF3F4A0E2C4030000040F9525E40660000A07E0E2C40FCFFFF3F10535E4033000020B30E2C40F5FFFF9F3E535E4034000040BC0E2C40090000806B535E402C0000E05D0E2C40160000C08A535E40E8FFFFBF3B0E2C40ECFFFF1FBB535E403E000080140E2C40
+554	Santa Monica	0106000020E61000000100000001030000000100000049000000EAFFFF3FFD535E4028000080721F2C40250000E0FB535E40160000C0121F2C40FEFFFF1FF6535E40280000209A1E2C401A000080EE535E402B0000C0041E2C4000000000DC535E4031000000BA1D2C40ECFFFF1FCF535E400A000040881D2C40DFFFFFDFB3535E40D8FFFF7F3D1D2C40070000A095535E404D0000A0391D2C40070000A091535E40350000000D1D2C40F1FFFFDF86535E404E0000C0F21C2C400B00006081535E40E2FFFF1FCE1C2C40000000007C535E40000000A0771C2C40180000A074535E40340000A0A41B2C40040000C067535E40340000401C1B2C40FCFFFF3F64535E400C000020621A2C40FCFFFF3F64535E40DEFFFFBFF2192C40F9FFFF5F62535E40E8FFFF5F83192C40180000A068535E400100002069192C40EAFFFF3F71535E400D0000E0B2182C40090000804B535E401E0000E081162C40F5FFFF9F3E535E40110000401E162C40EAFFFF3F2D535E40120000C07F152C40F1FFFFDF1E535E4012000060F7142C400D00004013535E40E5FFFFBFF8142C40E8FFFF5F03535E405E0000E027152C40F9FFFF5FF6525E4012000000BF142C402A0000A0E7525E40160000604A142C402E000060E3525E402F00002030142C40ECFFFF1FDF525E40F6FFFFBF47142C40070000A0D9525E40100000802D142C400B000060D1525E40F0FFFF1F0A142C4021000020CC525E40DCFFFF3FF1132C40E6FFFF7FC9525E40F7FFFF7F08152C40DFFFFFDFCB525E40E3FFFF3FE7152C40F9FFFF5FC2525E400C000020C2162C40250000E0C7525E403A000080D1172C40F3FFFFBFCC525E40160000205B182C40EAFFFF3FC9525E40090000E05F192C40ECFFFF1FD7525E40040000601B1A2C401A000080E6525E403E000080741A2C40180000A0F0525E40E6FFFFDF711A2C40140000E0F8525E4000000000901A2C401F000040FE525E4006000040E51A2C401A000080FE525E40F1FFFFDF6A1B2C40E3FFFF9F07535E400B000000D91B2C40EEFFFFFF0C535E40400000606E1C2C400B00006009535E400E0000A0C31C2C40FEFFFF1F0A535E40210000802C1D2C40F5FFFF9F0E535E401D000020A11D2C401F00004016535E4043000060311E2C402100002018535E4009000080E71E2C401D00006020535E40F1FFFF3F431F2C40280000C025535E400B000000791F2C40E1FFFFBF39535E40FDFFFFBF9D1F2C40E1FFFFBF49535E40060000E01C202C40FCFFFF3F50535E40FBFFFFDF53202C40070000A05D535E400700000026202C40040000C063535E402E0000606F202C40E8FFFF5F6B535E400A000040D8202C40F1FFFFDF76535E40280000C0D1202C40020000E081535E40530000E0DE202C40120000008B535E4004000000D3202C40160000C08A535E403B0000A0EA202C40E3FFFF9F97535E40280000C0D1202C40120000009F535E40FCFFFF3FDC202C40040000C0AB535E40340000A074202C40F3FFFFBFB4535E40110000A036212C40040000C0C7535E4016000060FA202C40160000C0CA535E40170000E0EB202C40F9FFFF5FCE535E40210000807C202C40250000E0D3535E40250000E057202C40F5FFFF9FE2535E4039000060E81F2C40EAFFFF3FFD535E4028000080721F2C40
+555	Santa Veronica	0106000020E6100000010000000103000000010000005800000021000020CC525E40DCFFFF3FF1132C400B000060C5525E400500008034132C40160000C0D2525E40540000A07F122C40160000C0D2525E401C0000A02F122C40F7FFFF7FD4525E402A0000A04B112C40E1FFFFBFD5525E403B000040B2102C40180000A0D8525E40410000202F102C4012000000C3525E4035000000AD102C4012000000A7525E40550000C008112C40000000009C525E40FAFFFFBF7A112C402100002090525E4040000060DE112C40F9FFFF5F7E525E4006000040D5112C40140000E074525E401F000040EA112C401D00006074525E405E00004010122C403300002063525E4008000020FF112C40F1FFFFDF5A525E401400004021122C40F7FFFF7F50525E40F1FFFF3F93122C40E8FFFF5F47525E40FDFFFF5FB5122C400000000040525E402A000000B4122C400B00006039525E40F5FFFFFFA6122C402100002030525E4056000080F9122C40140000E020525E402B0000603C132C402A0000A01F525E40E6FFFFDF81132C402100002004525E403F000000C6132C401A000080FE515E4035000000FD132C40FCFFFF3FF4515E401B000040C7132C40E3FFFF9FEB515E40FCFFFF9F14142C4033000020E3515E400F00002045142C40040000C0E7515E40F1FFFFDF7A142C401D000060D4515E40440000C009152C4030000040E9515E404400002042152C401F000040EA515E40080000209F152C40F3FFFFBFF0515E4046000000BC152C40F9FFFF5FF2515E402100002004162C40E3FFFF9FFB515E400F0000C02C162C40D8FFFF3FEE515E40570000E0D1162C40F9FFFF5FDA515E402F0000C067162C4009000080DF515E40DDFFFF5F1A162C40E1FFFFBFC9515E4048000080FD152C402C000080BD515E400B0000C089162C40DFFFFFDFD7515E402C0000204D172C40E1FFFFBFD1515E404700006074172C40EEFFFFFFC8515E400C0000804A172C4000000000C8515E402000006063172C401F000040BA515E40F6FFFFBF97172C40FEFFFF1FB2515E401400004091172C400D000040AB515E40E4FFFF5FC0172C40280000C0A1515E40260000A0B8172C40FCFFFF3F98515E40080000200F182C40F3FFFFBFA0515E400B00000039182C401D000060A0515E402C000080B5182C4012000000A7515E4033000020F3182C40F5FFFF9F9E515E405A0000E074192C40DDFFFFFFA5515E4021000020A4192C40F7FFFF7FAC515E401B00004087192C4000000000B4515E40150000A099192C401F000040C2515E4037000080CE182C401D000060D0515E4044000020E2182C40F5FFFF9FDA515E401E0000E0A1182C400D000040D7515E40F7FFFF1F70182C4009000080DF515E40340000A004182C40ECFFFF1FEF515E404300006021182C40F3FFFFBFF8515E40E4FFFF5FC0172C402100002000525E40E3FFFFDFCE172C40F3FFFFBF10525E40080000C036172C40210000201C525E403F00000066172C40250000E01B525E400F00002095172C40EEFFFFFF28525E403B0000A0DA172C400B00006031525E403B0000A0DA172C402300000042525E4004000060FB172C40E1FFFFBF49525E40D7FFFFBFFC172C40F5FFFF9F52525E402E00000017182C40070000A061525E40100000E005182C40EAFFFF3F65525E401C000000D8172C400B00006071525E40F6FFFFBFE7172C40F9FFFF5F72525E402E00000017182C40EAFFFF3F75525E402F000020A0192C400F0000207D525E4029000040231A2C401A0000808E525E400A000040381A2C401A000080E6525E403E000080741A2C40ECFFFF1FD7525E40040000601B1A2C40EAFFFF3FC9525E40090000E05F192C40F3FFFFBFCC525E40160000205B182C40250000E0C7525E403A000080D1172C40F9FFFF5FC2525E400C000020C2162C40DFFFFFDFCB525E40E3FFFF3FE7152C40E6FFFF7FC9525E40F7FFFF7F08152C4021000020CC525E40DCFFFF3FF1132C40
+556	Santiago I	0106000020E6100000010000000103000000010000002000000000000000B0525E40FBFFFF7F3B052C40070000A099525E404400002042052C40DFFFFFDF87525E40500000A04C052C401D00006078525E4044000020F2042C40F7FFFF7F70525E400B000060D1042C40F5FFFF9F66525E4048000080CD042C400D0000405F525E402C000020DD042C40120000004F525E40EBFFFFFFFD042C40EEFFFFFF40525E4012000060F7042C40140000E034525E40FFFFFFDFC6042C40FCFFFF3F2C525E40230000A0C5042C40F1FFFFDF96515E401E000080B90B2C40EEFFFFFF9C515E40070000A04D0C2C40F9FFFF5F76515E403F0000A0ED0C2C40FCFFFF3F84515E40300000E0B00D2C402100002090515E4037000040BF0D2C4023000000AA515E40F7FFFF1FC00E2C400B000060BD515E404E000060DA0E2C400B000060C1515E40F7FFFF1F100F2C402A0000A0BB515E40370000806E0F2C40DDFFFFFFD5515E40080000C096102C40180000A0D0515E4020000060A3112C40140000E0D8515E4020000060F3112C40FCFFFF3FE4515E40140000E0E8112C40180000A0EC515E400D0000E012122C401A000080EA515E403A0000E049122C40EEFFFFFFEC515E403A00008061122C40FEFFFF1FF6515E404200004058122C401F000040FE515E40280000208A122C401F00004002525E40EBFFFF5FC6122C401200000017525E40170000E00B132C4000000000B0525E40FBFFFF7F3B052C40
+557	Santiago II	0106000020E6100000010000000103000000010000002D000000FCFFFF3F2C525E40230000A0C5042C401A00008026525E404E0000609A042C400F00002019525E40E3FFFFDF2E042C40ECFFFF1F13525E40FEFFFF1F56042C40E1FFFFBF0D525E40150000A079042C40070000A005525E404300006081042C40F3FFFFBFFC515E4036000020A6042C401D000060F0515E40040000605B042C40F9FFFF5FE2515E40160000206B042C40E6FFFF7FD9515E40E3FFFFDF2E042C40E1FFFFBFE5515E40F3FFFFBFC4032C40E6FFFF7FD9515E40450000E092032C402A0000A0C7515E40330000E0F3032C4023000000BE515E400E000000EC032C40F7FFFF7FB4515E40150000A029042C401F000040AE515E405400004017042C40180000A0A0515E400E000000EC032C40070000A091515E40460000A003042C40F1FFFFDF82515E40F5FFFF9F3E042C40020000E07D515E40F0FFFF7F42042C400F00002075515E4028000020AA042C401D0000606C515E40290000E0CA042C40FCFFFF3F64515E404E0000C0D2042C40E3FFFF9F5B515E404C0000E038052C40FCFFFF3F50515E4047000060F4052C400900008047515E400C000020C2062C40F3FFFFBF40515E40FEFFFF7FFE062C40070000A041515E40E3FFFFDF7E072C40EEFFFFFF58515E40E9FFFF1FD4072C40ECFFFF1F57515E40500000E02B082C40F7FFFF7F64515E40420000A050082C40ECFFFF1F6B515E402500002057082C40070000A071515E400600004075082C40160000C072515E400B00000039082C40F5FFFF9F7E515E40EBFFFFFF4D082C400B0000607D515E403C0000609B082C40F7FFFF7F98515E403A0000E089092C40EAFFFF3F9D515E40280000C0E1092C40E8FFFF5F93515E40E6FFFF7FE9092C40000000008C515E4005000080240A2C401D00006094515E4018000040840A2C402300000096515E40EEFFFF9FB80A2C40090000808B515E4020000060030B2C40F1FFFFDF96515E401E000080B90B2C40FCFFFF3F2C525E40230000A0C5042C40
+558	Santisimo Rosario	0106000020E61000000100000001030000000100000062000000070000A089545E40090000E06F022C40230000009E545E40E1FFFFBF05022C40F9FFFF5F9E545E403800000080012C401A000080A2545E405600002041012C40180000A0A4545E40100000E015012C4000000000B4545E402A0000A0FB002C401A000080BA545E40420000E09F002C4021000020B8545E40070000605E002C40F1FFFFDFB6545E40E8FFFF5F23002C401F000040B6545E4039000060E8FF2B40F7FFFF7FB4545E4038000000B0FF2B40ECFFFF1FB7545E40160000602AFF2B400F000020C1545E40F5FFFF9F7EFE2B40EAFFFF3FB9545E402B0000601CFE2B40EEFFFFFFA0545E400B000000F9FD2B400D00004083545E402E0000606FFD2B40140000E05C545E40E4FFFFFFF7FC2B401A00008056545E403500006045FD2B40160000C04E545E402400006056FD2B402100002044545E400E000000FCFC2B400900008033545E4002000080F1FC2B40DFFFFFDF27545E40360000C02DFD2B40EEFFFFFF14545E4021000080DCFC2B40F3FFFFBF14545E40390000C080FC2B40E6FFFF7F09545E40000000A077FC2B40E3FFFF9F0B545E40500000A0ECFB2B40140000E004545E40290000E0BAFB2B40FCFFFF3FC8535E400B00000089FB2B40F5FFFF9F96535E40FFFFFF3FBFFA2B40160000C08A535E40E0FFFFFF54FA2B40FEFFFF1F86535E40F9FFFF9F31FA2B40ECFFFF1F83535E40D8FFFF3F0EFA2B40EAFFFF3F71535E400F0000C02CF92B400D00004067535E401500000032F92B402E00006063535E400200008001F92B400000000064535E4005000080A4F82B40280000C05D535E400A0000A0A0F82B40E1FFFFBF59535E40120000C07FF82B40E1FFFFBF59535E401D00006060F82B40E6FFFF7F55535E40100000806DF82B40F1FFFFDF52535E40300000E040F82B40160000C04A535E40EBFFFF5F36F82B40E6FFFF7F49535E40FDFFFF5FD5F72B40E8FFFF5F3B535E40E3FFFF3FB7F72B40F5FFFF9F3E535E402E0000605FF72B40160000C032535E40450000401BF72B40FCFFFF3F30535E40440000C0D9F62B40020000E025535E4032000060B2F62B40FEFFFF1F1E535E40F0FFFF7F62F62B40F7FFFF7F14535E402E000000F7F52B40EAFFFF3F0D535E40F0FFFF1FDAF52B40040000C00B535E40F9FFFF5F82F52B40EEFFFFFF0C535E40FFFFFF3F4FF52B40E3FFFF9F07535E40FFFFFFDFC6F42B40EAFFFF3F0D535E40E3FFFF3F67F42B402100002010535E40420000E03FF42B402100002010535E40E2FFFF7FA6F32B40FCFFFF3F10535E40F8FFFF3F59F32B40140000E018535E401F000040EAF12B40FEFFFF1F22535E403C00000023F12B4030000040F9525E40620000A04BF12B40E6FFFF7FC9525E40FAFFFF1F53F22B40F7FFFF7FB4525E401B0000E00EF22B400F000020A5525E40030000A06AF22B40F5FFFF9F9A525E40490000E095F22B401A0000801E525E400C0000808AF12B40FCFFFF3F50525E40190000601DF52B40040000C05B525E401B0000E0AEF52B400D000040C7525E404B000020A8FC2B40EAFFFF3FC9525E40D2FFFFFF58FD2B40EAFFFF3FE1525E40EBFFFFFFBDFD2B40FEFFFF1FDA525E400F00006064FE2B40FCFFFF3FF8525E404100008037FF2B400F000020ED525E401A0000C035002C40DFFFFFDFF7525E40330000E053002C40180000A004535E400900008007012C40FCFFFF3F50535E40F7FFFF7F98022C40140000E09C535E402E00000077042C40F3FFFFBFB4535E400B00006021052C40ECFFFF1FE3535E401F0000408A052C401200000003545E400E0000A0D3052C40210000202C545E40EAFFFFDF24062C40FEFFFF1F3A545E401C0000A01F062C40F7FFFF7F4C545E40360000C08D062C40040000C05B545E4024000060B6062C40020000E06D545E405D0000800F072C40250000E083545E40010000C0B0072C40ECFFFF1F83545E40F4FFFFDF1D072C40F9FFFF5F7E545E40040000C0B3062C40F1FFFFDF6A545E40F7FFFF7F38062C401A0000806A545E404C0000E088052C40160000C05E545E4011000040EE042C40FEFFFF1F56545E40F1FFFF3FB3042C400B00006051545E402F00002030042C40E1FFFFBF55545E402400006066032C40E3FFFF9F5F545E400C00002022032C40FEFFFF1F7E545E40490000E095022C40070000A089545E40090000E06F022C40
+559	Santo Angel	0106000020E610000001000000010300000002000000660000000F00002071575E40F3FFFF1FED3D2C40020000E075575E4029000040C33D2C400B000060A5575E4030000040993D2C40ECFFFF1FAF575E40010000C0D03C2C400F000020A5575E40DBFFFF7FE03C2C40180000A0A0575E40DBFFFF7FE03C2C400D00004097575E40340000A0243D2C402100002088575E4027000060493D2C400D0000407F575E403C000000333D2C40020000E079575E40FCFFFFFF0C3D2C401F00004076575E40EFFFFF5FF93C2C400D00004067575E402E000000E73C2C400B00006061575E405F000060A93C2C40180000A05C575E400E0000A0733C2C40F9FFFF5F56575E40F1FFFFDF0A3C2C40140000E050575E40E4FFFF5F003C2C40FCFFFF3F50575E40420000E0CF3B2C40070000A04D575E40280000209A3B2C40F3FFFFBF4C575E40090000E07F3B2C402100002048575E40F0FFFF1F4A3B2C40EAFFFF3F4D575E405B0000402D3B2C40F1FFFFDF52575E40EEFFFF9F083B2C400D00004057575E4046000000DC3A2C40EEFFFFFF58575E40FCFFFF3FCC3A2C40120000005F575E40070000A07D3A2C40020000E069575E40EDFFFFDF473A2C40E6FFFF7F75575E40F3FFFFBF643A2C403000004081575E40210000C09B3A2C40E6FFFF7F89575E4058000060B33A2C40140000E09C575E4033000020C33A2C40EAFFFF3FA5575E4051000000F53A2C401F000040AA575E4028000080323B2C40ECFFFF1FAF575E4002000080713B2C403B0000A0B2575E4017000080933B2C40F9FFFF5FB6575E40F0FFFF7FD23B2C40140000E0C4575E40230000009E3B2C40F9FFFF5FC6575E401A0000204E3B2C401A000080CE575E40FCFFFF9F543B2C40F3FFFFBFE0575E40070000A07D3A2C40FEFFFF1FFA575E403A000080D13A2C40040000C023585E4025000080AF3A2C40040000C037585E404E000060BA392C40E3FFFF9F47585E40460000A023392C401D00006068585E40060000E00C372C40E6FFFF7F5D585E404200004098362C40F9FFFF5F52585E400600004075352C401F00004046585E40FAFFFF1F53352C40EEFFFFFF40585E40310000004A352C40040000C037585E401300008050352C402100002030585E402600004060352C40FCFFFF3F28585E40330000803B352C40230000001A585E40F2FFFFFF23352C40EAFFFF3F15585E400C0000802A352C40F5FFFF9F0E585E404B0000C0DF342C40F1FFFFDF06585E403B000040A2342C40070000A005585E403D0000C093342C40040000C007585E40410000201F342C401A000080FE575E404400002072332C401A000080FE575E40380000A017332C40E8FFFF5F07585E402E000060DF322C40090000800B585E402E000060DF322C40210000200C585E40040000C0C3322C40020000E019585E40280000203A322C40E8FFFF5F23585E40330000E023322C400F00002021585E40370000803E312C40E8FFFF5F17585E4035000060E5302C40F7FFFF7F10585E40F7FFFF7FC8302C40040000C007585E4004000000D3302C40280000C001585E4009000080B7302C4000000000F0575E40290000E0DA302C400D000040DB575E4021000080CC302C40F3FFFFBFCC575E40D8FFFF7FDD302C40180000A0B4575E40220000409D302C40EAFFFF3F9D575E40540000A05F302C40F9FFFF5F92575E40070000A0ED2F2C40F5FFFF9F82575E401D000060A02F2C40F3FFFFBF6C575E40F0FFFF1F9A2E2C40FCFFFF3F68575E4000000060682E2C40F1FFFFDF4E575E402D000040462E2C40F9FFFF5F42575E402B0000C0542E2C40280000C029575E402D0000A07E2E2C40120000000F575E402C0000E02D302C40140000E008575E4011000040FE302C40160000C002575E40080000C016322C40180000A000575E40070000A08D332C400F00002001575E40210000C0FB332C40180000A004575E4012000000BF342C40ECFFFF1F07575E401C0000A0CF352C40E8FFFF5F0F575E40DBFFFFDF58372C40ECFFFF1F17575E40440000C0A9382C40090000801F575E401C000000A8392C40140000E028575E40000000A0A73A2C40F3FFFFBF30575E4027000060793B2C40E3FFFF9F37575E401F0000A0123C2C40250000E03F575E40120000C0BF3C2C401F00004046575E402A0000A05B3D2C400F0000204D575E4049000040FE3D2C402A0000A05B575E40FBFFFFDF833E2C40000000005C575E40250000E0873E2C400B00006065575E402F0000C0D73E2C40280000C06D575E4035000060C53E2C400F00002071575E40F3FFFF1FED3D2C401A0000002A0000A0B3575E404A0000002F3A2C4021000020A8575E402B0000602C3A2C401A0000809E575E40E3FFFF9F0F3A2C400F00002099575E40F3FFFFBF143A2C400D00004093575E4041000020DF392C40140000E088575E4003000040C2392C40090000807F575E40160000208B392C400F00002079575E402E00000047392C40E8FFFF5F6F575E40120000C01F392C40250000E06B575E400D0000E002392C40F3FFFFBF60575E40250000E077382C40FEFFFF1F6A575E40E6FFFF7F19382C40F1FFFFDF6E575E402F00002020382C40EAFFFF3F71575E40F8FFFF3F29382C402100002074575E400F00002035382C400900008083575E40220000E0F4372C401D00006090575E40F6FFFF5FFF372C40E3FFFF9FAB575E40310000A061382C40ECFFFF1FB7575E40310000A061382C40160000C0BE575E404300006071382C400F000020C5575E403600002096382C40140000E0C4575E401E0000E0F1382C40F3FFFFBFC4575E401900000025392C40F5FFFF9FC6575E40F1FFFFDF9A392C40070000A0BD575E40030000A0FA392C402A0000A0B3575E404A0000002F3A2C40
+560	Santo Cristo	0106000020E6100000010000000103000000010000002E000000EAFFFF3F39575E401E0000E0E11F2C40E1FFFFBF2D575E401E0000E0911F2C401D00006028575E4044000020821F2C40F1FFFFDF12575E403A000080111F2C40E3FFFF9FFB565E4045000040AB1E2C401F000040E6565E400E0000007C1E2C40E1FFFFBFCD565E402A0000A0FB1D2C40FEFFFF1FB2565E40110000A0961D2C40EEFFFFFF84565E40F5FFFFFFE61C2C401F0000406E565E400D0000408B1C2C40F1FFFFDF5A565E40FAFFFF1F431C2C400F00002051565E4035000000DD1B2C401200000047565E4024000060861B2C400900008033565E403A000080711B2C40020000E01D565E401C000000781B2C40E6FFFF7F11565E40FCFFFFFF8C1B2C40F1FFFFDFFE555E40280000204A1B2C40180000A0EC555E4024000060861B2C400D0000407B555E4038000000B01F2C401D0000605C555E400700000076202C400F0000204D555E40100000802D212C40F7FFFF7F5C555E400000000080212C40EEFFFFFF64555E403F000000A6212C40E1FFFFBF69555E4040000060DE212C40DFFFFFDF6B555E400600004025222C40F1FFFFDF6A555E400900008087222C40090000807B555E401B0000E0AE222C401D0000608C555E405C000060C6222C40E8FFFF5F9B555E400F0000C0DC222C40ECFFFF1FAF555E40F1FFFF9F1B232C40140000E0C4555E401B000040C7232C40DFFFFFDFD3555E405F0000A0C8232C40180000A0EC555E40EEFFFF3FE0232C4035000000FD555E40030000A03A242C402C00008009565E40F0FFFF1F5A242C40040000C017565E4004000060AB242C40E1FFFFBF31565E40060000E0EC242C40F7FFFF7F38565E402C0000202D252C400900008043565E40070000A05D252C40090000804B565E40FCFFFF9F94252C401A0000805A565E402E000000A7252C40FCFFFF3F6C565E4014000040C1252C40070000A065565E40FBFFFFDF13262C402300000076565E40050000204C262C4023000000BE565E4016000060FA232C40EAFFFF3F39575E401E0000E0E11F2C40
+562	Soledad	0106000020E6100000010000000103000000010000002E000000040000C0E3545E4057000040AA0D2C40180000A0D4545E40F6FFFFBF570D2C40070000A0C5545E40030000A0FA0C2C40F1FFFFDFB6545E40310000A0010C2C40040000C0A7545E40FBFFFF7F4B0B2C40040000C093545E40D4FFFF7F4A0A2C40DFFFFFDF8B545E40F6FFFF5FCF092C400F00002089545E40FCFFFF3F9C092C40F5FFFF9F86545E40390000C030092C40EAFFFF3F85545E40320000C0BA082C401D00006084545E40370000807E082C40250000E083545E40010000C0B0072C400D0000401F545E4004000000330D2C401D00006004545E40450000400B0E2C40ECFFFF1FBB535E403E000080140E2C402C000080C5535E400F000060B40E2C40070000A0D1535E4004000000530F2C40F5FFFF9FDA535E4019000000C50F2C40070000A0DD535E40FAFFFFBF4A102C40F7FFFF7FDC535E4016000060AA102C40180000A0E4535E40500000E08B112C40180000A0EC535E403A00008011122C40020000E0ED535E403D0000C0C3122C40F1FFFFDFF2535E4047000060D4132C4009000080FF535E4003000040A2142C40EAFFFF3F05545E400000006058152C40070000A005545E4041000020EF152C40F9FFFF5F06545E404D00004011162C400F00002009545E400B00006051162C40F5FFFF9F16545E40F3FFFF1FAD162C40DDFFFFFF29545E405900002084172C400D0000403F545E401E0000E051182C40FEFFFF1F52545E402C00008005192C40F5FFFF9F56545E401A0000C045192C40FCFFFF3F5C545E40160000208B192C40E6FFFF7F6D545E40140000E0A81A2C400D0000407F545E401E000080B91B2C401F00004092545E400B0000C0491C2C401F000040A2545E4045000080BA1C2C4012000000A7545E4006000040151C2C40FCFFFF3FAC545E40080000205F1B2C40DFFFFFDFB7545E40120000002F1A2C4033000020BB545E400F00006044192C40EEFFFFFFC0545E401C000000D8172C4023000000CE545E40390000C010142C40040000C0E3545E4057000040AA0D2C40
+561	Santo Nino	0106000020E61000000100000001030000000100000020000000040000C07B585E4038000000401A2C400D000040EB575E4031000000CA162C400F000020E5575E401D0000C0C8162C400B000060D9575E40410000203F162C4023000000CE575E402C0000E0ED152C4009000080C7575E40D5FFFF9FD3152C40FEFFFF1FB6575E40FAFFFF1F53152C400000000098575E40DFFFFFDF2B152C40E6FFFF7F89575E40320000C06A152C400F00002079575E40F5FFFF3F86152C40280000C06D575E40E7FFFF9F72152C401F00004062575E4028000080C2152C400F00002051575E401B0000E0AE152C401D0000604C575E40000000A087152C40160000C042575E40FBFFFF7F8B152C40F1FFFFDF32575E40070000A0AD152C400000000020575E40FFFFFF3F4F152C40F3FFFFBF0C575E40F1FFFF3F03152C4012000000EB565E402400006096142C4000000000CC565E401B00004017142C40F7FFFF7FC0565E40020000E069142C40180000A0A8565E40120000C0DF142C40E1FFFFBF9D565E4011000040EE142C400B00006099565E40070000A0AD152C4023000000A2565E405B0000405D162C4012000000AF565E400B0000C089162C40160000C0C6565E405900002084172C40F1FFFFDFFA565E4020000000AB182C400D0000401B575E40DBFFFFDF78192C401D00006050575E40000000A0A71A2C40F5FFFF9FF2575E40450000806A1C2C40040000C07B585E4038000000401A2C40
+\.
+
+
+--
+-- Data for Name: home_incident; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.home_incident (id, "DateTime", "FireOutDateTime", "HouseNumber", "Street", "OccupancyType_id", "OwnerEstablishmentName", "AlarmLevel", "Injuries", "FatalitiesMale", "FatalitiesFemale", "EstimatedDamageCost", "FinalDamageCost", "Origin", "Cause", "Remarks", "Barangay_id", "FireArsonInvestigator_id", "Notes", "Location") FROM stdin;
+17	2019-02-03 10:20:00+08	\N	\N	Mabinii Ext	1	Mirando Gutierrez	1	0	0	0	7000	7000	at the living room	unattended lighted cigarette placed beside the foam mattress	closed	508	5		\N
+16	2019-02-05 16:52:00+08	\N	\N	Camia St	1	Joy Paclar & Catherine Estrada	1	0	0	0	10000	10000	at the bedroom	unattended plugged cellphone charger placed above the pillow	closed	560	5		\N
+15	2019-02-20 22:10:00+08	\N	\N	Maharlika Highway	6	Wilfredo Sandoval	3	1	0	0	5000000	5000000	\N		closed	521	2		\N
+14	2019-02-21 02:05:00+08	\N	\N	\N	5	Ryan A Moit & Jose D Azuela	1	0	0	0	170000	170000	at the engine bay	electrical short cicrcuit	closed	544	2		\N
+13	2019-03-01 10:48:00+08	\N	\N	Purok 9	1	Emelito Hernandez	1	0	0	0	7000	7000	at the bedroom	special child playing disposable lighter	closed	528	5		\N
+12	2019-03-18 15:27:00+08	\N	\N	\N	1	Crisanto Francia	1	0	0	0	30000	30000	inside the house	children playing lighted matches	closed	542	2		\N
+88	2019-04-14 06:05:00+08	\N	\N	\N	1	Rica Valencia	1	0	0	0	35000	35000	\N			560	\N		\N
+11	2019-05-10 08:56:00+08	\N	\N	Schetelig Ave.	1	JericoM Larona & Loven Villanueva	1	0	0	0	100000	100000	Air condition unit at the bedroom	electrical overload due to jumper connection	closed	495	1		\N
+10	2019-06-06 14:47:00+08	\N	\N	Patria Village	1	Rhesa C Concepcion	1	0	0	0	20000	20000	garage area	welding that came in contact with nipa palm	closed	518	2		\N
+9	2019-06-11 23:50:00+08	\N	\N	\N	1	Bella Dioso	1	0	0	0	500000	500000	bedroom at the 2nd floor	overheated electrical socket	closed	489	5		\N
+8	2019-06-12 14:25:00+08	\N	\N	Lakeview Subd	1	Roswell  delas Alas, Adelaida delas Alas, Virgilio Enriquez & Rosa  Reyes	2	0	0	0	300000	300000	at the 2nd floor	electrical short circuit	closed	517	2		\N
+7	2019-06-14 20:02:00+08	\N	Del Remedio Elementary School	\N	4	Bgry. Del Remedio Elem. Sch., San Pablo City	1	0	0	0	30000	30000	right side of the Gymnasium	improper disposal of cigarette bud	closed	518	2		\N
+6	2019-07-17 14:53:00+08	\N	\N	Zulueta St	3	Malinao Masonic Foundation Inc.	1	0	0	0	250000	250000	3rd floor stock room	Electrical short circuit (arching)	closed	501	5		\N
+4	2019-10-03 07:00:00+08	\N	\N	Purok 5	1	Mercedez Mayo Galangga	1	0	0	0	30000	30000	bedroom wall partition	ovderheated electricfan	closed	533	1		\N
+3	2019-11-05 11:30:00+08	\N	12	Schetelig Ave.	1	Evelina Albay	1	0	0	0	40000	40000	bedroom second floor	electrical overload	closed	497	1		\N
+2	2019-11-09 18:58:00+08	\N	\N	Garcia Street	1	Arsenia Amparo, Maria Juvy Salvan and Joveth Ramos	2	0	0	0	100000	100000	Amparo's residence	christmas light décor	closed	487	1		\N
+1	2019-11-29 07:10:00+08	\N	\N	Maharlika Highway	1	Tick Villa	1	0	0	0	10000	10000	bedroom	unattended lighted mosquito coil	closed	527	5		\N
+42	2018-04-21 19:15:00+08	\N	\N	L. Dizon St	9	Marcelita P Maglalang	1	0	0	0	9000	9000	kitchen area	unattended cooking	closed	506	6		\N
+41	2018-05-01 01:25:00+08	\N	\N	\N	1	Fortunata Hernandez	1	0	1	0	30000	30000	kitchen area	unattended cooking	closed	550	2		\N
+40	2018-05-21 21:00:00+08	\N	Chancery Bldg	M. Paulino St	8	Monsignor Jerry Bitoon	1	0	0	0	150000	150000	under investigation	under investigation	closed	513	6		\N
+39	2018-05-31 03:30:00+08	\N	\N	\N	1	Teresita H Ramos	1	0	0	0	30000	30000	bedroom area	electrical short circuit	closed	533	2		\N
+38	2018-06-12 21:38:00+08	\N	\N	Calabia St	1	Teodora Alvero	1	0	0	0	150000	150000	kitchen area	LPG leakage	closed	527	6		\N
+37	2018-06-26 03:30:00+08	\N	\N	\N	1	Mercy Aller, Rolly Chozas, Dolores Guardian, Babylyn Chozas, Fe Punzalan	1	0	0	0	80000	80000	mezzanine of Aller family	electrical short circuit	closed	525	2		\N
+36	2018-07-13 10:55:00+08	\N	\N	Purok 2	1	Edgardo Cipres	1	0	0	0	40000	40000	dining area	electrical short circuit	closed	561	2		\N
+35	2018-07-15 20:39:00+08	\N	\N	\N	5	Expeditus Tiongson	1	0	0	0	15000	15000	engine bay	electrical short circuit	closed	544	2		\N
+34	2018-08-01 10:39:00+08	\N	\N	\N	5	Nilo Cortez	1	0	0	0	2000	2000	\N	electrical short circuit	closed	502	7		\N
+33	2018-08-08 08:43:00+08	\N	\N	I. Barleta St	1	Danilo Baldovino, Cerelina Morales, Lorna Hilario	1	0	0	1	240000	240000	storage room	electrical short circuit	closed	502	2		\N
+32	2018-08-13 16:00:00+08	\N	\N	Purok 3	1	Percival M Gutierrez	1	0	0	0	200000	200000	at the bed room	electrical short circuit	closed	534	6		\N
+31	2018-08-15 13:00:00+08	\N	5075	Mariflor Subd	1	Kenelyn M Maralit	1	0	0	0	250000	250000	back ceiling portion of the house	electrical short circuit	closed	518	6		\N
+30	2018-08-24 19:36:00+08	\N	441	Purok 6	1	Arnold M Esquivias	1	0	0	0	29000	29000	second floor	electrical appliances	closed	550	2		\N
+29	2018-08-28 13:36:00+08	\N	\N	\N	1	Morena Bundalian	1	0	0	0	5000	5000	living room	electrical short circuit	closed	521	2		\N
+27	2018-10-17 09:46:00+08	\N	\N	\N	1	Romnick Larita, Chairmaine Ignacio and Harlene Angeles	1	0	0	0	20000	20000	second floor	electrical ignition caused by arching	closed	521	2		\N
+26	2018-11-05 19:42:00+08	\N	\N	Maharlika Highway	1	Rizalina Villegas	1	0	0	0	1000000	1000000	bedroom	electrcal ignition caused by loosed connection	closed	527	5		\N
+25	2018-11-09 03:20:00+08	\N	457	Purok 5	1	Kaysson B Belen	1	0	0	0	10000	10000	second floor	electrical ignition caused by arching	closed	534	2		\N
+24	2018-11-22 20:26:00+08	\N	\N	Carmelite Road	1	Roberto Archeta	1	0	0	0	1200000	1200000	guest room	electrical short circuit	closed	536	4		\N
+23	2019-01-11 21:47:00+08	\N	\N	\N	7	Diana M Ordonio	1	0	0	0	120000	120000	engine bay	electrical short circuit	closed	533	2		\N
+22	2019-01-20 08:30:00+08	\N	\N	\N	1	Cristina T Malabanan	1	0	0	0	1000	1000	kitchen area	LPG hose leakage	closed	559	3		\N
+21	2019-01-22 11:30:00+08	\N	\N	\N	1	Cresencia Canayunan, Manny Canayunan, Marlon Cosico	1	0	0	0	220000	220000	inside the rrom	overheated plugged cellphone charger	closed	552	5		\N
+20	2019-01-22 13:47:00+08	\N	\N	\N	1	Acel Baltazar	1	0	0	0	25000	25000	bedroom second floor	overheated malfunction ceiling fan	closed	490	5		\N
+19	2019-01-31 11:00:00+08	\N	\N	\N	1	Angelito B Centeno	1	0	0	0	14000	14000	inside the abandoned house	Unattended rubbish fire	closed	527	2		\N
+18	2019-02-01 21:45:00+08	\N	\N	Balagtas Blvd	1	Rosmelie Alvero	1	0	0	0	1400000	1400000	at the bdroom second floor	Electrical short circuit (arching)	closed	496	5		\N
+5	2019-07-19 09:57:00+08	\N	\N	\N	2	Paul Jane Fix & Gadgets; Agnes Malabanan, Jonathan delos Reyes, Margiere Liwag, Luis Go, Samson Belda and Christopher Abrigo Auto spare parts and car accessories; and Bernardo Ramos Ref and aircon repair shop	2	0	0	0	11000000	11000000	2nd stall Ceiling portion	Electrical short circuit (arching)	closed	484	5		\N
+84	2016-01-17 09:10:00+08	\N	\N	\N	1	Sumiran, Ilaw, dela Cruz, Capuno, Riafor and Perez residences	2	0	0	0	2000000	2000000	Service drop	electrical short cicuit	closed	561	9		0101000020E6100000448A01124D575E4016BD5301F7342C40
+83	2016-01-31 19:15:00+08	\N	\N	\N	1	Donard Deñado	1	0	0	0	9500	9500	bedroom area	electrical short cicuit	closed	541	2		\N
+82	2016-02-16 19:50:00+08	\N	\N	\N	9	Mila Flores	1	0	0	0	5000	5000	kitchen area	unattended lighted embers	closed	541	2		\N
+81	2016-04-12 10:21:00+08	\N	\N	\N	5	Angelito Sahagun	1	0	0	0	10000	10000	Engine bay	electrical short cicuit	closed	506	2		\N
+80	2016-04-29 12:30:00+08	\N	\N	\N	1	Rosana Caguite	1	0	0	0	10000	10000	right corner of the house	electrical short cicuit	closed	526	8		\N
+79	2016-05-08 15:00:00+08	\N	\N	\N	10	Magical Ox Company	3	0	0	0	5000	5000	Open ground waste materials	spontaneous ignition	closed	527	9		\N
+78	2016-05-21 12:15:00+08	\N	\N	\N	1	Ronald Badiola	1	0	0	0	10000	10000	kitchen area	unattended cooking	closed	551	8		\N
+77	2016-06-05 20:56:00+08	\N	\N	\N	1	Alma Cabrera	1	0	0	0	9500	9500	bedroom area	electrical short cicuit	closed	527	2		\N
+76	2016-07-09 19:26:00+08	\N	\N	\N	1	Lilia Deriquito	1	1	0	0	7500	7500	bedroom area	electrical short cicuit	closed	529	2		\N
+75	2016-07-10 23:20:00+08	\N	\N	\N	6	Nico Aningalan	1	0	0	0	5000	5000	copra dryer	unattended overheated copra dryer	closed	531	8		\N
+74	2016-07-18 11:30:00+08	\N	\N	\N	1	Nuñez, Lait, Roco, and Maglupay residence	1	0	0	0	310000	310000	bedroom of Nuñez residence	electrical short cicuit	closed	518	8		\N
+73	2016-11-08 13:21:00+08	\N	\N	\N	1	Emiliano Leonor, dela Guardia, Rombawa, Gonzales and Dimayuga Residences	2	1	0	0	200000	200000	ground floor of Leonor and dela Guardia residence	unattended embers	closed	491	9		\N
+72	2016-11-09 20:10:00+08	\N	\N	\N	1	Zenaida Perez	1	0	0	0	10000	10000	bedroom area	Toppled unattended lighted candle	closed	541	6		\N
+71	2016-11-13 17:30:00+08	\N	\N	\N	5	January Pearl Docot	1	0	0	0	85000	85000	engine block	gasoline leak ignited by theby the spark produced by short electrical wiring circuit from spark plug	closed	517	6		\N
+70	2016-12-01 12:05:00+08	\N	Sampaloc Lake Court	\N	1	Family Federation for World Peace	1	2	0	0	200000	200000	kitchen area	dislodged LPG hose from a lighted single stove burner	closed	517	6		\N
+69	2016-12-18 02:45:00+08	\N	\N	\N	1	Mary Jane Alvero, Magdalena Villanueva, Orbel Biglete	1	0	0	0	10000	10000	Alvero residence	unattended lighted candle	closed	549	6		\N
+68	2017-03-06 12:45:00+08	\N	\N	\N	1	Minor family	1	1	0	0	9500	9500	bedroom	electrical short circuit	closed	559	2		\N
+67	2017-03-07 08:55:00+08	\N	\N	M. Paulino St	1	Ailyn Ambion, Randy Ambion, Edwin Guinto, Cynthia Kalaw, Nicomedez Desamero, Nelita Pamanano, Manolito Dalwampo, Aristeo Ambion Jr., Ronalyn Guevarra, Nenita Fernandez	2	0	0	0	700000	700000	living room	overheated electricfan	closed	492	6		\N
+66	2017-03-25 08:53:00+08	\N	\N	\N	1	Lolita Valbuena	1	0	0	0	10000	10000	bedroom	lighted matches	closed	495	8		\N
+65	2017-04-11 19:08:00+08	\N	\N	\N	1	Annalisa Paterson	1	0	0	0	9000	9000	kitchen area	overheated electricfan	closed	529	2		\N
+64	2017-04-16 02:00:00+08	\N	\N	\N	1	Nino Arrogancia	2	0	0	0	25000	25000	dirty kitcher	unattended lighted ember	closed	533	2		\N
+63	2017-04-22 16:00:00+08	\N	\N	\N	9	Rea Lou Artillaga	1	0	0	0	5000	5000	griller	unattended lighted griller	closed	518	6		\N
+62	2017-05-09 16:20:00+08	\N	\N	\N	1	Adina Rivera Divera	1	0	0	0	25000	25000	bedroom second floor	electrical short circuit	closed	517	2		\N
+61	2017-05-13 12:50:00+08	\N	\N	\N	9	Ervert Avanzado	2	0	0	0	25000	25000	resting area	unattended mosquito coil	closed	561	2		\N
+60	2017-05-19 12:20:00+08	\N	\N	\N	1	Heidie Yanoc	1	0	0	0	25000	25000	kitchen area	LPG leakage	closed	484	2		\N
+59	2017-06-13 12:59:00+08	\N	\N	\N	1	Marvin Bandoy	1	0	0	0	10000	10000	second floor	overheated electricfan	closed	489	6		\N
+58	2017-07-05 13:00:00+08	\N	\N	\N	1	Emetrio Arambulo	3	0	0	0	1000000	1000000	garage area	electrical short circuit	closed	487	6		\N
+57	2017-08-13 18:10:00+08	\N	\N	\N	6	Chairman Gamara	1	0	0	0	0	0	copra dryer	overheated copra	closed	527	2		\N
+56	2017-08-13 17:58:00+08	\N	\N	\N	5	Ronald Allen Uy	1	0	0	0	50000	50000	carburetor	defective/overheated carburetor	closed	527	8		\N
+55	2017-08-16 14:50:00+08	\N	\N	\N	1	Edwin Ramirez	1	0	0	0	25000	25000	bedroom area	electrical short circuit	closed	554	6		\N
+54	2017-08-24 21:20:00+08	\N	\N	\N	1	Oscar Carlos	1	0	0	0	200000	200000	bedroom area	overheated electricfan	closed	537	6		\N
+53	2017-09-12 18:40:00+08	\N	\N	\N	5	Reneboy Hemor	1	0	0	0	10000	10000	under the gasoline tank	exposed wire that came in contact with metal frame	closed	546	4		\N
+52	2017-10-03 05:13:00+08	\N	\N	\N	9	Nonilon Mendoza	1	0	0	0	10000	10000	store area	electrical short circuit	closed	513	4		\N
+51	2017-10-04 08:20:00+08	\N	\N	\N	4	San Miguel Elementary School	1	0	0	0	10000	10000	classroom	electrical short circuit	closed	540	4		\N
+50	2017-10-10 12:11:00+08	\N	\N	\N	11	Ricardo R Reyes	1	0	0	0	2000	2000	kitchen area	LPG leakage	closed	559	4		\N
+49	2017-10-21 20:53:00+08	\N	\N	\N	1	Lilibeth Manalo	1	0	0	0	10000	10000	living room	unattended lighted candle	closed	557	8		\N
+48	2017-11-27 08:00:00+08	\N	\N	\N	6	Nicko Aningalan	1	0	0	0	9000	9000	copra kiln	overheated copra dryer	closed	531	4		\N
+47	2017-12-10 09:55:00+08	\N	\N	\N	1	Aleli Banayo	1	0	0	0	9000	9000	bedroom area	electrical overload	closed	537	6		\N
+46	2018-03-11 07:20:00+08	\N	\N	City Subd	1	Alvin A Mendoza	1	0	0	0	200000	200000	bedroom area	unattended plugged extension cord	closed	487	2		\N
+45	2018-03-12 08:00:00+08	\N	\N	\N	1	Edwin Mendoza Dichoso	1	0	0	0	150000	150000	storage room	electrical short circuit	closed	517	2		\N
+44	2018-03-23 21:25:00+08	\N	\N	\N	1	Elsa Hapin, Marilyn Buesa	1	0	0	0	100000	100000	bedroom area	electrical short circuit	closed	518	2		\N
+43	2018-04-10 10:10:00+08	\N	\N	Burgos St, Cor. M Basa St	5	Ronaldo Laroza	1	0	0	0	30000	30000	LPG tank installed at the proven stall near the motorcycle	LPG leakage	closed	513	2		\N
+28	2018-09-22 16:15:00+08	\N	\N	Unzon St	1	Cristeta Ramirez, Erlinda Aguda, Rolando Aguda, Walfredo Aguda, Marissa Ricaforte, Carolina Ragardao, Arthuro Tec, Yolanda Atrera, Arvin Astrera, Loida Cas, Ernesto Blanca, Anthony Salcedo and Remy Delamar	3	0	0	0	1000000	1000000	second floor	electrical short circuit	closed	490	6		\N
+\.
+
+
+--
+-- Data for Name: home_investigator; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.home_investigator (id, "FirstName", "MiddleName", "LastName", "Rank_id") FROM stdin;
+1	Roderick	C	Zafra	2
+2	Romar	P	Espino	2
+3	Melchor	B	Isidro	4
+4	Ritchie	B	Maligaya	5
+5	Ariel	P	Hernandez	6
+6	Zion William	A	Maningas	3
+7	\N	\N	Gutierrez	7
+8	Alfie	B	Alvero	8
+9	David	\N	Landicho	3
+\.
+
+
+--
+-- Data for Name: home_investigatorrank; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.home_investigatorrank (id, "Code", "Definition") FROM stdin;
+1	SFO2	SFO2
+2	SFO1	SFO1
+3	FO3	FO3
+4	CINSP	CINSP
+5	FO2	FO2
+6	SF02	SF02
+7	SFO4	SFO4
+8	FO1	FO1
+\.
+
+
+--
+-- Data for Name: home_occupancytype; Type: TABLE DATA; Schema: public; Owner: bfpspc
+--
+
+COPY public.home_occupancytype (id, "Description") FROM stdin;
+1	Residential
+2	Mercantile & Small Industrial
+3	Mixed Occupancy
+4	Educational
+5	Vehicular Fire
+6	Industrial
+7	Vehicular 
+8	Mixed type occupancy
+9	Mercantile
+10	Storage
+11	Assembly
+\.
+
+
+--
+-- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) FROM stdin;
+\.
+
+
+--
+-- Data for Name: topology; Type: TABLE DATA; Schema: topology; Owner: postgres
+--
+
+COPY topology.topology (id, name, srid, "precision", hasz) FROM stdin;
+\.
+
+
+--
+-- Data for Name: layer; Type: TABLE DATA; Schema: topology; Owner: postgres
+--
+
+COPY topology.layer (topology_id, layer_id, schema_name, table_name, feature_column, feature_type, level, child_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 52, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 1, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 96, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 13, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 46, true);
+
+
+--
+-- Name: home_barangay_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.home_barangay_id_seq', 681, true);
+
+
+--
+-- Name: home_incident_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.home_incident_id_seq', 88, true);
+
+
+--
+-- Name: home_investigator_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.home_investigator_id_seq', 1, false);
+
+
+--
+-- Name: home_investigatorrank_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.home_investigatorrank_id_seq', 1, false);
+
+
+--
+-- Name: home_occupancytype_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
+--
+
+SELECT pg_catalog.setval('public.home_occupancytype_id_seq', 1, false);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: home_barangay home_barangay_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_barangay
+    ADD CONSTRAINT home_barangay_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: home_incident home_incident_DateTime_OwnerEstablishmentName_e9427a85_uniq; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_incident
+    ADD CONSTRAINT "home_incident_DateTime_OwnerEstablishmentName_e9427a85_uniq" UNIQUE ("DateTime", "OwnerEstablishmentName");
+
+
+--
+-- Name: home_incident home_incident_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_incident
+    ADD CONSTRAINT home_incident_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: home_investigator home_investigator_FirstName_LastName_697f8849_uniq; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_investigator
+    ADD CONSTRAINT "home_investigator_FirstName_LastName_697f8849_uniq" UNIQUE ("FirstName", "LastName");
+
+
+--
+-- Name: home_investigator home_investigator_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_investigator
+    ADD CONSTRAINT home_investigator_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: home_investigatorrank home_investigatorrank_Code_3f61e76b_uniq; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_investigatorrank
+    ADD CONSTRAINT "home_investigatorrank_Code_3f61e76b_uniq" UNIQUE ("Code");
+
+
+--
+-- Name: home_investigatorrank home_investigatorrank_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_investigatorrank
+    ADD CONSTRAINT home_investigatorrank_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: home_occupancytype home_occupancytype_pkey; Type: CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_occupancytype
+    ADD CONSTRAINT home_occupancytype_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: home_barangay_geom_id; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX home_barangay_geom_id ON public.home_barangay USING gist (geom);
+
+
+--
+-- Name: home_incident_Barangay_id_5674cce9; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX "home_incident_Barangay_id_5674cce9" ON public.home_incident USING btree ("Barangay_id");
+
+
+--
+-- Name: home_incident_FireArsonInvestigator_id_d9c1b64c; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX "home_incident_FireArsonInvestigator_id_d9c1b64c" ON public.home_incident USING btree ("FireArsonInvestigator_id");
+
+
+--
+-- Name: home_incident_Location_id; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX "home_incident_Location_id" ON public.home_incident USING gist ("Location");
+
+
+--
+-- Name: home_incident_OccupancyType_id_14882aab; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX "home_incident_OccupancyType_id_14882aab" ON public.home_incident USING btree ("OccupancyType_id");
+
+
+--
+-- Name: home_investigator_Rank_id_34a0654f; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX "home_investigator_Rank_id_34a0654f" ON public.home_investigator USING btree ("Rank_id");
+
+
+--
+-- Name: home_investigatorrank_Code_3f61e76b_like; Type: INDEX; Schema: public; Owner: bfpspc
+--
+
+CREATE INDEX "home_investigatorrank_Code_3f61e76b_like" ON public.home_investigatorrank USING btree ("Code" varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: home_incident home_incident_Barangay_id_5674cce9_fk_home_barangay_id; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_incident
+    ADD CONSTRAINT "home_incident_Barangay_id_5674cce9_fk_home_barangay_id" FOREIGN KEY ("Barangay_id") REFERENCES public.home_barangay(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: home_incident home_incident_FireArsonInvestigato_d9c1b64c_fk_home_inve; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_incident
+    ADD CONSTRAINT "home_incident_FireArsonInvestigato_d9c1b64c_fk_home_inve" FOREIGN KEY ("FireArsonInvestigator_id") REFERENCES public.home_investigator(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: home_incident home_incident_OccupancyType_id_14882aab_fk_home_occu; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_incident
+    ADD CONSTRAINT "home_incident_OccupancyType_id_14882aab_fk_home_occu" FOREIGN KEY ("OccupancyType_id") REFERENCES public.home_occupancytype(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: home_investigator home_investigator_Rank_id_34a0654f_fk_home_investigatorrank_id; Type: FK CONSTRAINT; Schema: public; Owner: bfpspc
+--
+
+ALTER TABLE ONLY public.home_investigator
+    ADD CONSTRAINT "home_investigator_Rank_id_34a0654f_fk_home_investigatorrank_id" FOREIGN KEY ("Rank_id") REFERENCES public.home_investigatorrank(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: SCHEMA topology; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT USAGE ON SCHEMA topology TO bfpspc;
+
+
+--
+-- Name: TABLE layer; Type: ACL; Schema: topology; Owner: postgres
+--
+
+GRANT SELECT ON TABLE topology.layer TO bfpspc;
+
+
+--
+-- Name: TABLE topology; Type: ACL; Schema: topology; Owner: postgres
+--
+
+GRANT SELECT ON TABLE topology.topology TO bfpspc;
+
+
+--
+-- Name: SEQUENCE topology_id_seq; Type: ACL; Schema: topology; Owner: postgres
+--
+
+GRANT SELECT ON SEQUENCE topology.topology_id_seq TO bfpspc;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

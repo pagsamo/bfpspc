@@ -3,8 +3,7 @@ from django.core.serializers import serialize
 from django.contrib.gis.serializers.geojson import Serializer
 from django.http import HttpResponse
 from .models import Incident, Barangay
-from django.views.generic import TemplateView
-from chartjs.views.lines import BaseLineChartView
+
 
 
 class CustomSerializer(Serializer):
@@ -23,14 +22,14 @@ class CustomSerializer(Serializer):
         super(CustomSerializer, self).end_object(obj)
 
 
-def home(request):
+def homepage(request):
+    return render(request, 'map.html')
+
+
+def analytics(request):
     test = 'test'
     barangays = Barangay.objects.all()
     return render(request, 'index.html', {'test': test, 'barangays': barangays})
-
-
-def bfpmap(request):
-    return render(request, 'map.html')
 
 
 def incident_datasets(request):

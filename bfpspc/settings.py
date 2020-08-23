@@ -41,9 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'bootstrap3',
+    'dbbackup',
     'leaflet',
-    'chartjs',
     'home',
 ]
 
@@ -153,14 +152,18 @@ ADMIN_SITE_HEADER = "BFP-SPC GIS Administration"
 
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': [14.0446622,121.3204835],
-    'DEFAULT_ZOOM': 13,
+    'DEFAULT_ZOOM': 14,
     'MAX_ZOOM': 20,
     'MIN_ZOOM': 3,
     'SCALE': 'both',
     'ATTRIBUTION_PREFIX': 'Developed by Kateamko',
 }
 
-
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+if os.name == 'nt':
+    DBBACKUP_STORAGE_OPTIONS = {'location': os.path.abspath(os.path.join(os.path.dirname('c:/src/bfpspc/backups/test.txt')))}
+else:
+    DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, '../backups')}
 
 
 
