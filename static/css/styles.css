@@ -1,6 +1,7 @@
-.sidebar{
+.root{ display: flex; }
+.sidebar {
     color: white;
-    height:100%;
+    height: 100%;
     min-height: 100vh;
 }
 .sidebar{ padding: 0; }
@@ -10,8 +11,8 @@
 .sidebar ul li:hover{ background-color: #2791DA; }
 .sidebar ul a{ color: white; text-decoration: none; }
 
-.main{ margin-top:2em; }
-#mapid{ min-height:90vh; }
+.main{ margin-top:1em;}
+#mapid{ height:95vh; }
 
 .navbar-on-mobile{ padding-left: 0; padding-right:0; }
 .navbar-on-mobile .navbar-default .navbar-brand{ color: white; }

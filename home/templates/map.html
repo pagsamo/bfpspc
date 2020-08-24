@@ -8,10 +8,28 @@
         function our_marker(map, options) {
             const incidentCount = new L.GeoJSON.AJAX("{% url 'barangay_incident_count' %}", {
                 onEachFeature: function (feature, layer) {
-                    layer.bindPopup('<h3 style="color: red">Incident Count: '+feature.properties.IncidentCount.toString()+'</h3><p>Barangay: '+feature.properties.Name.toString()+'<p>');
+                    layer.bindPopup('<h3 style="color: red">Incident Count: ' + feature.properties.IncidentCount.toString() + '</h3><p>Barangay: ' + feature.properties.Name.toString() + '<p>');
                 }
             });
-            incidentCount.addTo(map)
+
+
+            const incidentInstance = new L.GeoJSON.AJAX("{% url 'incident_datasets' %}", {
+                pointToLayer: function (feature, latlng) {
+                    const fireMarker = L.ExtraMarkers.icon({
+                        icon: 'glyphicon-fire',
+                        markerColor: 'red',
+                        shape: 'circle',
+                        prefix: 'glyphicon'
+                    });
+                    return L.marker(latlng, {icon: fireMarker});
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.DateTime.toString());
+                }
+            });
+
+            incidentInstance.addTo(map);
+            incidentCount.addTo(map);
 
         }//function our_marker(map, options) {
 

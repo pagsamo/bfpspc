@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+
+{% endblock style %}
+{% block content %}
+    <div class="row">
+        <div class="container">
+            <p>Records from: {{ earliest.DateTime }} to {{ latest.DateTime }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1 hiden-xs"></div>
+        <div class="col-md-10 col-xs-12">
+            <canvas id="perBarangay" width="500" height="300"></canvas>
+        </div>
+        <div class="col-md-1 hidden-xs"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-1 hiden-xs"></div>
+        <div class="col-md-10 col-xs-12 overflow-auto">
+            <canvas id="overTime" width="1500" height="400"></canvas>
+        </div>
+        <div class="col-md-1 hidden-xs"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <canvas id="perHour" width="200" height="100"></canvas>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <canvas id="perDay" width="200" height="100"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <canvas id="perMonth" width="200" height="100"></canvas>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <canvas id="perYear" width="200" height="100"></canvas>
+        </div>
+    </div>
+{% endblock content %}
+{% block scripts %}
+    <script src="{% static 'js/charts.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            const perBarangay = document.getElementById('perBarangay').getContext('2d');
+            const perBarangayChart = new Chart(perBarangay, {
+                type: 'horizontalBar',
+                data: {
+                    labels: [{% for b in barangays %}
+                        {% if b.IncidentCount %}
+                            '{{ b.Name  }}',
+                        {% endif %}
+                    {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Number of Fire Incidents Per Barangay',
+                        data: [{% for b in barangays %}
+                            {% if b.IncidentCount %}
+                                '{{ b.IncidentCount  }}',
+                            {% endif %}
+                        {% endfor %}
+                        ],
+                        backgroundColor: 'pink',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        duration: 10000,
+                        easing: 'easeOutBack',
+                    }
+                }
+            });
+            const perHour = document.getElementById('perHour').getContext('2d');
+            const perHourChart = new Chart(perHour, {
+                type: 'line',
+                data: {
+                    labels: [{% for key, value in perHour.items %}
+                        '{{ key }}',
+                    {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Number of Fire Incidents Per Hour of the Day',
+                        data: [{% for key, value in perHour.items %}
+                            '{{ value }}',
+                        {% endfor %}
+                        ],
+                        borderColor: '#4BC0C0',
+                        borderWidth: 3,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        duration: 10000,
+                        easing: 'easeOutBack',
+                    }
+                }
+            });
+            const perDay = document.getElementById('perDay').getContext('2d');
+            const perDayChart = new Chart(perDay, {
+                type: 'line',
+                data: {
+                    labels: [{% for key, value in perDay.items %}
+                        '{{ key }}',
+                    {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Number of Fire Incidents Per Weekday',
+                        data: [{% for key, value in perDay.items %}
+                            '{{ value }}',
+                        {% endfor %}
+                        ],
+                        borderColor: '#4BC0C0',
+                        borderWidth: 3,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        duration: 10000,
+                        easing: 'easeOutBack',
+                    }
+                }
+            });
+            const perYear = document.getElementById('perYear').getContext('2d');
+            const perYearChart = new Chart(perYear, {
+                type: 'line',
+                data: {
+                    labels: [{% for key, value in perYear.items %}
+                        '{{ key }}',
+                    {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Number of Fire Incidents Per Year',
+                        data: [{% for key, value in perYear.items %}
+                            '{{ value }}',
+                        {% endfor %}
+                        ],
+                        borderColor: '#4BC0C0',
+                        borderWidth: 3,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        duration: 10000,
+                        easing: 'easeOutBack',
+                    }
+                }
+            });
+            const perMonth = document.getElementById('perMonth').getContext('2d');
+            const perMonthChart = new Chart(perMonth, {
+                type: 'line',
+                data: {
+                    labels: [{% for key, value in perMonth.items %}
+                        '{{ key }}',
+                    {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Number of Fire Incidents Per Year',
+                        data: [{% for key, value in perMonth.items %}
+                            '{{ value }}',
+                        {% endfor %}
+                        ],
+                        borderColor: '#4BC0C0',
+                        borderWidth: 3,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        duration: 10000,
+                        easing: 'easeOutBack',
+                    }
+                }
+            });
+            const overTime = document.getElementById('overTime').getContext('2d');
+            const overTimeChart = new Chart(overTime, {
+                type: 'line',
+                data: {
+                    labels: [{% for key, value in overTime.items %}
+                        '{{ key }}',
+                    {% endfor %}
+                    ],
+                    datasets: [{
+                        label: 'Number of Fire Incidents Per Over Time',
+                        data: [{% for key, value in overTime.items %}
+                            '{{ value }}',
+                        {% endfor %}
+                        ],
+                        borderColor: '#4BC0C0',
+                        borderWidth: 3,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        duration: 10000,
+                        easing: 'easeOutBack',
+                    }
+                }
+            });
+        })//document ready
+    </script>
+{% endblock %}

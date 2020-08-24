@@ -23,7 +23,7 @@ class OccupancyTypeAdmin(LeafletGeoAdmin):
 
 @admin.register(Incident)
 class IncidentAdmin(LeafletGeoAdmin):
-    list_display = ('DateTime', 'Barangay', 'OwnerEstablishmentName',)
+    list_display = ('OwnerEstablishmentName','DateTime','Barangay',)
     exclude = ('TotalFatalities',)
-    search_fields = ('DateTime', 'Barangay', 'OwnerEstablishment',)
+    search_fields = ('Barangay__Name', 'OwnerEstablishmentName',)
     filter = ('Barangay',)
