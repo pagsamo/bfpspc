@@ -91,6 +91,7 @@ class Incident(models.Model):
 
     Remarks = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed', blank=True)
     Notes = models.TextField(default="", blank=True, null=True)
+    Approved = models.BooleanField(default=False)
 
     def __str__(self):
         delimeter = ' '
