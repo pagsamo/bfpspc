@@ -1,0 +1,18 @@
+.root{ display: flex; }
+.sidebar {
+    color: white;
+    padding: 0;
+}
+.sidebar h3{ margin-top:0; padding-top:1em; padding-left:15px;}
+.sidebar ul{ list-style-type:none;padding: 0 0 0 15px;}
+.sidebar ul li{ padding: 0.5em 1em 0.5em 0.5em; }
+.sidebar ul li:hover{ background-color: #2791DA; }
+.sidebar ul a{ color: white; text-decoration: none; }
+
+.main{ margin-top:1em;}
+#mapid{ height:95vh; }
+
+.navbar-on-mobile{ padding-left: 0; padding-right:0; }
+.navbar-on-mobile .navbar-default .navbar-brand{ color: white; }
+.navbar-on-mobile .navbar-default .navbar-toggle { border-color: #007CB7; }
+.navbar-on-mobile .navbar-default .navbar-toggle .icon-bar { background-color: white; }

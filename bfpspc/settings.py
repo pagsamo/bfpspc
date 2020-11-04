@@ -148,6 +148,7 @@ if os.name == 'nt':
     GDAL_LIBRARY_PATH = r"C:\OSGeo4W64\bin\gdal300.dll"
 
 ADMIN_SITE_HEADER = "BFP-SPC GIS Administration"
+ADMIN_SITE_TITLE = "BFP-SPC GIS Administration"
 
 
 LEAFLET_CONFIG = {

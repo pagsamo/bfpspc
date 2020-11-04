@@ -3,6 +3,8 @@ from leaflet.admin import LeafletGeoAdmin
 from .models import Barangay, InvestigatorRank, Investigator, Incident, OccupancyType
 from django.contrib.auth.models import User
 
+
+
 # @admin.register(Barangay)
 # class BarangayAdmin(LeafletGeoAdmin):
 #     list_display = ('Name',)
@@ -28,6 +30,7 @@ class IncidentAdmin(LeafletGeoAdmin):
     # exclude = ('TotalFatalities','Approved',)
     search_fields = ('Barangay__Name', 'OwnerEstablishmentName',)
     filter = ('Barangay',)
+    list_filter = ('Approved',)
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         is_data = True if request.user.groups.all()[0].name == 'data-entry' else False

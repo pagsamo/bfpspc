@@ -1,20 +1,76 @@
-.root{ display: flex; }
-.sidebar {
-    color: white;
-    height: 100%;
-    min-height: 100vh;
+#mapid {
+    height: 95vh;
 }
-.sidebar{ padding: 0; }
-.sidebar h3{ margin-top:0; padding-top:1em; padding-left:15px;}
-.sidebar ul{ list-style-type:none;padding: 0 0 0 15px;}
-.sidebar ul li{ padding: 0.5em 1em 0.5em 0.5em; }
-.sidebar ul li:hover{ background-color: #2791DA; }
-.sidebar ul a{ color: white; text-decoration: none; }
 
-.main{ margin-top:1em;}
-#mapid{ height:95vh; }
+.d-flex {
+    display: flex !important;
+}
 
-.navbar-on-mobile{ padding-left: 0; padding-right:0; }
-.navbar-on-mobile .navbar-default .navbar-brand{ color: white; }
-.navbar-on-mobile .navbar-default .navbar-toggle { border-color: #007CB7; }
-.navbar-on-mobile .navbar-default .navbar-toggle .icon-bar { background-color: white; }
+#wrapper {
+    overflow-x: hidden;
+}
+
+.border-right {
+    border-right: 1px solid #dee2e6 !important;
+}
+
+.sections{ margin-top:5em; }
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.25em;
+}
+
+#sidebar-wrapper .list-group {
+    width: 15rem;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+    margin-top:1em;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+#menu-toggle {
+    padding: 1% 1.2%;
+    font-size: 1.15em;
+}
+
+.list-group-item:first-child{ border-radius: unset; }
+.list-group-item:last-child{ border-radius: unset; }
+.list-group-item{ border:unset; }
+
+.navbar {
+    padding-left: 3em;
+}
+
+.recordsDate{ text-align: center; }
+
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+    }
+}
+

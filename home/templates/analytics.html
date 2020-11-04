@@ -1,43 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block style %}
-
-{% endblock style %}
 {% block content %}
     <div class="row">
-        <div class="container">
+        <div class="recordsDate">
             <p>Records from: {{ earliest.DateTime }} to {{ latest.DateTime }}</p>
         </div>
     </div>
-    <div class="row">
+    <div class="row sections">
         <div class="col-md-1 hiden-xs"></div>
         <div class="col-md-10 col-xs-12">
             <canvas id="perBarangay" width="500" height="300"></canvas>
         </div>
         <div class="col-md-1 hidden-xs"></div>
     </div>
-    <div class="row">
+    <div class="row sections">
         <div class="col-md-1 hiden-xs"></div>
         <div class="col-md-10 col-xs-12 overflow-auto">
             <canvas id="overTime" width="1500" height="400"></canvas>
         </div>
         <div class="col-md-1 hidden-xs"></div>
     </div>
-    <div class="row">
-        <div class="col-md-6 col-xs-12">
-            <canvas id="perHour" width="200" height="100"></canvas>
+    <div class="row sections">
+        <div class="col-md-1 hiden-xs"></div>
+        <div class="col-md-10 col-xs-12 overflow-auto">
+            <canvas id="perHour" width="1500" height="400"></canvas>
         </div>
-        <div class="col-md-6 col-xs-12">
-            <canvas id="perDay" width="200" height="100"></canvas>
-        </div>
+        <div class="col-md-1 hidden-xs"></div>
     </div>
-    <div class="row">
-        <div class="col-md-6 col-xs-12">
-            <canvas id="perMonth" width="200" height="100"></canvas>
+    <div class="row sections">
+        <div class="col-md-1 hiden-xs"></div>
+        <div class="col-md-10 col-xs-12 overflow-auto">
+            <canvas id="perDay" width="1500" height="400"></canvas>
         </div>
-        <div class="col-md-6 col-xs-12">
-            <canvas id="perYear" width="200" height="100"></canvas>
+        <div class="col-md-1 hidden-xs"></div>
+    </div>
+    <div class="row sections">
+        <div class="col-md-1 hiden-xs"></div>
+        <div class="col-md-10 col-xs-12 overflow-auto">
+            <canvas id="perMonth" width="1500" height="400"></canvas>
         </div>
+        <div class="col-md-1 hidden-xs"></div>
+    </div>
+    <div class="row sections">
+        <div class="col-md-1 hiden-xs"></div>
+        <div class="col-md-10 col-xs-12 overflow-auto">
+            <canvas id="perYear" width="1500" height="400"></canvas>
+        </div>
+        <div class="col-md-1 hidden-xs"></div>
     </div>
 {% endblock content %}
 {% block scripts %}
@@ -62,7 +71,7 @@
                             {% endif %}
                         {% endfor %}
                         ],
-                        backgroundColor: 'pink',
+                        backgroundColor: '#7A5195',
                         borderWidth: 0
                     }]
                 },
@@ -80,7 +89,7 @@
                         }]
                     },
                     animation: {
-                        duration: 10000,
+                        duration: 1999,
                         easing: 'easeOutBack',
                     }
                 }
@@ -99,7 +108,7 @@
                             '{{ value }}',
                         {% endfor %}
                         ],
-                        borderColor: '#4BC0C0',
+                        borderColor: '#BC5090',
                         borderWidth: 3,
                         fill: false,
                     }]
@@ -118,14 +127,14 @@
                         }]
                     },
                     animation: {
-                        duration: 10000,
+                        duration: 1999,
                         easing: 'easeOutBack',
                     }
                 }
             });
             const perDay = document.getElementById('perDay').getContext('2d');
             const perDayChart = new Chart(perDay, {
-                type: 'line',
+                type: 'pie',
                 data: {
                     labels: [{% for key, value in perDay.items %}
                         '{{ key }}',
@@ -137,65 +146,108 @@
                             '{{ value }}',
                         {% endfor %}
                         ],
-                        borderColor: '#4BC0C0',
-                        borderWidth: 3,
-                        fill: false,
-                    }]
+                        backgroundColor: [
+                            "#003f5c",
+                            "#374c80",
+                            "#7a5195",
+                            "#bc5090",
+                            "#ef5675",
+                            "#ff764a",
+                            "#ffa600",
+                        ],
+                    }],
                 },
                 options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    },
                     animation: {
-                        duration: 10000,
+                        duration: 1999,
                         easing: 'easeOutBack',
+                    },
+                    title: {
+                        display: true,
+                        position: "top",
+                        text: "Fire Incidents Per Day of the Week"
+                    },
+                    cutoutPercentage: 40,
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                try {
+                                    let label = ' ' + data.labels[tooltipItem.index] || '';
+
+                                    if (label) {
+                                        label += ': ';
+                                    }
+
+                                    const sum = data.datasets[0].data.reduce((accumulator, curValue) => {
+                                        return parseInt(accumulator) + parseInt(curValue);
+                                    });
+                                    const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+
+                                    label += Number((value / sum) * 100).toFixed(2) + '%';
+                                    return label;
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                            }
+                        }
                     }
                 }
             });
             const perYear = document.getElementById('perYear').getContext('2d');
             const perYearChart = new Chart(perYear, {
-                type: 'line',
+                type: 'pie',
                 data: {
                     labels: [{% for key, value in perYear.items %}
                         '{{ key }}',
                     {% endfor %}
                     ],
                     datasets: [{
-                        label: 'Number of Fire Incidents Per Year',
+                        label: 'Fire Incidents Per Year',
                         data: [{% for key, value in perYear.items %}
                             '{{ value }}',
                         {% endfor %}
                         ],
-                        borderColor: '#4BC0C0',
-                        borderWidth: 3,
-                        fill: false,
+                        backgroundColor: [
+                            "#003f5c",
+                            "#7a5195",
+                            "#ef5675",
+                            "#ffa600",
+                        ],
                     }]
                 },
                 options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    },
                     animation: {
-                        duration: 10000,
+                        duration: 1999,
                         easing: 'easeOutBack',
+                    },
+                    title: {
+                        display: true,
+                        position: "top",
+                        text: "Fire Incidents Per Year"
+                    },
+                    cutoutPercentage: 40,
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                try {
+                                    let label = ' ' + data.labels[tooltipItem.index] || '';
+
+                                    if (label) {
+                                        label += ': ';
+                                    }
+
+                                    const sum = data.datasets[0].data.reduce((accumulator, curValue) => {
+                                        return parseInt(accumulator) + parseInt(curValue);
+                                    });
+                                    const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+
+                                    label += Number((value / sum) * 100).toFixed(2) + '%';
+                                    return label;
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -208,12 +260,12 @@
                     {% endfor %}
                     ],
                     datasets: [{
-                        label: 'Number of Fire Incidents Per Year',
+                        label: 'Number of Fire Incidents Per Month',
                         data: [{% for key, value in perMonth.items %}
                             '{{ value }}',
                         {% endfor %}
                         ],
-                        borderColor: '#4BC0C0',
+                        borderColor: '#ffa600',
                         borderWidth: 3,
                         fill: false,
                     }]
@@ -232,7 +284,7 @@
                         }]
                     },
                     animation: {
-                        duration: 10000,
+                        duration: 1999,
                         easing: 'easeOutBack',
                     }
                 }
@@ -246,12 +298,12 @@
                     {% endfor %}
                     ],
                     datasets: [{
-                        label: 'Number of Fire Incidents Per Over Time',
+                        label: 'Number of Fire Incidents Over Time',
                         data: [{% for key, value in overTime.items %}
                             '{{ value }}',
                         {% endfor %}
                         ],
-                        borderColor: '#4BC0C0',
+                        borderColor: '#ef5675',
                         borderWidth: 3,
                         fill: false,
                     }]
@@ -270,7 +322,7 @@
                         }]
                     },
                     animation: {
-                        duration: 10000,
+                        duration: 1999,
                         easing: 'easeOutBack',
                     }
                 }

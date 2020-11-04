@@ -15,52 +15,46 @@
     {% block style %}{% endblock style %}
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-1 sidebar hidden-xs bg-primary">
-            <h3>BFP SPC</h3>
-            <ul>
-                <li><a href="{% url 'homepage' %}">Map</a></li>
-                <li><a href="{% url 'analytics' %}">Analytics</a></li>
-                <li><a href="{% url 'admin:index' %}">Data Management</a></li>
-            </ul>
-        </div>
-        <div class="col-xs-12 visible-xs-block navbar-on-mobile">
-            <nav class="navbar navbar-default bg-primary">
-                <div class="container-fluid">
-                    <div class="navbar-header bg-primary">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">BFP San Pablo City</a>
-                    </div>
+<div class="d-flex" id="wrapper">
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav">
-                            <li><a href="{% url 'homepage' %}">Map</a></li>
-                            <li><a href="{% url 'analytics'  %}">Analytics</a></li>
-                            <li><a href="{% url 'admin:index' %}">Data Management</a></li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
-            </nav>
-        </div>
-        <div class="col-md-11 main col-xs-12">
-            {% block content %}{% endblock %}
-        </div>
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">BFP - SPC</div>
+      <div class="list-group list-group-flush">
+        <a href="{% url 'homepage' %}" class="list-group-item list-group-item-action bg-light">Map</a>
+        <a href="{% url 'analytics' %}" class="list-group-item list-group-item-action bg-light">Analytics</a>
+        <a href="{% url 'admin:index' %}" class="list-group-item list-group-item-action bg-light">Data</a>
+      </div>
     </div>
-</div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+      </nav>
+      <div class="container-fluid">
+
+      {% block content %}
+      {% endblock %} 
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+
 <script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
 <script src="{% static 'js/Chart.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 {% leaflet_js %}
 <script src="{% static 'js/leaflet.ajax.js' %}"></script>
 <script src="{% static 'js/leaflet.extra-markers.js' %}"></script>
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
 {% block scripts %}{% endblock %}
 </body>
 </html>
