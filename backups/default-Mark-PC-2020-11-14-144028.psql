@@ -570,7 +570,8 @@ CREATE TABLE public.home_incident (
     "Barangay_id" integer,
     "FireArsonInvestigator_id" integer,
     "Notes" text,
-    "Location" public.geometry(Point,4326)
+    "Location" public.geometry(Point,4326),
+    "Approved" boolean NOT NULL
 );
 
 
@@ -807,6 +808,8 @@ ALTER TABLE ONLY public.home_occupancytype ALTER COLUMN id SET DEFAULT nextval('
 --
 
 COPY public.auth_group (id, name) FROM stdin;
+2	data-entry
+1	admin
 \.
 
 
@@ -815,6 +818,27 @@ COPY public.auth_group (id, name) FROM stdin;
 --
 
 COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+1	1	32
+2	1	33
+3	1	34
+4	1	35
+5	1	36
+6	1	37
+7	1	38
+8	1	39
+9	1	40
+10	1	13
+13	1	16
+14	1	29
+15	1	30
+16	1	31
+17	2	40
+18	2	37
+19	2	38
+20	2	39
+21	1	9
+22	1	10
+23	1	14
 \.
 
 
@@ -883,7 +907,9 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$180000$AZ4RXewr7sm5$X+kltk9DlP8CZXIbRN3PFxMPAh/qun3dZ2RPPyhWQN4=	2020-08-15 19:04:08.344193+08	t	admin			admin@admin.admin	t	t	2020-08-14 11:22:58.870818+08
+2	pbkdf2_sha256$180000$DqU1LyPjBGU7$k4aUunNJSfTy6KyzY3a+2J15hF0EVK1xCHJrGTMCfUI=	2020-10-26 18:20:28.996682+08	f	admin				t	t	2020-10-21 11:44:03+08
+1	pbkdf2_sha256$180000$AZ4RXewr7sm5$X+kltk9DlP8CZXIbRN3PFxMPAh/qun3dZ2RPPyhWQN4=	2020-11-13 17:26:34.618356+08	t	super			admin@admin.admin	t	t	2020-08-14 11:22:58+08
+3	pbkdf2_sha256$180000$TzzU1LBX4KhY$v56kd5H+lMHNv1G0myKB6wDjO0pzzmskVqNJBqmAfw8=	2020-11-13 17:32:52.195184+08	f	data				t	t	2020-10-21 11:45:01+08
 \.
 
 
@@ -892,6 +918,9 @@ COPY public.auth_user (id, password, last_login, is_superuser, username, first_n
 --
 
 COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+1	2	1
+2	3	2
+3	2	2
 \.
 
 
@@ -1004,6 +1033,107 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 94	2020-08-23 20:49:47.461762+08	3	2019-11-05 03:30:00+00:00 Evelina Albay	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
 95	2020-08-23 20:49:58.532997+08	2	2019-11-09 10:58:00+00:00 Arsenia Amparo, Maria Juvy Salvan and Joveth Ramos	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
 96	2020-08-23 20:50:08.308885+08	1	2019-11-28 23:10:00+00:00 Tick Villa	2	[{"changed": {"fields": ["Barangay", "Remarks"]}}]	10	1
+97	2020-08-24 16:23:11.488626+08	60	2017-05-19 12:20:00+00:00 Heidie Yanoc	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+98	2020-08-24 16:23:25.431561+08	5	2019-07-19 09:57:00+00:00 Paul Jane Fix & Gadgets; Agnes Malabanan, Jonathan delos Reyes, Margiere Liwag, Luis Go, Samson Belda and Christopher Abrigo Auto spare parts and car accessories; and Bernard	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+99	2020-08-24 16:24:30.771113+08	46	2018-03-10 07:20:00+00:00 Alvin A Mendoza	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+100	2020-08-24 16:24:56.104575+08	2	2019-11-09 18:58:00+00:00 Arsenia Amparo, Maria Juvy Salvan and Joveth Ramos	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+101	2020-08-24 16:25:15.097342+08	58	2017-07-05 13:00:00+00:00 Emetrio Arambulo	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+102	2020-08-24 16:25:36.095943+08	9	2019-06-11 23:50:00+00:00 Bella Dioso	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+103	2020-08-24 16:26:05.785273+08	59	2017-06-13 12:59:00+00:00 Marvin Bandoy	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+104	2020-08-24 16:26:19.190583+08	20	2019-01-22 13:47:00+00:00 Acel Baltazar	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+105	2020-08-24 16:26:38.898272+08	28	2018-09-22 16:15:00+00:00 Cristeta Ramirez, Erlinda Aguda, Rolando Aguda, Walfredo Aguda, Marissa Ricaforte, Carolina Ragardao, Arthuro Tec, Yolanda Atrera, Arvin Astrera, Loida Cas, Ernesto Blanca, A	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+106	2020-08-24 16:27:45.602039+08	73	2016-11-08 13:21:00+00:00 Emiliano Leonor, dela Guardia, Rombawa, Gonzales and Dimayuga Residences	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+107	2020-08-24 16:28:12.847471+08	67	2017-03-07 08:55:00+00:00 Ailyn Ambion, Randy Ambion, Edwin Guinto, Cynthia Kalaw, Nicomedez Desamero, Nelita Pamanano, Manolito Dalwampo, Aristeo Ambion Jr., Ronalyn Guevarra, Nenita Fernandez	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+108	2020-08-24 16:28:30.211394+08	11	2019-05-10 08:56:00+00:00 JericoM Larona & Loven Villanueva	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+109	2020-08-24 16:37:00.596339+08	62	2017-05-09 16:20:00+00:00 Adina Rivera Divera	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+110	2020-08-24 16:37:18.217337+08	45	2018-03-12 08:00:00+00:00 Edwin Mendoza Dichoso	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+111	2020-08-24 16:37:33.983537+08	70	2016-12-01 12:05:00+00:00 Family Federation for World Peace	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+112	2020-08-24 16:37:48.333125+08	71	2016-11-13 17:30:00+00:00 January Pearl Docot	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+113	2020-08-24 16:38:00.918511+08	8	2019-06-12 14:25:00+00:00 Roswell  delas Alas, Adelaida delas Alas, Virgilio Enriquez & Rosa  Reyes	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+114	2020-08-24 16:38:20.706565+08	7	2019-06-14 20:02:00+00:00 Bgry. Del Remedio Elem. Sch., San Pablo City	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+115	2020-08-24 16:38:41.844674+08	44	2018-03-23 13:25:00+00:00 Elsa Hapin, Marilyn Buesa	2	[]	10	1
+116	2020-08-24 16:38:56.044471+08	31	2018-08-15 13:00:00+00:00 Kenelyn M Maralit	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+117	2020-08-24 16:39:07.473089+08	74	2016-07-18 11:30:00+00:00 Nuñez, Lait, Roco, and Maglupay residence	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+118	2020-08-24 16:39:18.919383+08	63	2017-04-22 16:00:00+00:00 Rea Lou Artillaga	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+119	2020-08-24 16:39:34.737725+08	10	2019-06-06 14:47:00+00:00 Rhesa C Concepcion	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+120	2020-08-24 16:39:44.307723+08	46	2018-03-10 07:20:00+00:00 Alvin A Mendoza	2	[]	10	1
+121	2020-08-24 16:40:39.161379+08	66	2017-03-25 08:53:00+00:00 Lolita Valbuena	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+122	2020-08-24 16:40:55.245447+08	18	2019-02-01 21:45:00+00:00 Rosmelie Alvero	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+123	2020-08-24 16:41:07.926465+08	3	2019-11-05 11:30:00+00:00 Evelina Albay	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+124	2020-08-24 16:41:21.391998+08	6	2019-07-17 14:53:00+00:00 Malinao Masonic Foundation Inc.	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+125	2020-08-24 16:41:35.629655+08	33	2018-08-08 08:43:00+00:00 Danilo Baldovino, Cerelina Morales, Lorna Hilario	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+126	2020-08-24 16:41:48.512409+08	34	2018-08-01 10:39:00+00:00 Nilo Cortez	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+127	2020-08-24 16:41:59.811624+08	29	2018-08-28 13:36:00+00:00 Morena Bundalian	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+128	2020-08-24 16:42:13.1706+08	27	2018-10-17 09:46:00+00:00 Romnick Larita, Chairmaine Ignacio and Harlene Angeles	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+129	2020-08-24 16:42:24.011206+08	15	2019-02-20 22:10:00+00:00 Wilfredo Sandoval	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+130	2020-08-24 16:42:41.430553+08	37	2018-06-25 03:30:00+00:00 Mercy Aller, Rolly Chozas, Dolores Guardian, Babylyn Chozas, Fe Punzalan	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+131	2020-08-24 16:42:56.582908+08	80	2016-04-29 12:30:00+00:00 Rosana Caguite	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+132	2020-08-24 16:43:08.71651+08	77	2016-06-05 20:56:00+00:00 Alma Cabrera	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+133	2020-08-24 16:43:20.072636+08	19	2019-01-31 11:00:00+00:00 Angelito B Centeno	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+134	2020-08-24 16:43:32.092309+08	57	2017-08-13 18:10:00+00:00 Chairman Gamara	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+135	2020-08-24 16:43:49.519165+08	79	2016-05-08 15:00:00+00:00 Magical Ox Company	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+136	2020-08-24 16:44:05.382691+08	26	2018-11-05 19:42:00+00:00 Rizalina Villegas	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+137	2020-08-24 16:44:19.808542+08	56	2017-08-13 17:58:00+00:00 Ronald Allen Uy	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+138	2020-08-24 16:44:33.290676+08	38	2018-06-12 21:38:00+00:00 Teodora Alvero	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+139	2020-08-24 16:44:46.627563+08	1	2019-11-28 07:10:00+00:00 Tick Villa	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+140	2020-08-24 16:45:00.013685+08	13	2019-03-01 10:48:00+00:00 Emelito Hernandez	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+141	2020-08-24 16:45:17.142479+08	65	2017-04-11 19:08:00+00:00 Annalisa Paterson	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+142	2020-08-24 16:45:29.018621+08	76	2016-07-09 19:26:00+00:00 Lilia Deriquito	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+143	2020-08-24 16:45:40.437536+08	48	2017-11-27 08:00:00+00:00 Nicko Aningalan	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+144	2020-08-24 16:45:55.336612+08	75	2016-07-10 23:20:00+00:00 Nico Aningalan	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+145	2020-08-24 16:46:10.292837+08	23	2019-01-11 21:47:00+00:00 Diana M Ordonio	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+146	2020-08-24 16:46:22.523453+08	4	2019-10-02 07:00:00+00:00 Mercedez Mayo Galangga	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+147	2020-08-24 16:46:35.948571+08	64	2017-04-15 02:00:00+00:00 Nino Arrogancia	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+148	2020-08-24 16:46:49.479597+08	39	2018-05-30 03:30:00+00:00 Teresita H Ramos	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+149	2020-08-24 16:47:01.885846+08	25	2018-11-08 03:20:00+00:00 Kaysson B Belen	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+150	2020-08-24 16:47:12.407447+08	32	2018-08-13 16:00:00+00:00 Percival M Gutierrez	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+151	2020-08-24 16:47:24.331457+08	24	2018-11-22 20:26:00+00:00 Roberto Archeta	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+152	2020-08-24 16:47:38.954526+08	47	2017-12-10 09:55:00+00:00 Aleli Banayo	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+153	2020-08-24 16:48:12.31036+08	54	2017-08-24 21:20:00+00:00 Oscar Carlos	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+154	2020-08-24 16:48:27.740411+08	51	2017-10-04 08:20:00+00:00 San Miguel Elementary School	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+155	2020-08-24 16:48:38.032555+08	83	2016-01-31 19:15:00+00:00 Donard Deñado	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+156	2020-08-24 16:48:48.712389+08	82	2016-02-16 19:50:00+00:00 Mila Flores	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+157	2020-08-24 16:49:00.130621+08	72	2016-11-09 20:10:00+00:00 Zenaida Perez	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+158	2020-08-24 16:49:09.609136+08	12	2019-03-18 15:27:00+00:00 Crisanto Francia	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+159	2020-08-24 16:49:19.886057+08	35	2018-07-15 20:39:00+00:00 Expeditus Tiongson	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+160	2020-08-24 16:50:42.634614+08	89	2017-11-23 18:48:00+00:00 Romeo B Race	1	[{"added": {}}]	10	1
+161	2020-08-24 16:51:04.645692+08	14	2019-02-20 02:05:00+00:00 Ryan A Moit & Jose D Azuela	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+162	2020-08-24 16:51:17.236593+08	53	2017-09-12 18:40:00+00:00 Reneboy Hemor	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+163	2020-08-24 16:51:29.942223+08	69	2016-12-17 02:45:00+00:00 Mary Jane Alvero, Magdalena Villanueva, Orbel Biglete	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+164	2020-08-24 16:51:41.818263+08	30	2018-08-24 19:36:00+00:00 Arnold M Esquivias	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+165	2020-08-24 16:51:52.396378+08	41	2018-04-30 01:25:00+00:00 Fortunata Hernandez	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+166	2020-08-24 16:52:06.423267+08	78	2016-05-21 12:15:00+00:00 Ronald Badiola	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+167	2020-08-24 16:52:18.696374+08	21	2019-01-22 11:30:00+00:00 Cresencia Canayunan, Manny Canayunan, Marlon Cosico	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+168	2020-08-24 16:52:32.029549+08	55	2017-08-16 14:50:00+00:00 Edwin Ramirez	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+169	2020-08-24 16:52:45.828492+08	49	2017-10-21 20:53:00+00:00 Lilibeth Manalo	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+170	2020-08-24 16:52:55.827207+08	22	2019-01-20 08:30:00+00:00 Cristina T Malabanan	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+171	2020-08-24 16:53:06.823502+08	68	2017-03-06 12:45:00+00:00 Minor family	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+172	2020-08-24 16:53:16.021868+08	50	2017-10-10 12:11:00+00:00 Ricardo R Reyes	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+173	2020-08-24 16:53:25.361714+08	84	2016-01-17 09:10:00+00:00 Sumiran, Ilaw, dela Cruz, Capuno, Riafor and Perez residences	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+174	2020-08-24 16:53:40.694044+08	16	2019-02-05 16:52:00+00:00 Joy Paclar & Catherine Estrada	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+175	2020-08-24 16:53:55.494377+08	88	2019-04-13 22:05:00+00:00 Rica Valencia	2	[]	10	1
+176	2020-08-24 16:54:07.500518+08	36	2018-07-13 10:55:00+00:00 Edgardo Cipres	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+177	2020-08-24 16:54:23.601493+08	61	2017-05-13 12:50:00+00:00 Ervert Avanzado	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+178	2020-08-24 16:54:46.235609+08	81	2016-04-12 10:21:00+00:00 Angelito Sahagun	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+179	2020-08-24 16:54:59.867273+08	42	2018-04-21 19:15:00+00:00 Marcelita P Maglalang	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+180	2020-08-24 16:55:09.022847+08	17	2019-02-03 10:20:00+00:00 Mirando Gutierrez	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+181	2020-08-24 16:55:18.969624+08	40	2018-05-21 21:00:00+00:00 Monsignor Jerry Bitoon	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+182	2020-08-24 16:55:31.728446+08	52	2017-10-02 05:13:00+00:00 Nonilon Mendoza	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+183	2020-08-24 16:55:42.641628+08	43	2018-04-10 10:10:00+00:00 Ronaldo Laroza	2	[{"changed": {"fields": ["DateTime"]}}]	10	1
+184	2020-10-21 11:41:30.965247+08	1	admin	1	[{"added": {}}]	3	1
+185	2020-10-21 11:41:49.20575+08	2	data-entry	1	[{"added": {}}]	3	1
+186	2020-10-21 11:42:32.092242+08	1	super	2	[{"changed": {"fields": ["Username"]}}]	4	1
+187	2020-10-21 11:44:04.001646+08	2	admin	1	[{"added": {}}]	4	1
+188	2020-10-21 11:44:48.993591+08	2	admin	2	[{"changed": {"fields": ["Staff status", "Groups"]}}]	4	1
+189	2020-10-21 11:45:01.332081+08	3	data	1	[{"added": {}}]	4	1
+190	2020-10-21 11:45:13.399921+08	3	data	2	[{"changed": {"fields": ["Groups"]}}]	4	1
+191	2020-10-21 11:45:59.375956+08	3	data	2	[{"changed": {"fields": ["Staff status"]}}]	4	1
+192	2020-10-26 14:32:16.847043+08	1	admin	2	[{"changed": {"fields": ["Permissions"]}}]	3	1
+193	2020-10-26 14:34:07.438211+08	2	admin	2	[{"changed": {"fields": ["Groups"]}}]	4	1
+194	2020-10-26 14:34:47.148397+08	1	admin	2	[{"changed": {"fields": ["Permissions"]}}]	3	1
+195	2020-10-26 14:35:09.65008+08	1	admin	2	[{"changed": {"fields": ["Permissions"]}}]	3	1
+196	2020-10-26 18:20:02.748711+08	90	2020-10-01 22:05:00+00:00 Juan Dela Cruz	1	[{"added": {}}]	10	3
+197	2020-10-26 18:20:48.968168+08	90	2020-10-01 22:05:00+00:00 Juan Dela Cruz	2	[{"changed": {"fields": ["Approved"]}}]	10	2
 \.
 
 
@@ -1079,6 +1209,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 44	home	0027_auto_20200822_1913	2020-08-22 19:14:55.76108+08
 45	home	0028_auto_20200822_2001	2020-08-22 20:18:49.836296+08
 46	home	0029_remove_barangay_city	2020-08-22 22:01:58.709571+08
+47	home	0030_incident_approved	2020-10-21 11:53:33.577179+08
+48	home	0031_auto_20201021_1243	2020-10-21 12:44:04.766231+08
 \.
 
 
@@ -1089,6 +1221,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 55deqa4t6rfl7s10gko9j958rmhvytml	YzczMDYyNGIyN2NiN2ZiOWQ5NTlmYWFmNThiMDhhZDhjYjNjOGFmNTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIwZTAzMTc2MjFkYjVkOTk4MTgxNDA1ZmM0ODNlNmZiMWEzZGI2NjlkIn0=	2020-08-28 11:24:30.812992+08
 4edqimn2wi8mt92rz5lb5rtb0oj82cxf	YzczMDYyNGIyN2NiN2ZiOWQ5NTlmYWFmNThiMDhhZDhjYjNjOGFmNTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIwZTAzMTc2MjFkYjVkOTk4MTgxNDA1ZmM0ODNlNmZiMWEzZGI2NjlkIn0=	2020-08-28 23:33:27.082992+08
+3nsh086a91ihnf6ejjrgx0lc4eq5mppt	YzczMDYyNGIyN2NiN2ZiOWQ5NTlmYWFmNThiMDhhZDhjYjNjOGFmNTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIwZTAzMTc2MjFkYjVkOTk4MTgxNDA1ZmM0ODNlNmZiMWEzZGI2NjlkIn0=	2020-09-29 17:25:23.166589+08
+ntc8ra9i3o49mp7qluhb293aysbr8dho	MTQxZmIzNTc0NDdlMDlhYjdjZmU0NmQ4ZjM1YTgyMGRmYTM4NTU4MTp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkMDNhNWUyNmUyZGRhM2U2YzJiZmQ4OGIzN2Y2OTBlYmQ5MzM5ZTU1In0=	2020-11-27 17:32:52.197184+08
 \.
 
 
@@ -1184,92 +1318,94 @@ COPY public.home_barangay (id, "Name", geom) FROM stdin;
 -- Data for Name: home_incident; Type: TABLE DATA; Schema: public; Owner: bfpspc
 --
 
-COPY public.home_incident (id, "DateTime", "FireOutDateTime", "HouseNumber", "Street", "OccupancyType_id", "OwnerEstablishmentName", "AlarmLevel", "Injuries", "FatalitiesMale", "FatalitiesFemale", "EstimatedDamageCost", "FinalDamageCost", "Origin", "Cause", "Remarks", "Barangay_id", "FireArsonInvestigator_id", "Notes", "Location") FROM stdin;
-17	2019-02-03 10:20:00+08	\N	\N	Mabinii Ext	1	Mirando Gutierrez	1	0	0	0	7000	7000	at the living room	unattended lighted cigarette placed beside the foam mattress	closed	508	5		\N
-16	2019-02-05 16:52:00+08	\N	\N	Camia St	1	Joy Paclar & Catherine Estrada	1	0	0	0	10000	10000	at the bedroom	unattended plugged cellphone charger placed above the pillow	closed	560	5		\N
-15	2019-02-20 22:10:00+08	\N	\N	Maharlika Highway	6	Wilfredo Sandoval	3	1	0	0	5000000	5000000	\N		closed	521	2		\N
-14	2019-02-21 02:05:00+08	\N	\N	\N	5	Ryan A Moit & Jose D Azuela	1	0	0	0	170000	170000	at the engine bay	electrical short cicrcuit	closed	544	2		\N
-13	2019-03-01 10:48:00+08	\N	\N	Purok 9	1	Emelito Hernandez	1	0	0	0	7000	7000	at the bedroom	special child playing disposable lighter	closed	528	5		\N
-12	2019-03-18 15:27:00+08	\N	\N	\N	1	Crisanto Francia	1	0	0	0	30000	30000	inside the house	children playing lighted matches	closed	542	2		\N
-88	2019-04-14 06:05:00+08	\N	\N	\N	1	Rica Valencia	1	0	0	0	35000	35000	\N			560	\N		\N
-11	2019-05-10 08:56:00+08	\N	\N	Schetelig Ave.	1	JericoM Larona & Loven Villanueva	1	0	0	0	100000	100000	Air condition unit at the bedroom	electrical overload due to jumper connection	closed	495	1		\N
-10	2019-06-06 14:47:00+08	\N	\N	Patria Village	1	Rhesa C Concepcion	1	0	0	0	20000	20000	garage area	welding that came in contact with nipa palm	closed	518	2		\N
-9	2019-06-11 23:50:00+08	\N	\N	\N	1	Bella Dioso	1	0	0	0	500000	500000	bedroom at the 2nd floor	overheated electrical socket	closed	489	5		\N
-8	2019-06-12 14:25:00+08	\N	\N	Lakeview Subd	1	Roswell  delas Alas, Adelaida delas Alas, Virgilio Enriquez & Rosa  Reyes	2	0	0	0	300000	300000	at the 2nd floor	electrical short circuit	closed	517	2		\N
-7	2019-06-14 20:02:00+08	\N	Del Remedio Elementary School	\N	4	Bgry. Del Remedio Elem. Sch., San Pablo City	1	0	0	0	30000	30000	right side of the Gymnasium	improper disposal of cigarette bud	closed	518	2		\N
-6	2019-07-17 14:53:00+08	\N	\N	Zulueta St	3	Malinao Masonic Foundation Inc.	1	0	0	0	250000	250000	3rd floor stock room	Electrical short circuit (arching)	closed	501	5		\N
-4	2019-10-03 07:00:00+08	\N	\N	Purok 5	1	Mercedez Mayo Galangga	1	0	0	0	30000	30000	bedroom wall partition	ovderheated electricfan	closed	533	1		\N
-3	2019-11-05 11:30:00+08	\N	12	Schetelig Ave.	1	Evelina Albay	1	0	0	0	40000	40000	bedroom second floor	electrical overload	closed	497	1		\N
-2	2019-11-09 18:58:00+08	\N	\N	Garcia Street	1	Arsenia Amparo, Maria Juvy Salvan and Joveth Ramos	2	0	0	0	100000	100000	Amparo's residence	christmas light décor	closed	487	1		\N
-1	2019-11-29 07:10:00+08	\N	\N	Maharlika Highway	1	Tick Villa	1	0	0	0	10000	10000	bedroom	unattended lighted mosquito coil	closed	527	5		\N
-42	2018-04-21 19:15:00+08	\N	\N	L. Dizon St	9	Marcelita P Maglalang	1	0	0	0	9000	9000	kitchen area	unattended cooking	closed	506	6		\N
-41	2018-05-01 01:25:00+08	\N	\N	\N	1	Fortunata Hernandez	1	0	1	0	30000	30000	kitchen area	unattended cooking	closed	550	2		\N
-40	2018-05-21 21:00:00+08	\N	Chancery Bldg	M. Paulino St	8	Monsignor Jerry Bitoon	1	0	0	0	150000	150000	under investigation	under investigation	closed	513	6		\N
-39	2018-05-31 03:30:00+08	\N	\N	\N	1	Teresita H Ramos	1	0	0	0	30000	30000	bedroom area	electrical short circuit	closed	533	2		\N
-38	2018-06-12 21:38:00+08	\N	\N	Calabia St	1	Teodora Alvero	1	0	0	0	150000	150000	kitchen area	LPG leakage	closed	527	6		\N
-37	2018-06-26 03:30:00+08	\N	\N	\N	1	Mercy Aller, Rolly Chozas, Dolores Guardian, Babylyn Chozas, Fe Punzalan	1	0	0	0	80000	80000	mezzanine of Aller family	electrical short circuit	closed	525	2		\N
-36	2018-07-13 10:55:00+08	\N	\N	Purok 2	1	Edgardo Cipres	1	0	0	0	40000	40000	dining area	electrical short circuit	closed	561	2		\N
-35	2018-07-15 20:39:00+08	\N	\N	\N	5	Expeditus Tiongson	1	0	0	0	15000	15000	engine bay	electrical short circuit	closed	544	2		\N
-34	2018-08-01 10:39:00+08	\N	\N	\N	5	Nilo Cortez	1	0	0	0	2000	2000	\N	electrical short circuit	closed	502	7		\N
-33	2018-08-08 08:43:00+08	\N	\N	I. Barleta St	1	Danilo Baldovino, Cerelina Morales, Lorna Hilario	1	0	0	1	240000	240000	storage room	electrical short circuit	closed	502	2		\N
-32	2018-08-13 16:00:00+08	\N	\N	Purok 3	1	Percival M Gutierrez	1	0	0	0	200000	200000	at the bed room	electrical short circuit	closed	534	6		\N
-31	2018-08-15 13:00:00+08	\N	5075	Mariflor Subd	1	Kenelyn M Maralit	1	0	0	0	250000	250000	back ceiling portion of the house	electrical short circuit	closed	518	6		\N
-30	2018-08-24 19:36:00+08	\N	441	Purok 6	1	Arnold M Esquivias	1	0	0	0	29000	29000	second floor	electrical appliances	closed	550	2		\N
-29	2018-08-28 13:36:00+08	\N	\N	\N	1	Morena Bundalian	1	0	0	0	5000	5000	living room	electrical short circuit	closed	521	2		\N
-27	2018-10-17 09:46:00+08	\N	\N	\N	1	Romnick Larita, Chairmaine Ignacio and Harlene Angeles	1	0	0	0	20000	20000	second floor	electrical ignition caused by arching	closed	521	2		\N
-26	2018-11-05 19:42:00+08	\N	\N	Maharlika Highway	1	Rizalina Villegas	1	0	0	0	1000000	1000000	bedroom	electrcal ignition caused by loosed connection	closed	527	5		\N
-25	2018-11-09 03:20:00+08	\N	457	Purok 5	1	Kaysson B Belen	1	0	0	0	10000	10000	second floor	electrical ignition caused by arching	closed	534	2		\N
-24	2018-11-22 20:26:00+08	\N	\N	Carmelite Road	1	Roberto Archeta	1	0	0	0	1200000	1200000	guest room	electrical short circuit	closed	536	4		\N
-23	2019-01-11 21:47:00+08	\N	\N	\N	7	Diana M Ordonio	1	0	0	0	120000	120000	engine bay	electrical short circuit	closed	533	2		\N
-22	2019-01-20 08:30:00+08	\N	\N	\N	1	Cristina T Malabanan	1	0	0	0	1000	1000	kitchen area	LPG hose leakage	closed	559	3		\N
-21	2019-01-22 11:30:00+08	\N	\N	\N	1	Cresencia Canayunan, Manny Canayunan, Marlon Cosico	1	0	0	0	220000	220000	inside the rrom	overheated plugged cellphone charger	closed	552	5		\N
-20	2019-01-22 13:47:00+08	\N	\N	\N	1	Acel Baltazar	1	0	0	0	25000	25000	bedroom second floor	overheated malfunction ceiling fan	closed	490	5		\N
-19	2019-01-31 11:00:00+08	\N	\N	\N	1	Angelito B Centeno	1	0	0	0	14000	14000	inside the abandoned house	Unattended rubbish fire	closed	527	2		\N
-18	2019-02-01 21:45:00+08	\N	\N	Balagtas Blvd	1	Rosmelie Alvero	1	0	0	0	1400000	1400000	at the bdroom second floor	Electrical short circuit (arching)	closed	496	5		\N
-5	2019-07-19 09:57:00+08	\N	\N	\N	2	Paul Jane Fix & Gadgets; Agnes Malabanan, Jonathan delos Reyes, Margiere Liwag, Luis Go, Samson Belda and Christopher Abrigo Auto spare parts and car accessories; and Bernardo Ramos Ref and aircon repair shop	2	0	0	0	11000000	11000000	2nd stall Ceiling portion	Electrical short circuit (arching)	closed	484	5		\N
-84	2016-01-17 09:10:00+08	\N	\N	\N	1	Sumiran, Ilaw, dela Cruz, Capuno, Riafor and Perez residences	2	0	0	0	2000000	2000000	Service drop	electrical short cicuit	closed	561	9		0101000020E6100000448A01124D575E4016BD5301F7342C40
-83	2016-01-31 19:15:00+08	\N	\N	\N	1	Donard Deñado	1	0	0	0	9500	9500	bedroom area	electrical short cicuit	closed	541	2		\N
-82	2016-02-16 19:50:00+08	\N	\N	\N	9	Mila Flores	1	0	0	0	5000	5000	kitchen area	unattended lighted embers	closed	541	2		\N
-81	2016-04-12 10:21:00+08	\N	\N	\N	5	Angelito Sahagun	1	0	0	0	10000	10000	Engine bay	electrical short cicuit	closed	506	2		\N
-80	2016-04-29 12:30:00+08	\N	\N	\N	1	Rosana Caguite	1	0	0	0	10000	10000	right corner of the house	electrical short cicuit	closed	526	8		\N
-79	2016-05-08 15:00:00+08	\N	\N	\N	10	Magical Ox Company	3	0	0	0	5000	5000	Open ground waste materials	spontaneous ignition	closed	527	9		\N
-78	2016-05-21 12:15:00+08	\N	\N	\N	1	Ronald Badiola	1	0	0	0	10000	10000	kitchen area	unattended cooking	closed	551	8		\N
-77	2016-06-05 20:56:00+08	\N	\N	\N	1	Alma Cabrera	1	0	0	0	9500	9500	bedroom area	electrical short cicuit	closed	527	2		\N
-76	2016-07-09 19:26:00+08	\N	\N	\N	1	Lilia Deriquito	1	1	0	0	7500	7500	bedroom area	electrical short cicuit	closed	529	2		\N
-75	2016-07-10 23:20:00+08	\N	\N	\N	6	Nico Aningalan	1	0	0	0	5000	5000	copra dryer	unattended overheated copra dryer	closed	531	8		\N
-74	2016-07-18 11:30:00+08	\N	\N	\N	1	Nuñez, Lait, Roco, and Maglupay residence	1	0	0	0	310000	310000	bedroom of Nuñez residence	electrical short cicuit	closed	518	8		\N
-73	2016-11-08 13:21:00+08	\N	\N	\N	1	Emiliano Leonor, dela Guardia, Rombawa, Gonzales and Dimayuga Residences	2	1	0	0	200000	200000	ground floor of Leonor and dela Guardia residence	unattended embers	closed	491	9		\N
-72	2016-11-09 20:10:00+08	\N	\N	\N	1	Zenaida Perez	1	0	0	0	10000	10000	bedroom area	Toppled unattended lighted candle	closed	541	6		\N
-71	2016-11-13 17:30:00+08	\N	\N	\N	5	January Pearl Docot	1	0	0	0	85000	85000	engine block	gasoline leak ignited by theby the spark produced by short electrical wiring circuit from spark plug	closed	517	6		\N
-70	2016-12-01 12:05:00+08	\N	Sampaloc Lake Court	\N	1	Family Federation for World Peace	1	2	0	0	200000	200000	kitchen area	dislodged LPG hose from a lighted single stove burner	closed	517	6		\N
-69	2016-12-18 02:45:00+08	\N	\N	\N	1	Mary Jane Alvero, Magdalena Villanueva, Orbel Biglete	1	0	0	0	10000	10000	Alvero residence	unattended lighted candle	closed	549	6		\N
-68	2017-03-06 12:45:00+08	\N	\N	\N	1	Minor family	1	1	0	0	9500	9500	bedroom	electrical short circuit	closed	559	2		\N
-67	2017-03-07 08:55:00+08	\N	\N	M. Paulino St	1	Ailyn Ambion, Randy Ambion, Edwin Guinto, Cynthia Kalaw, Nicomedez Desamero, Nelita Pamanano, Manolito Dalwampo, Aristeo Ambion Jr., Ronalyn Guevarra, Nenita Fernandez	2	0	0	0	700000	700000	living room	overheated electricfan	closed	492	6		\N
-66	2017-03-25 08:53:00+08	\N	\N	\N	1	Lolita Valbuena	1	0	0	0	10000	10000	bedroom	lighted matches	closed	495	8		\N
-65	2017-04-11 19:08:00+08	\N	\N	\N	1	Annalisa Paterson	1	0	0	0	9000	9000	kitchen area	overheated electricfan	closed	529	2		\N
-64	2017-04-16 02:00:00+08	\N	\N	\N	1	Nino Arrogancia	2	0	0	0	25000	25000	dirty kitcher	unattended lighted ember	closed	533	2		\N
-63	2017-04-22 16:00:00+08	\N	\N	\N	9	Rea Lou Artillaga	1	0	0	0	5000	5000	griller	unattended lighted griller	closed	518	6		\N
-62	2017-05-09 16:20:00+08	\N	\N	\N	1	Adina Rivera Divera	1	0	0	0	25000	25000	bedroom second floor	electrical short circuit	closed	517	2		\N
-61	2017-05-13 12:50:00+08	\N	\N	\N	9	Ervert Avanzado	2	0	0	0	25000	25000	resting area	unattended mosquito coil	closed	561	2		\N
-60	2017-05-19 12:20:00+08	\N	\N	\N	1	Heidie Yanoc	1	0	0	0	25000	25000	kitchen area	LPG leakage	closed	484	2		\N
-59	2017-06-13 12:59:00+08	\N	\N	\N	1	Marvin Bandoy	1	0	0	0	10000	10000	second floor	overheated electricfan	closed	489	6		\N
-58	2017-07-05 13:00:00+08	\N	\N	\N	1	Emetrio Arambulo	3	0	0	0	1000000	1000000	garage area	electrical short circuit	closed	487	6		\N
-57	2017-08-13 18:10:00+08	\N	\N	\N	6	Chairman Gamara	1	0	0	0	0	0	copra dryer	overheated copra	closed	527	2		\N
-56	2017-08-13 17:58:00+08	\N	\N	\N	5	Ronald Allen Uy	1	0	0	0	50000	50000	carburetor	defective/overheated carburetor	closed	527	8		\N
-55	2017-08-16 14:50:00+08	\N	\N	\N	1	Edwin Ramirez	1	0	0	0	25000	25000	bedroom area	electrical short circuit	closed	554	6		\N
-54	2017-08-24 21:20:00+08	\N	\N	\N	1	Oscar Carlos	1	0	0	0	200000	200000	bedroom area	overheated electricfan	closed	537	6		\N
-53	2017-09-12 18:40:00+08	\N	\N	\N	5	Reneboy Hemor	1	0	0	0	10000	10000	under the gasoline tank	exposed wire that came in contact with metal frame	closed	546	4		\N
-52	2017-10-03 05:13:00+08	\N	\N	\N	9	Nonilon Mendoza	1	0	0	0	10000	10000	store area	electrical short circuit	closed	513	4		\N
-51	2017-10-04 08:20:00+08	\N	\N	\N	4	San Miguel Elementary School	1	0	0	0	10000	10000	classroom	electrical short circuit	closed	540	4		\N
-50	2017-10-10 12:11:00+08	\N	\N	\N	11	Ricardo R Reyes	1	0	0	0	2000	2000	kitchen area	LPG leakage	closed	559	4		\N
-49	2017-10-21 20:53:00+08	\N	\N	\N	1	Lilibeth Manalo	1	0	0	0	10000	10000	living room	unattended lighted candle	closed	557	8		\N
-48	2017-11-27 08:00:00+08	\N	\N	\N	6	Nicko Aningalan	1	0	0	0	9000	9000	copra kiln	overheated copra dryer	closed	531	4		\N
-47	2017-12-10 09:55:00+08	\N	\N	\N	1	Aleli Banayo	1	0	0	0	9000	9000	bedroom area	electrical overload	closed	537	6		\N
-46	2018-03-11 07:20:00+08	\N	\N	City Subd	1	Alvin A Mendoza	1	0	0	0	200000	200000	bedroom area	unattended plugged extension cord	closed	487	2		\N
-45	2018-03-12 08:00:00+08	\N	\N	\N	1	Edwin Mendoza Dichoso	1	0	0	0	150000	150000	storage room	electrical short circuit	closed	517	2		\N
-44	2018-03-23 21:25:00+08	\N	\N	\N	1	Elsa Hapin, Marilyn Buesa	1	0	0	0	100000	100000	bedroom area	electrical short circuit	closed	518	2		\N
-43	2018-04-10 10:10:00+08	\N	\N	Burgos St, Cor. M Basa St	5	Ronaldo Laroza	1	0	0	0	30000	30000	LPG tank installed at the proven stall near the motorcycle	LPG leakage	closed	513	2		\N
-28	2018-09-22 16:15:00+08	\N	\N	Unzon St	1	Cristeta Ramirez, Erlinda Aguda, Rolando Aguda, Walfredo Aguda, Marissa Ricaforte, Carolina Ragardao, Arthuro Tec, Yolanda Atrera, Arvin Astrera, Loida Cas, Ernesto Blanca, Anthony Salcedo and Remy Delamar	3	0	0	0	1000000	1000000	second floor	electrical short circuit	closed	490	6		\N
+COPY public.home_incident (id, "DateTime", "FireOutDateTime", "HouseNumber", "Street", "OccupancyType_id", "OwnerEstablishmentName", "AlarmLevel", "Injuries", "FatalitiesMale", "FatalitiesFemale", "EstimatedDamageCost", "FinalDamageCost", "Origin", "Cause", "Remarks", "Barangay_id", "FireArsonInvestigator_id", "Notes", "Location", "Approved") FROM stdin;
+24	2018-11-23 04:26:00+08	\N	\N	Carmelite Road	1	Roberto Archeta	1	0	0	0	1200000	1200000	guest room	electrical short circuit	closed	536	4		\N	t
+12	2019-03-18 23:27:00+08	\N	\N	\N	1	Crisanto Francia	1	0	0	0	30000	30000	inside the house	children playing lighted matches	closed	542	2		\N	t
+35	2018-07-16 04:39:00+08	\N	\N	\N	5	Expeditus Tiongson	1	0	0	0	15000	15000	engine bay	electrical short circuit	closed	544	2		\N	t
+14	2019-02-20 10:05:00+08	\N	\N	\N	5	Ryan A Moit & Jose D Azuela	1	0	0	0	170000	170000	at the engine bay	electrical short cicrcuit	closed	544	2		\N	t
+30	2018-08-25 03:36:00+08	\N	441	Purok 6	1	Arnold M Esquivias	1	0	0	0	29000	29000	second floor	electrical appliances	closed	550	2		\N	t
+41	2018-04-30 09:25:00+08	\N	\N	\N	1	Fortunata Hernandez	1	0	1	0	30000	30000	kitchen area	unattended cooking	closed	550	2		\N	t
+21	2019-01-22 19:30:00+08	\N	\N	\N	1	Cresencia Canayunan, Manny Canayunan, Marlon Cosico	1	0	0	0	220000	220000	inside the rrom	overheated plugged cellphone charger	closed	552	5		\N	t
+22	2019-01-20 16:30:00+08	\N	\N	\N	1	Cristina T Malabanan	1	0	0	0	1000	1000	kitchen area	LPG hose leakage	closed	559	3		\N	t
+16	2019-02-06 00:52:00+08	\N	\N	Camia St	1	Joy Paclar & Catherine Estrada	1	0	0	0	10000	10000	at the bedroom	unattended plugged cellphone charger placed above the pillow	closed	560	5		\N	t
+88	2019-04-14 06:05:00+08	\N	\N	\N	1	Rica Valencia	1	0	0	0	35000	35000	\N			560	\N		\N	t
+36	2018-07-13 18:55:00+08	\N	\N	Purok 2	1	Edgardo Cipres	1	0	0	0	40000	40000	dining area	electrical short circuit	closed	561	2		\N	t
+42	2018-04-22 03:15:00+08	\N	\N	L. Dizon St	9	Marcelita P Maglalang	1	0	0	0	9000	9000	kitchen area	unattended cooking	closed	506	6		\N	t
+17	2019-02-03 18:20:00+08	\N	\N	Mabinii Ext	1	Mirando Gutierrez	1	0	0	0	7000	7000	at the living room	unattended lighted cigarette placed beside the foam mattress	closed	508	5		\N	t
+40	2018-05-22 05:00:00+08	\N	Chancery Bldg	M. Paulino St	8	Monsignor Jerry Bitoon	1	0	0	0	150000	150000	under investigation	under investigation	closed	513	6		\N	t
+60	2017-05-19 20:20:00+08	\N	\N	\N	1	Heidie Yanoc	1	0	0	0	25000	25000	kitchen area	LPG leakage	closed	484	2		\N	t
+5	2019-07-19 17:57:00+08	\N	\N	\N	2	Paul Jane Fix & Gadgets; Agnes Malabanan, Jonathan delos Reyes, Margiere Liwag, Luis Go, Samson Belda and Christopher Abrigo Auto spare parts and car accessories; and Bernardo Ramos Ref and aircon repair shop	2	0	0	0	11000000	11000000	2nd stall Ceiling portion	Electrical short circuit (arching)	closed	484	5		\N	t
+9	2019-06-12 07:50:00+08	\N	\N	\N	1	Bella Dioso	1	0	0	0	500000	500000	bedroom at the 2nd floor	overheated electrical socket	closed	489	5		\N	t
+20	2019-01-22 21:47:00+08	\N	\N	\N	1	Acel Baltazar	1	0	0	0	25000	25000	bedroom second floor	overheated malfunction ceiling fan	closed	490	5		\N	t
+11	2019-05-10 16:56:00+08	\N	\N	Schetelig Ave.	1	JericoM Larona & Loven Villanueva	1	0	0	0	100000	100000	Air condition unit at the bedroom	electrical overload due to jumper connection	closed	495	1		\N	t
+8	2019-06-12 22:25:00+08	\N	\N	Lakeview Subd	1	Roswell  delas Alas, Adelaida delas Alas, Virgilio Enriquez & Rosa  Reyes	2	0	0	0	300000	300000	at the 2nd floor	electrical short circuit	closed	517	2		\N	t
+7	2019-06-15 04:02:00+08	\N	Del Remedio Elementary School	\N	4	Bgry. Del Remedio Elem. Sch., San Pablo City	1	0	0	0	30000	30000	right side of the Gymnasium	improper disposal of cigarette bud	closed	518	2		\N	t
+31	2018-08-15 21:00:00+08	\N	5075	Mariflor Subd	1	Kenelyn M Maralit	1	0	0	0	250000	250000	back ceiling portion of the house	electrical short circuit	closed	518	6		\N	t
+10	2019-06-06 22:47:00+08	\N	\N	Patria Village	1	Rhesa C Concepcion	1	0	0	0	20000	20000	garage area	welding that came in contact with nipa palm	closed	518	2		\N	t
+18	2019-02-02 05:45:00+08	\N	\N	Balagtas Blvd	1	Rosmelie Alvero	1	0	0	0	1400000	1400000	at the bdroom second floor	Electrical short circuit (arching)	closed	496	5		\N	t
+3	2019-11-05 19:30:00+08	\N	12	Schetelig Ave.	1	Evelina Albay	1	0	0	0	40000	40000	bedroom second floor	electrical overload	closed	497	1		\N	t
+6	2019-07-17 22:53:00+08	\N	\N	Zulueta St	3	Malinao Masonic Foundation Inc.	1	0	0	0	250000	250000	3rd floor stock room	Electrical short circuit (arching)	closed	501	5		\N	t
+33	2018-08-08 16:43:00+08	\N	\N	I. Barleta St	1	Danilo Baldovino, Cerelina Morales, Lorna Hilario	1	0	0	1	240000	240000	storage room	electrical short circuit	closed	502	2		\N	t
+34	2018-08-01 18:39:00+08	\N	\N	\N	5	Nilo Cortez	1	0	0	0	2000	2000	\N	electrical short circuit	closed	502	7		\N	t
+29	2018-08-28 21:36:00+08	\N	\N	\N	1	Morena Bundalian	1	0	0	0	5000	5000	living room	electrical short circuit	closed	521	2		\N	t
+27	2018-10-17 17:46:00+08	\N	\N	\N	1	Romnick Larita, Chairmaine Ignacio and Harlene Angeles	1	0	0	0	20000	20000	second floor	electrical ignition caused by arching	closed	521	2		\N	t
+15	2019-02-21 06:10:00+08	\N	\N	Maharlika Highway	6	Wilfredo Sandoval	3	1	0	0	5000000	5000000	\N		closed	521	2		\N	t
+37	2018-06-25 11:30:00+08	\N	\N	\N	1	Mercy Aller, Rolly Chozas, Dolores Guardian, Babylyn Chozas, Fe Punzalan	1	0	0	0	80000	80000	mezzanine of Aller family	electrical short circuit	closed	525	2		\N	t
+19	2019-01-31 19:00:00+08	\N	\N	\N	1	Angelito B Centeno	1	0	0	0	14000	14000	inside the abandoned house	Unattended rubbish fire	closed	527	2		\N	t
+26	2018-11-06 03:42:00+08	\N	\N	Maharlika Highway	1	Rizalina Villegas	1	0	0	0	1000000	1000000	bedroom	electrcal ignition caused by loosed connection	closed	527	5		\N	t
+38	2018-06-13 05:38:00+08	\N	\N	Calabia St	1	Teodora Alvero	1	0	0	0	150000	150000	kitchen area	LPG leakage	closed	527	6		\N	t
+1	2019-11-28 15:10:00+08	\N	\N	Maharlika Highway	1	Tick Villa	1	0	0	0	10000	10000	bedroom	unattended lighted mosquito coil	closed	527	5		\N	t
+13	2019-03-01 18:48:00+08	\N	\N	Purok 9	1	Emelito Hernandez	1	0	0	0	7000	7000	at the bedroom	special child playing disposable lighter	closed	528	5		\N	t
+23	2019-01-12 05:47:00+08	\N	\N	\N	7	Diana M Ordonio	1	0	0	0	120000	120000	engine bay	electrical short circuit	closed	533	2		\N	t
+4	2019-10-02 15:00:00+08	\N	\N	Purok 5	1	Mercedez Mayo Galangga	1	0	0	0	30000	30000	bedroom wall partition	ovderheated electricfan	closed	533	1		\N	t
+39	2018-05-30 11:30:00+08	\N	\N	\N	1	Teresita H Ramos	1	0	0	0	30000	30000	bedroom area	electrical short circuit	closed	533	2		\N	t
+25	2018-11-08 11:20:00+08	\N	457	Purok 5	1	Kaysson B Belen	1	0	0	0	10000	10000	second floor	electrical ignition caused by arching	closed	534	2		\N	t
+32	2018-08-14 00:00:00+08	\N	\N	Purok 3	1	Percival M Gutierrez	1	0	0	0	200000	200000	at the bed room	electrical short circuit	closed	534	6		\N	t
+47	2017-12-10 17:55:00+08	\N	\N	\N	1	Aleli Banayo	1	0	0	0	9000	9000	bedroom area	electrical overload	closed	537	6		\N	t
+58	2017-07-05 21:00:00+08	\N	\N	\N	1	Emetrio Arambulo	3	0	0	0	1000000	1000000	garage area	electrical short circuit	closed	487	6		\N	t
+59	2017-06-13 20:59:00+08	\N	\N	\N	1	Marvin Bandoy	1	0	0	0	10000	10000	second floor	overheated electricfan	closed	489	6		\N	t
+28	2018-09-23 00:15:00+08	\N	\N	Unzon St	1	Cristeta Ramirez, Erlinda Aguda, Rolando Aguda, Walfredo Aguda, Marissa Ricaforte, Carolina Ragardao, Arthuro Tec, Yolanda Atrera, Arvin Astrera, Loida Cas, Ernesto Blanca, Anthony Salcedo and Remy Delamar	3	0	0	0	1000000	1000000	second floor	electrical short circuit	closed	490	6		\N	t
+73	2016-11-08 21:21:00+08	\N	\N	\N	1	Emiliano Leonor, dela Guardia, Rombawa, Gonzales and Dimayuga Residences	2	1	0	0	200000	200000	ground floor of Leonor and dela Guardia residence	unattended embers	closed	491	9		\N	t
+67	2017-03-07 16:55:00+08	\N	\N	M. Paulino St	1	Ailyn Ambion, Randy Ambion, Edwin Guinto, Cynthia Kalaw, Nicomedez Desamero, Nelita Pamanano, Manolito Dalwampo, Aristeo Ambion Jr., Ronalyn Guevarra, Nenita Fernandez	2	0	0	0	700000	700000	living room	overheated electricfan	closed	492	6		\N	t
+62	2017-05-10 00:20:00+08	\N	\N	\N	1	Adina Rivera Divera	1	0	0	0	25000	25000	bedroom second floor	electrical short circuit	closed	517	2		\N	t
+45	2018-03-12 16:00:00+08	\N	\N	\N	1	Edwin Mendoza Dichoso	1	0	0	0	150000	150000	storage room	electrical short circuit	closed	517	2		\N	t
+70	2016-12-01 20:05:00+08	\N	Sampaloc Lake Court	\N	1	Family Federation for World Peace	1	2	0	0	200000	200000	kitchen area	dislodged LPG hose from a lighted single stove burner	closed	517	6		\N	t
+71	2016-11-14 01:30:00+08	\N	\N	\N	5	January Pearl Docot	1	0	0	0	85000	85000	engine block	gasoline leak ignited by theby the spark produced by short electrical wiring circuit from spark plug	closed	517	6		\N	t
+44	2018-03-23 21:25:00+08	\N	\N	\N	1	Elsa Hapin, Marilyn Buesa	1	0	0	0	100000	100000	bedroom area	electrical short circuit	closed	518	2		\N	t
+74	2016-07-18 19:30:00+08	\N	\N	\N	1	Nuñez, Lait, Roco, and Maglupay residence	1	0	0	0	310000	310000	bedroom of Nuñez residence	electrical short cicuit	closed	518	8		\N	t
+63	2017-04-23 00:00:00+08	\N	\N	\N	9	Rea Lou Artillaga	1	0	0	0	5000	5000	griller	unattended lighted griller	closed	518	6		\N	t
+46	2018-03-10 15:20:00+08	\N	\N	City Subd	1	Alvin A Mendoza	1	0	0	0	200000	200000	bedroom area	unattended plugged extension cord	closed	487	2		\N	t
+66	2017-03-25 16:53:00+08	\N	\N	\N	1	Lolita Valbuena	1	0	0	0	10000	10000	bedroom	lighted matches	closed	495	8		\N	t
+80	2016-04-29 20:30:00+08	\N	\N	\N	1	Rosana Caguite	1	0	0	0	10000	10000	right corner of the house	electrical short cicuit	closed	526	8		\N	t
+77	2016-06-06 04:56:00+08	\N	\N	\N	1	Alma Cabrera	1	0	0	0	9500	9500	bedroom area	electrical short cicuit	closed	527	2		\N	t
+57	2017-08-14 02:10:00+08	\N	\N	\N	6	Chairman Gamara	1	0	0	0	0	0	copra dryer	overheated copra	closed	527	2		\N	t
+79	2016-05-08 23:00:00+08	\N	\N	\N	10	Magical Ox Company	3	0	0	0	5000	5000	Open ground waste materials	spontaneous ignition	closed	527	9		\N	t
+56	2017-08-14 01:58:00+08	\N	\N	\N	5	Ronald Allen Uy	1	0	0	0	50000	50000	carburetor	defective/overheated carburetor	closed	527	8		\N	t
+65	2017-04-12 03:08:00+08	\N	\N	\N	1	Annalisa Paterson	1	0	0	0	9000	9000	kitchen area	overheated electricfan	closed	529	2		\N	t
+76	2016-07-10 03:26:00+08	\N	\N	\N	1	Lilia Deriquito	1	1	0	0	7500	7500	bedroom area	electrical short cicuit	closed	529	2		\N	t
+48	2017-11-27 16:00:00+08	\N	\N	\N	6	Nicko Aningalan	1	0	0	0	9000	9000	copra kiln	overheated copra dryer	closed	531	4		\N	t
+75	2016-07-11 07:20:00+08	\N	\N	\N	6	Nico Aningalan	1	0	0	0	5000	5000	copra dryer	unattended overheated copra dryer	closed	531	8		\N	t
+64	2017-04-15 10:00:00+08	\N	\N	\N	1	Nino Arrogancia	2	0	0	0	25000	25000	dirty kitcher	unattended lighted ember	closed	533	2		\N	t
+54	2017-08-25 05:20:00+08	\N	\N	\N	1	Oscar Carlos	1	0	0	0	200000	200000	bedroom area	overheated electricfan	closed	537	6		\N	t
+51	2017-10-04 16:20:00+08	\N	\N	\N	4	San Miguel Elementary School	1	0	0	0	10000	10000	classroom	electrical short circuit	closed	540	4		\N	t
+83	2016-02-01 03:15:00+08	\N	\N	\N	1	Donard Deñado	1	0	0	0	9500	9500	bedroom area	electrical short cicuit	closed	541	2		\N	t
+82	2016-02-17 03:50:00+08	\N	\N	\N	9	Mila Flores	1	0	0	0	5000	5000	kitchen area	unattended lighted embers	closed	541	2		\N	t
+72	2016-11-10 04:10:00+08	\N	\N	\N	1	Zenaida Perez	1	0	0	0	10000	10000	bedroom area	Toppled unattended lighted candle	closed	541	6		\N	t
+89	2017-11-24 02:48:00+08	\N	\N	\N	10	Romeo B Race	3	0	0	0	55000000	55000000	file room, 2nd floor	Investigation was turned over to the Regional Office and National Head Quarters	under investigation	544	\N	Investigation was turned over to the Regional Office and National Head Quarters	\N	t
+53	2017-09-13 02:40:00+08	\N	\N	\N	5	Reneboy Hemor	1	0	0	0	10000	10000	under the gasoline tank	exposed wire that came in contact with metal frame	closed	546	4		\N	t
+69	2016-12-17 10:45:00+08	\N	\N	\N	1	Mary Jane Alvero, Magdalena Villanueva, Orbel Biglete	1	0	0	0	10000	10000	Alvero residence	unattended lighted candle	closed	549	6		\N	t
+78	2016-05-21 20:15:00+08	\N	\N	\N	1	Ronald Badiola	1	0	0	0	10000	10000	kitchen area	unattended cooking	closed	551	8		\N	t
+55	2017-08-16 22:50:00+08	\N	\N	\N	1	Edwin Ramirez	1	0	0	0	25000	25000	bedroom area	electrical short circuit	closed	554	6		\N	t
+49	2017-10-22 04:53:00+08	\N	\N	\N	1	Lilibeth Manalo	1	0	0	0	10000	10000	living room	unattended lighted candle	closed	557	8		\N	t
+68	2017-03-06 20:45:00+08	\N	\N	\N	1	Minor family	1	1	0	0	9500	9500	bedroom	electrical short circuit	closed	559	2		\N	t
+50	2017-10-10 20:11:00+08	\N	\N	\N	11	Ricardo R Reyes	1	0	0	0	2000	2000	kitchen area	LPG leakage	closed	559	4		\N	t
+84	2016-01-17 17:10:00+08	\N	\N	\N	1	Sumiran, Ilaw, dela Cruz, Capuno, Riafor and Perez residences	2	0	0	0	2000000	2000000	Service drop	electrical short cicuit	closed	561	9		0101000020E6100000448A01124D575E4016BD5301F7342C40	t
+61	2017-05-13 20:50:00+08	\N	\N	\N	9	Ervert Avanzado	2	0	0	0	25000	25000	resting area	unattended mosquito coil	closed	561	2		\N	t
+81	2016-04-12 18:21:00+08	\N	\N	\N	5	Angelito Sahagun	1	0	0	0	10000	10000	Engine bay	electrical short cicuit	closed	506	2		\N	t
+52	2017-10-02 13:13:00+08	\N	\N	\N	9	Nonilon Mendoza	1	0	0	0	10000	10000	store area	electrical short circuit	closed	513	4		\N	t
+43	2018-04-10 18:10:00+08	\N	\N	Burgos St, Cor. M Basa St	5	Ronaldo Laroza	1	0	0	0	30000	30000	LPG tank installed at the proven stall near the motorcycle	LPG leakage	closed	513	2		\N	t
+2	2019-11-10 02:58:00+08	\N	\N	Garcia Street	1	Arsenia Amparo, Maria Juvy Salvan and Joveth Ramos	2	0	0	0	100000	100000	Amparo's residence	christmas light décor	closed	487	1		\N	t
+90	2020-10-02 06:05:00+08	2020-10-02 07:59:00+08	9132	Everlasting St	1	Juan Dela Cruz	1	0	0	0	10000	10000	Bedroom	Electrical short circuit in the kitchen	under investigation	533	6		0101000020E6100000CAFCA36FD2555E4046CF2D7425222C40	t
 \.
 
 
@@ -1353,14 +1489,14 @@ COPY topology.layer (topology_id, layer_id, schema_name, table_name, feature_col
 -- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
 --
 
-SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+SELECT pg_catalog.setval('public.auth_group_id_seq', 2, true);
 
 
 --
 -- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
 --
 
-SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 23, true);
 
 
 --
@@ -1374,14 +1510,14 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 52, true);
 -- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
 --
 
-SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 3, true);
 
 
 --
 -- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
 --
 
-SELECT pg_catalog.setval('public.auth_user_id_seq', 1, true);
+SELECT pg_catalog.setval('public.auth_user_id_seq', 3, true);
 
 
 --
@@ -1395,7 +1531,7 @@ SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 96, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 197, true);
 
 
 --
@@ -1409,7 +1545,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 13, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 46, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 48, true);
 
 
 --
@@ -1423,7 +1559,7 @@ SELECT pg_catalog.setval('public.home_barangay_id_seq', 681, true);
 -- Name: home_incident_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bfpspc
 --
 
-SELECT pg_catalog.setval('public.home_incident_id_seq', 88, true);
+SELECT pg_catalog.setval('public.home_incident_id_seq', 90, true);
 
 
 --
