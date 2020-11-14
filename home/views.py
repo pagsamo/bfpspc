@@ -58,7 +58,7 @@ def homepage(request):
 
 def analytics(request):
     barangays = Barangay.objects.all()
-    incidents = Incident.objects.all()
+    incidents = Incident.objects.all().filter(Approved=True)
     earliest = incidents.earliest('DateTime')
     latest = incidents.latest('DateTime')
     perHour = {}
@@ -102,7 +102,7 @@ def analytics(request):
 
 
 def incident_datasets(request):
-    incidents = serialize('geojson', Incident.objects.all())
+    incidents = serialize('geojson', Incident.objects.all().filter(Approved=True))
     return HttpResponse(incidents, content_type="json")
 
 
