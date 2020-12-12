@@ -28,6 +28,9 @@ class Barangay(models.Model):
     def __str__(self):
         return self.Name
 
+    class Meta:
+        ordering = ('Name',)
+
 
 class InvestigatorRank(models.Model):
     Code = models.CharField(max_length=100, unique=True)
@@ -102,6 +105,7 @@ class Incident(models.Model):
     
     class Meta:
         unique_together = (('DateTime', 'OwnerEstablishmentName'),)
+        ordering = ('Barangay',)
 
 
 

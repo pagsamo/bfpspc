@@ -30,7 +30,7 @@ class IncidentAdmin(LeafletGeoAdmin):
     # exclude = ('TotalFatalities','Approved',)
     search_fields = ('Barangay__Name', 'OwnerEstablishmentName',)
     filter = ('Barangay',)
-    list_filter = ('Approved',)
+    list_filter = ('Approved','Barangay',)
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         is_data = True if request.user.groups.all()[0].name == 'data-entry' else False
