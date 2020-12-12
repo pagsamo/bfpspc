@@ -5,6 +5,53 @@ from django.http import HttpResponse
 from .models import Incident, Barangay
 
 
+def test2(request):
+    checked = ("DateTime", "Origin",)
+    incidents = Incident.objects.all()
+    incident_parse = []
+    for i in incidents:
+        incl = {}
+        for c in checked:
+            incl[c] = getattr(i,c)
+        incident_parse.append(incl)
+    return render(request, "testingdictionary.html", {
+        "incidents": incident_parse,
+    })
+
+
+def test(request):
+
+    if request.method == "POST":
+        # csrfmiddlewaretokendateFromdateTo
+        checked = []
+        for ck in request.POST:
+            if ck != "csrfmiddlewaretoken" and ck != "dateFrom" and ck != "dateTo":
+                checked.append(ck)
+
+        dateFrom = request.POST.get("dateFrom")
+        dateTo = request.POST.get("dateTo")
+        incidents = Incident.objects.filter(DateTime__range=[dateFrom, dateTo])
+        incident_parse = []
+        for i in incidents:
+            incl = {}
+            for c in checked:
+                incl[c] = getattr(i, c)
+            incident_parse.append(incl)
+
+        # return HttpResponse(checked_test)
+
+        return render(request, 'reports.html', {
+            "incidents": incident_parse,
+            "checked": checked
+        })
+
+
+
+
+def report_builder(request):
+    return render(request, 'report_builder.html')
+
+
 def week(i):
     switcher = {
         1: 'Sunday',
@@ -116,3 +163,7 @@ def barangay_incident_count(request):
         )
     )
     return HttpResponse(geojsonformat, content_type="json")
+
+
+def reports(request):
+    return render(request, 'reports.html')

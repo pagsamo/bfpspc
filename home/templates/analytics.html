@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+  </nav>
     <div class="row">
         <div class="recordsDate">
             <p>Records from: {{ earliest.DateTime }} to {{ latest.DateTime }}</p>

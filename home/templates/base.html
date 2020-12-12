@@ -24,15 +24,14 @@
         <a href="{% url 'homepage' %}" class="list-group-item list-group-item-action bg-light">Map</a>
         <a href="{% url 'analytics' %}" class="list-group-item list-group-item-action bg-light">Analytics</a>
         <a href="{% url 'admin:index' %}" class="list-group-item list-group-item-action bg-light">Data</a>
+        <a href="{% url 'report_builder' %}" class="list-group-item list-group-item-action bg-light">Reports</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-      </nav>
+     
       <div class="container-fluid">
 
       {% block content %}

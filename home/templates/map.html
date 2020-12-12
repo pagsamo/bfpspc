@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load leaflet_tags %}
 {% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+  </nav>
     {% leaflet_map "mapid" callback="our_marker" %}
 {% endblock content %}
 {% block scripts %}

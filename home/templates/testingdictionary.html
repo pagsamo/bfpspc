@@ -1,0 +1,9 @@
+[
+{% for i in incidents %}
+    {
+    {% for key, value in i.items %}
+        {{ key }}:"{{ value }}",
+    {% endfor %}
+    },
+{% endfor %}
+]
