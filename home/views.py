@@ -19,8 +19,7 @@ def test2(request):
     })
 
 
-def test(request):
-
+def report(request):
     if request.method == "POST":
         # csrfmiddlewaretokendateFromdateTo
         checked = []

@@ -8,7 +8,7 @@
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
-                <form action="{% url "test" %}" method="post">
+                <form action="{% url "report" %}" method="post">
                     {% csrf_token %}
                     From <input type="date" name="dateFrom" required>
                     To <input type="date" name="dateTo" required>
