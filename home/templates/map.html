@@ -27,7 +27,7 @@
                     return L.marker(latlng, {icon: fireMarker});
                 },
                 onEachFeature: function (feature, layer) {
-                    layer.bindPopup(feature.properties.DateTime.toString());
+                    layer.bindPopup("<p>Date Time:"+feature.properties.DateTime.toString()+"<br>Owner/Establishment: "+feature.properties.OwnerEstablishmentName+"</p>");
                 }
             });
 

@@ -24,7 +24,7 @@ def report(request):
         # csrfmiddlewaretokendateFromdateTo
         checked = []
         for ck in request.POST:
-            if ck != "csrfmiddlewaretoken" and ck != "dateFrom" and ck != "dateTo":
+            if ck != "csrfmiddlewaretoken" and ck != "dateFrom" and ck !=  "dateTo" and ck != "barangay":
                 checked.append(ck)
 
         dateFrom = request.POST.get("dateFrom")
@@ -41,14 +41,17 @@ def report(request):
 
         return render(request, 'reports.html', {
             "incidents": incident_parse,
-            "checked": checked
+            "checked": checked,
         })
 
 
 
 
 def report_builder(request):
-    return render(request, 'report_builder.html')
+    barangays = Barangay.objects.all()
+    return render(request, 'report_builder.html', {
+        "barangays":barangays,
+    })
 
 
 def week(i):

@@ -8,10 +8,10 @@
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
-                <form action="{% url "report" %}" method="post">
+                <form action="{% url "report" %}" method="post" id="form_builder">
                     {% csrf_token %}
-                    From <input type="date" name="dateFrom" required>
-                    To <input type="date" name="dateTo" required>
+                    From <input id="dateFrom" type="date" name="dateFrom" required>
+                    To <input id="dateTo" type="date" name="dateTo" required>
                     <p>Please select all the fields you want to show on your report.</p>
                     date: <input type="checkbox" name="DateTime">
                     housenumber: <input type="checkbox" name="HouseNumber">
@@ -27,8 +27,12 @@
                     origin: <input type="checkbox" name="Origin">
                     cause: <input type="checkbox" name="Cause">
                     investigator: <input type="checkbox" name="FireArsonInvestigator">
+                    barangay: <select name="barangay" id="barangay">
+                    {% for b in barangays %}
+                        <option value="{{ b.Name }}">{{ b.Name }}</option>
+                    {% endfor %}
+                    </select>
                     <input type="submit" value="submit">
-
                 </form>
             </div>
             <div class="col-md-3">
@@ -38,5 +42,33 @@
 {% endblock content %}
 {% block scripts %}
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+    //validate date entry - date from cannot be greater than date to
+        $(document).ready(function(){
+        $('#form_builder').on('submit', function(e) {
+            e.preventDefault();
+            //Validate form and submit
+            var dateFrom = $('#dateFrom').val();
+            var dateTo = $('#dateTo').val();
+            var form_elems = document.getElementById('form_builder').elements;
+               var count_checked = 0;
+               for(var i=0; i < form_elems.length; i++){
+                   if(form_elems[i].checked){
+                       count_checked += 1;
+                   }
+               }
+            if(dateFrom >= dateTo){
+                alert("Date To should be greater than Date From");
+            }
+            else if(count_checked == 0){
+                alert("At least one field should be checked.")
+            }else{
+                this.submit();
+            }
+        
+        });
+        //document ready
+        });
+    </script>
 {% endblock scripts %}
 
