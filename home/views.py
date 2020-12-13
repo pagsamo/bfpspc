@@ -86,7 +86,6 @@ def month(i):
 
 
 class CustomSerializer(Serializer):
-
     def end_object(self, obj):
         for field in self.selected_fields:
             if field == self.geometry_field or field == 'pk':
@@ -107,9 +106,18 @@ def homepage(request):
 
 def analytics(request):
     barangays = Barangay.objects.all()
-    incidents = Incident.objects.all().filter(Approved=True)
-    earliest = incidents.earliest('DateTime')
-    latest = incidents.latest('DateTime')
+    if request.method == "POST":
+        dateFrom = request.POST.get('dateFrom')
+        dateTo = request.POST.get('dateTo')
+        # earliest = incidents.earliest('DateTime')
+        # latest = incidents.latest('DateTime')
+        incidents = Incident.objects.filter(DateTime__range=[dateFrom, dateTo])
+        earliest = incidents.earliest('DateTime')
+        latest = incidents.latest('DateTime')
+    else:
+        incidents = Incident.objects.all().filter(Approved=True)
+        earliest = incidents.earliest('DateTime')
+        latest = incidents.latest('DateTime')
     perHour = {}
     for x in range(0, 24):
         perHour.update({x: incidents.filter(DateTime__hour=x).count()})
@@ -140,8 +148,8 @@ def analytics(request):
                   {
                       'barangays': barangays,
                       'incidents': incidents,
-                      'earliest': earliest,
-                      'latest': latest,
+                    #   'earliest': earliest,
+                    #   'latest': latest,
                       'perHour': perHour,
                       'perDay': perDay,
                       'perYear': perYear,

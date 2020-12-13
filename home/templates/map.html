@@ -4,6 +4,13 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
   </nav>
+  <div class="container">
+      <div class="row">
+          <div class="col-3-md"></div>
+          <col-6-md></col-6-md>
+          <div class="col-3-md"></div>
+      </div>
+  </div>
     {% leaflet_map "mapid" callback="our_marker" %}
 {% endblock content %}
 {% block scripts %}
@@ -29,7 +36,7 @@
                 onEachFeature: function (feature, layer) {
                     layer.bindPopup("<p>Date Time:"+feature.properties.DateTime.toString()+"<br>Owner/Establishment: "+feature.properties.OwnerEstablishmentName+"</p>");
                 }
-            });
+            });    
 
             incidentInstance.addTo(map);
             incidentCount.addTo(map);
