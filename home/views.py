@@ -6,17 +6,15 @@ from .models import Incident, Barangay
 
 
 def test2(request):
-    checked = ("DateTime", "Origin",)
     incidents = Incident.objects.all()
-    incident_parse = []
-    for i in incidents:
-        incl = {}
-        for c in checked:
-            incl[c] = getattr(i,c)
-        incident_parse.append(incl)
-    return render(request, "testingdictionary.html", {
-        "incidents": incident_parse,
-    })
+    barangays = Barangay.objects.all()
+    earliest = '2019-12-12'
+    latest = '2020-12-12'
+    perBarangay = {}
+    for b in barangays:
+       perBarangay.update({b.Name: b.incident_set.filter(DateTime__range=[earliest, latest]).count()})
+    return render(request, "test.html", {"perBarangay":perBarangay})
+    
 
 
 def report(request):
@@ -109,15 +107,21 @@ def analytics(request):
     if request.method == "POST":
         dateFrom = request.POST.get('dateFrom')
         dateTo = request.POST.get('dateTo')
-        # earliest = incidents.earliest('DateTime')
-        # latest = incidents.latest('DateTime')
         incidents = Incident.objects.filter(DateTime__range=[dateFrom, dateTo])
         earliest = incidents.earliest('DateTime')
         latest = incidents.latest('DateTime')
+        perBarangay = {}
+        for b in barangays:
+            perBarangay.update({b.Name: b.incident_set.filter(DateTime__range=[dateFrom, dateTo]).count()})
     else:
         incidents = Incident.objects.all().filter(Approved=True)
         earliest = incidents.earliest('DateTime')
         latest = incidents.latest('DateTime')
+        perBarangay = {}
+        for b in barangays:
+            perBarangay.update({b.Name: b.incident_set.filter(DateTime__range=[earliest.DateTime, latest.DateTime]).count()})
+
+
     perHour = {}
     for x in range(0, 24):
         perHour.update({x: incidents.filter(DateTime__hour=x).count()})
@@ -148,13 +152,12 @@ def analytics(request):
                   {
                       'barangays': barangays,
                       'incidents': incidents,
-                    #   'earliest': earliest,
-                    #   'latest': latest,
                       'perHour': perHour,
                       'perDay': perDay,
                       'perYear': perYear,
                       'perMonth': perMonth,
-                      'overTime': overTime
+                      'overTime': overTime,
+                      'perBarangay': perBarangay,
                   })
 
 

@@ -7,10 +7,10 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-        <form action="{% url 'analytics' %}" method="post">
+        <form action="{% url 'analytics' %}" method="post" id="date_range">
             {% csrf_token %}
-            dateFrom: <input type="date" name="dateFrom" id="dateFrom">
-            dateTo: <input type="date" name="dateTo" id="dateTo">
+            From: <input type="date" name="dateFrom" id="dateFrom">
+            To: <input type="date" name="dateTo" id="dateTo">
             <input type="submit" name="submit" value="submit">
         </form>
         </div>
@@ -72,17 +72,17 @@
             const perBarangayChart = new Chart(perBarangay, {
                 type: 'horizontalBar',
                 data: {
-                    labels: [{% for b in barangays %}
-                        {% if b.IncidentCount %}
-                            '{{ b.Name  }}',
+                    labels: [{% for key, value in perBarangay.items %}
+                        {% if value > 0 %}
+                            '{{ key }}',
                         {% endif %}
                     {% endfor %}
                     ],
                     datasets: [{
                         label: 'Number of Fire Incidents Per Barangay',
-                        data: [{% for b in barangays %}
-                            {% if b.IncidentCount %}
-                                '{{ b.IncidentCount  }}',
+                        data: [{% for key, value in perBarangay.items %}
+                            {% if value > 0 %}
+                                '{{ value  }}',
                             {% endif %}
                         {% endfor %}
                         ],
@@ -343,5 +343,24 @@
                 }
             });
         })//document ready
+    </script>
+    <script>
+    //validate date entry - date from cannot be greater than date to
+        $(document).ready(function(){
+        $('#date_range').on('submit', function(e) {
+            e.preventDefault();
+            //Validate form and submit
+            var dateFrom = $('#dateFrom').val();
+            var dateTo = $('#dateTo').val();
+            if(dateFrom >= dateTo){
+                alert("Date To should be greater than Date From");
+            }
+            else{
+                this.submit();
+            }
+        
+        });
+        //document ready
+        });
     </script>
 {% endblock %}

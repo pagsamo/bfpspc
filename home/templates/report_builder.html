@@ -8,32 +8,54 @@
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
-                <form action="{% url "report" %}" method="post" id="form_builder">
+            <div style="border:1px solid #ccc; padding:2% 2% 2% 5%; border-radius:20px;">
+            <form action="{% url "report" %}" method="post" id="form_builder">
                     {% csrf_token %}
-                    From <input id="dateFrom" type="date" name="dateFrom" required>
-                    To <input id="dateTo" type="date" name="dateTo" required>
-                    <p>Please select all the fields you want to show on your report.</p>
-                    date: <input type="checkbox" name="DateTime">
-                    housenumber: <input type="checkbox" name="HouseNumber">
-                    street: <input type="checkbox" name="Street">
-                    barangay: <input type="checkbox" name="Barangay">
-                    type of occupancy: <input type="checkbox" name="OccupancyType">
-                    owner: <input type="checkbox" name="OwnerEstablishmentName">
-                    alarmlevel: <input type="checkbox" name="AlarmLevel">
-                    injuries: <input type="checkbox" name="Injuries">
-                    fatalitiesm: <input type="checkbox" name="FatalitiesMale">
-                    fatalitiesf: <input type="checkbox" name="FatalitiesFemale">
-                    damage cost: <input type="checkbox" name="FinalDamageCost">
-                    origin: <input type="checkbox" name="Origin">
-                    cause: <input type="checkbox" name="Cause">
-                    investigator: <input type="checkbox" name="FireArsonInvestigator">
-                    barangay: <select name="barangay" id="barangay">
+                    <div class="row qsection" style="margin-top:20px">
+                    From: <input id="dateFrom" type="date" name="dateFrom" required>
+                    To: <input id="dateTo" type="date" name="dateTo" required>
+                    </div>
+                    {% comment %} <div class="row qsection" style="margin-top:20px">
+                    Barangay: 
+                    <select name="barangay" id="barangay">
+                    <option value="" selected>-</option>
                     {% for b in barangays %}
                         <option value="{{ b.Name }}">{{ b.Name }}</option>
                     {% endfor %}
-                    </select>
-                    <input type="submit" value="submit">
+                      </select>
+                    </div> {% endcomment %}
+                    <div class="row qsection" style="margin-top:20px">
+                    <p>Please select all the fields you want to show on your report.</p>
+                    </div>
+                     
+                    <div class="row qsection" style="margin-top:20px">
+                        <div class="col-md-3"><input type="checkbox" name="DateTime"> : Date</div>
+                        <div class="col-md-3"><input type="checkbox" name="HouseNumber"> : House Number</div>
+                        <div class="col-md-3"><input type="checkbox" name="Street">  : Street</div>
+                        <div class="col-md-3"><input type="checkbox" name="Barangay"> :  Barangay</div>
+                    </div>
+                    <div class="row" style="margin-top:20px">
+                        <div class="col-md-3"><input type="checkbox" name="OccupancyType"> : Type of Occupancy</div>
+                        <div class="col-md-3"><input type="checkbox" name="OwnerEstablishmentName"> : Owner / Establishment</div>
+                        <div class="col-md-3"><input type="checkbox" name="AlarmLevel"> : Alarm Level</div>
+                        <div class="col-md-3"><input type="checkbox" name="Injuries"> : Injuries</div>
+                    </div>
+                    <div class="row" style="margin-top:20px">
+                        <div class="col-md-3"><input type="checkbox" name="FatalitiesMale"> : Male Fatalities</div>
+                        <div class="col-md-3"><input type="checkbox" name="FatalitiesFemale"> : Female Fatalities</div>
+                        <div class="col-md-3"><input type="checkbox" name="FinalDamageCost"> : Damage Cost</div>
+                        <div class="col-md-3"><input type="checkbox" name="Origin"> : Origin</div>
+                    </div>
+                    <div class="row" style="margin-top:20px">
+                        <div class="col-md-3"><input type="checkbox" name="Cause"> : Cause</div>
+                        <div class="col-md-3"><input type="checkbox" name="FireArsonInvestigator"> : Investigator </div>
+                    </div>
+                    <div class="row" style="margin-top:20px; margin-bottom:20px; text-align: center;">
+                     <input type="submit" value="Submit" class="btn btn-success btn-lg">
+                    </div>
+                    
                 </form>
+            </div> 
             </div>
             <div class="col-md-3">
             </div>
