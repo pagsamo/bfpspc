@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'dbbackup',
     'leaflet',
     'home',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [

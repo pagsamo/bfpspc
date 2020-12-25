@@ -10,6 +10,7 @@ class NameForm(forms.Form):
 class IncidentForm(ModelForm):
     class Meta:
         model = Incident
-        fields = ['DateTime', 'Barangay','Location', 'HouseNumber', 'Street','OwnerName','EstablishmentName']
-        widgets = {'Location': LeafletWidget()}
+        fields = ['DateCalled', 'Barangay','Location', 'HouseNumber', 'Street','OwnerName','EstablishmentName']
+        widgets = {
+            'Location': LeafletWidget(), }
     

@@ -58,7 +58,8 @@ class Investigator(models.Model):
 
 
 class Incident(models.Model):
-    DateTime = models.DateTimeField()
+    DateCalled = models.DateField(blank=True, null=True)
+    TimeCalled = models.TimeField(blank=True, null=True)
     HouseNumber = models.CharField(max_length=255,blank=True, null=True)
     Street = models.CharField(max_length=255,blank=True, null=True)
     Barangay = models.ForeignKey(Barangay, on_delete=models.SET_NULL, null=True, blank=True)
@@ -92,14 +93,14 @@ class Incident(models.Model):
 
     def __str__(self):
         delimeter = ' '
-        FullName = [self.DateTime, self.OwnerName]
+        FullName = [self.DateCalled, self.OwnerName]
         FullNameMap = map(lambda i:i.__str__(), FullName)
         FullNameList = list(FullNameMap)
         return delimeter.join(FullNameList)
     
     class Meta:
-        unique_together = (('DateTime', 'OwnerName',),)
-        ordering = ('-DateTime','Barangay',)
+        unique_together = (('DateCalled', 'OwnerName',),)
+        ordering = ('-DateCalled','Barangay',)
 
 
 

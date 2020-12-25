@@ -40,7 +40,7 @@
                     return L.marker(latlng, {icon: fireMarker});
                 },
                 onEachFeature: function (feature, layer) {
-                    layer.bindPopup("<p>Date Time:"+feature.properties.DateTime.toString()+"<br>Owner/Establishment: "+feature.properties.OwnerName+"</p>");
+                    layer.bindPopup("<p>Date Time:"+feature.properties.DateCalled.toString()+"<br>Owner/Establishment: "+feature.properties.OwnerName+"</p>");
                 }
             });    
 

@@ -32,8 +32,8 @@
             <thead>
                 <tr>
                     <th class="text-center">
-                    <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'datetime-asc' %}?order=datetime-desc{% else %}?order=datetime-asc{% endif %}{% else %}?order=datetime-asc{% endif %}">
-                    Date and Time
+                    <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'date-asc' %}?order=date-desc{% else %}?order=date-asc{% endif %}{% else %}?order=date-asc{% endif %}">
+                    Date
                     </a>
                     </th>
                     <th class="text-center">
@@ -56,7 +56,7 @@
         {% for i in incidents %}
         <tr>
             <td>
-                {{ i.DateTime|date:"Y-m-d H:i" }}
+                {{ i.DateCalled|date:"Y-m-d" }}
             </td>
             <td>{% if i.OwnerName != None %}{{ i.OwnerName }}{% endif %}</td>
             <td>

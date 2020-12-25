@@ -21,7 +21,7 @@ class InvestigatorAdmin(LeafletGeoAdmin):
 
 @admin.register(Incident)
 class IncidentAdmin(LeafletGeoAdmin):
-    list_display = ('DateTime','OwnerName','Barangay',)
+    list_display = ('DateCalled','OwnerName','Barangay',)
     # exclude = ('TotalFatalities','Approved',)
     search_fields = ('Barangay__Name', 'OwnerName',)
     filter = ('Barangay',)

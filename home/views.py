@@ -7,6 +7,7 @@ from .models import Incident, Barangay
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
 from .forms import NameForm, IncidentForm
+from bootstrap_datepicker_plus import DateTimePickerInput
 
 
 def test2(request):
@@ -16,7 +17,7 @@ def test2(request):
     latest = '2020-12-12'
     perBarangay = {}
     for b in barangays:
-       perBarangay.update({b.Name: b.incident_set.filter(DateTime__range=[earliest, latest]).count()})
+       perBarangay.update({b.Name: b.incident_set.filter(DateCalled__range=[earliest, latest]).count()})
     return render(request, "test.html", {"perBarangay":perBarangay})
 
 
@@ -43,7 +44,7 @@ def report(request):
 
         dateFrom = request.POST.get("dateFrom")
         dateTo = request.POST.get("dateTo")
-        incidents = Incident.objects.filter(DateTime__range=[dateFrom, dateTo])
+        incidents = Incident.objects.filter(DateCalled__range=[dateFrom, dateTo])
         incident_parse = []
         for i in incidents:
             incl = {}
@@ -64,10 +65,10 @@ def report_builder(request):
     barangay = Barangay.objects.all()
     if request.GET.get('order'):
         ord = request.GET.get('order')
-        if(ord=="datetime-asc"):
-            incidents = incidents.order_by('DateTime')
-        elif(ord=="datetime-desc"):
-            incidents = incidents.order_by('-DateTime')
+        if(ord=="date-asc"):
+            incidents = incidents.order_by('DateCalled')
+        elif(ord=="date-desc"):
+            incidents = incidents.order_by('-DateCalled')
         elif(ord=="barangay-asc"):
             incidents = incidents.order_by('Barangay')
         elif(ord=="barangay-desc"):
@@ -81,7 +82,7 @@ def report_builder(request):
         incidents = incidents.filter(Barangay=q_brgy)
         dateFrom = request.GET.get('dateFrom')
         dateTo = request.GET.get('dateTo')
-        incidents = incidents.filter(DateTime__range=[dateFrom, dateTo])
+        incidents = incidents.filter(DateCalled__range=[dateFrom, dateTo])
 
     if request.GET.get('barangay'):
         q_brgy = request.GET.get('barangay')
@@ -90,7 +91,7 @@ def report_builder(request):
     if (request.GET.get('dateFrom') and request.GET.get('dateTo')):
         dateFrom = request.GET.get('dateFrom')
         dateTo = request.GET.get('dateTo')
-        incidents = incidents.filter(DateTime__range=[dateFrom, dateTo])
+        incidents = incidents.filter(DateCalled__range=[dateFrom, dateTo])
 
     paginator = Paginator(incidents, 20)
     page = request.GET.get('page')
@@ -157,47 +158,47 @@ def analytics(request):
     if request.method == "POST":
         dateFrom = request.POST.get('dateFrom')
         dateTo = request.POST.get('dateTo')
-        incidents = Incident.objects.filter(DateTime__range=[dateFrom, dateTo])
-        earliest = incidents.earliest('DateTime')
-        latest = incidents.latest('DateTime')
+        incidents = Incident.objects.filter(DateCalled__range=[dateFrom, dateTo])
+        earliest = incidents.earliest('DateCalled')
+        latest = incidents.latest('DateCalled')
         perBarangay = {}
         for b in barangays:
-            perBarangay.update({b.Name: b.incident_set.filter(DateTime__range=[dateFrom, dateTo]).count()})
+            perBarangay.update({b.Name: b.incident_set.filter(DateCalled__range=[dateFrom, dateTo]).count()})
     else:
         incidents = Incident.objects.all().filter(Approved=True)
-        earliest = incidents.earliest('DateTime')
-        latest = incidents.latest('DateTime')
+        earliest = incidents.earliest('DateCalled')
+        latest = incidents.latest('DateCalled')
         perBarangay = {}
         for b in barangays:
-            perBarangay.update({b.Name: b.incident_set.filter(DateTime__range=[earliest.DateTime, latest.DateTime]).count()})
+            perBarangay.update({b.Name: b.incident_set.filter(DateCalled__range=[earliest.DateCalled, latest.DateCalled]).count()})
 
 
     perHour = {}
     for x in range(0, 24):
-        perHour.update({x: incidents.filter(DateTime__hour=x).count()})
+        perHour.update({x: incidents.filter(TimeCalled__hour=x).count()})
     perDay = {}
     for y in range(1, 8):
-        perDay.update({week(y): incidents.filter(DateTime__week_day=y).count()})
+        perDay.update({week(y): incidents.filter(DateCalled__week_day=y).count()})
     perYear = {}
-    for z in range(earliest.DateTime.year, (latest.DateTime.year + 1)):
-        perYear.update({z: incidents.filter(DateTime__year=z).count()})
+    for z in range(earliest.DateCalled.year, (latest.DateCalled.year + 1)):
+        perYear.update({z: incidents.filter(DateCalled__year=z).count()})
     perMonth = {}
     for w in range(1, 13):
-        perMonth.update({month(w): incidents.filter(DateTime__month=w).count()})
+        perMonth.update({month(w): incidents.filter(DateCalled__month=w).count()})
     overTime = {}
-    for x in range(earliest.DateTime.year, (latest.DateTime.year + 1)):
-        if x == earliest.DateTime.year:
-            for y in range(earliest.DateTime.month, 13):
+    for x in range(earliest.DateCalled.year, (latest.DateCalled.year + 1)):
+        if x == earliest.DateCalled.year:
+            for y in range(earliest.DateCalled.month, 13):
                 overTime.update(
-                    {"%s %s" % (month(y), x): incidents.filter(DateTime__year=x, DateTime__month=y).count()})
-        elif x == latest.DateTime.year:
-            for y in range(1, (latest.DateTime.month + 1)):
+                    {"%s %s" % (month(y), x): incidents.filter(DateCalled__year=x, DateCalled__month=y).count()})
+        elif x == latest.DateCalled.year:
+            for y in range(1, (latest.DateCalled.month + 1)):
                 overTime.update(
-                    {"%s %s" % (month(y), x): incidents.filter(DateTime__year=x, DateTime__month=y).count()})
+                    {"%s %s" % (month(y), x): incidents.filter(DateCalled__year=x, DateCalled__month=y).count()})
         else:
             for y in range(1, 13):
                 overTime.update(
-                    {"%s %s" % (month(y), x): incidents.filter(DateTime__year=x, DateTime__month=y).count()})
+                    {"%s %s" % (month(y), x): incidents.filter(DateCalled__year=x, DateCalled__month=y).count()})
     return render(request, 'analytics.html',
                   {
                       'barangays': barangays,
