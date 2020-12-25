@@ -56,22 +56,16 @@ class Investigator(models.Model):
     class Meta:
         unique_together = (('FirstName', 'LastName'),)
 
-class OccupancyType(models.Model):
-    Description = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.Description
-
 
 class Incident(models.Model):
     DateTime = models.DateTimeField()
-    FireOutDateTime = models.DateTimeField(null=True, blank=True)
     HouseNumber = models.CharField(max_length=255,blank=True, null=True)
     Street = models.CharField(max_length=255,blank=True, null=True)
     Barangay = models.ForeignKey(Barangay, on_delete=models.SET_NULL, null=True, blank=True)
     Location = models.PointField(blank=True, null=True)
-    OccupancyType = models.ForeignKey(OccupancyType, on_delete=models.SET_NULL, null=True)
-    OwnerEstablishmentName = models.CharField(max_length=255)
+    OwnerName = models.CharField(max_length=255, blank=True, null=True)
+    EstablishmentName = models.CharField(max_length=255, blank=True, null=True)
+    OccupancyType = models.CharField(max_length=255,blank=True, null=True)
     ALARM_LEVEL_CHOICES = [
         ('1','1'),
         ('2', '2'),
@@ -98,14 +92,14 @@ class Incident(models.Model):
 
     def __str__(self):
         delimeter = ' '
-        FullName = [self.DateTime, self.OwnerEstablishmentName]
+        FullName = [self.DateTime, self.OwnerName]
         FullNameMap = map(lambda i:i.__str__(), FullName)
         FullNameList = list(FullNameMap)
         return delimeter.join(FullNameList)
     
     class Meta:
-        unique_together = (('DateTime', 'OwnerEstablishmentName'),)
-        ordering = ('Barangay',)
+        unique_together = (('DateTime', 'OwnerName',),)
+        ordering = ('-DateTime','Barangay',)
 
 
 

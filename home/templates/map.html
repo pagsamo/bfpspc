@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load leaflet_tags %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/leaflet.extra-markers.min.css' %}">
+{% endblock style %}
 {% block content %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
@@ -14,6 +18,8 @@
     {% leaflet_map "mapid" callback="our_marker" %}
 {% endblock content %}
 {% block scripts %}
+<script src="{% static 'js/leaflet.ajax.js' %}"></script>
+<script src="{% static 'js/leaflet.extra-markers.js' %}"></script>
     <script>
         function our_marker(map, options) {
             const incidentCount = new L.GeoJSON.AJAX("{% url 'barangay_incident_count' %}", {
@@ -34,7 +40,7 @@
                     return L.marker(latlng, {icon: fireMarker});
                 },
                 onEachFeature: function (feature, layer) {
-                    layer.bindPopup("<p>Date Time:"+feature.properties.DateTime.toString()+"<br>Owner/Establishment: "+feature.properties.OwnerEstablishmentName+"</p>");
+                    layer.bindPopup("<p>Date Time:"+feature.properties.DateTime.toString()+"<br>Owner/Establishment: "+feature.properties.OwnerName+"</p>");
                 }
             });    
 

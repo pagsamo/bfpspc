@@ -1,96 +1,97 @@
 {% extends 'base.html' %}
 {% block styles %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 {% endblock styles %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-            </div>
-            <div class="col-md-6">
-            <div style="border:1px solid #ccc; padding:2% 2% 2% 5%; border-radius:20px;">
-            <form action="{% url "report" %}" method="post" id="form_builder">
-                    {% csrf_token %}
-                    <div class="row qsection" style="margin-top:20px">
-                    From: <input id="dateFrom" type="date" name="dateFrom" required>
-                    To: <input id="dateTo" type="date" name="dateTo" required>
-                    </div>
-                    {% comment %} <div class="row qsection" style="margin-top:20px">
-                    Barangay: 
-                    <select name="barangay" id="barangay">
-                    <option value="" selected>-</option>
-                    {% for b in barangays %}
-                        <option value="{{ b.Name }}">{{ b.Name }}</option>
-                    {% endfor %}
-                      </select>
-                    </div> {% endcomment %}
-                    <div class="row qsection" style="margin-top:20px">
-                    <p>Please select all the fields you want to show on your report.</p>
-                    </div>
-                     
-                    <div class="row qsection" style="margin-top:20px">
-                        <div class="col-md-3"><input type="checkbox" name="DateTime"> : Date</div>
-                        <div class="col-md-3"><input type="checkbox" name="HouseNumber"> : House Number</div>
-                        <div class="col-md-3"><input type="checkbox" name="Street">  : Street</div>
-                        <div class="col-md-3"><input type="checkbox" name="Barangay"> :  Barangay</div>
-                    </div>
-                    <div class="row" style="margin-top:20px">
-                        <div class="col-md-3"><input type="checkbox" name="OccupancyType"> : Type of Occupancy</div>
-                        <div class="col-md-3"><input type="checkbox" name="OwnerEstablishmentName"> : Owner / Establishment</div>
-                        <div class="col-md-3"><input type="checkbox" name="AlarmLevel"> : Alarm Level</div>
-                        <div class="col-md-3"><input type="checkbox" name="Injuries"> : Injuries</div>
-                    </div>
-                    <div class="row" style="margin-top:20px">
-                        <div class="col-md-3"><input type="checkbox" name="FatalitiesMale"> : Male Fatalities</div>
-                        <div class="col-md-3"><input type="checkbox" name="FatalitiesFemale"> : Female Fatalities</div>
-                        <div class="col-md-3"><input type="checkbox" name="FinalDamageCost"> : Damage Cost</div>
-                        <div class="col-md-3"><input type="checkbox" name="Origin"> : Origin</div>
-                    </div>
-                    <div class="row" style="margin-top:20px">
-                        <div class="col-md-3"><input type="checkbox" name="Cause"> : Cause</div>
-                        <div class="col-md-3"><input type="checkbox" name="FireArsonInvestigator"> : Investigator </div>
-                    </div>
-                    <div class="row" style="margin-top:20px; margin-bottom:20px; text-align: center;">
-                     <input type="submit" value="Submit" class="btn btn-success btn-lg">
-                    </div>
-                    
-                </form>
-            </div> 
-            </div>
-            <div class="col-md-3">
-            </div>
-        </div>
+
+{% comment %}
+1. filter incident list -> date, barangay
+2. search incident -> by owner
+3. add incident
+4. incident list -> pagination
+5. reports list -> monthly report, annual report
+{% endcomment %}
+<div class="container">
+<div class="row">
+<a href="{% url 'new_incident' %}">Add Incident</a>
+</div>
+<div class="row">
+<form action="{% url 'report_builder' %}" method="get">
+    From:<input type="date" name="dateFrom" value="{% if 'dateFrom' in request.GET %}{{ request.GET.dateFrom }}{% endif %}">
+    To:<input type="date" name="dateTo" value="{% if 'dateTo' in request.GET %}{{ request.GET.dateTo }}{% endif %}">
+    <select name="barangay" id="">
+        <option value="">-</option>
+        {% for b in barangay %}
+            <option value="{{ b.id }}" {% if 'barangay' in request.GET %}{% if request.GET.barangay == b.id|slugify %} selected{% endif %}{% endif %}>{{ b.Name }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Submit">
+</form>
+</div>
+    <div class="row">
+        <table class="table table-bordered text-center table-hover table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                    <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'datetime-asc' %}?order=datetime-desc{% else %}?order=datetime-asc{% endif %}{% else %}?order=datetime-asc{% endif %}">
+                    Date and Time
+                    </a>
+                    </th>
+                    <th class="text-center">
+                    <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'owner-asc' %}?order=owner-desc{% else %}?order=owner-asc{% endif %}{% else %}?order=owner-asc{% endif %}">
+                    Owner
+                    </a>
+                    </th>
+                    <th class="text-center">
+                    <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'barangay-asc' %}?order=barangay-desc{% else %}?order=barangay-asc{% endif %}{% else %}?order=barangay-asc{% endif %}">
+                    Barangay
+                    </a>
+                    </th>
+                    <th class="text-center">
+                    Actions
+                    </th>
+                </tr>
+            </thead>
     </div>
+    <tbody class="">
+        {% for i in incidents %}
+        <tr>
+            <td>
+                {{ i.DateTime|date:"Y-m-d H:i" }}
+            </td>
+            <td>{% if i.OwnerName != None %}{{ i.OwnerName }}{% endif %}</td>
+            <td>
+                {{ i.Barangay }}
+            </td>
+            <td>
+                <a href="#">Create/Print Report</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    {%	include	"pagination.html"	with	page=incidents	%}
+</div>
+<div class="row">
+<h3>Monthly Report</h3>
+<form action="">
+Month<select name="mreportm" id="">
+    <option value="">-</option>
+</select>
+<select name="mreporty" id="">
+Year<option value="">-</option>
+</select>
+<input type="submit" value="Generate Monthly Report">
+</form>
+<h3>Annual Report</h3>
+<form action="">
+<select name="yreporty">
+<option value="">-</option>
+</select>
+<input type="submit" value="Generate Annual Report">
+</form>
+</div>
+</div>
+
 {% endblock content %}
 {% block scripts %}
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-    //validate date entry - date from cannot be greater than date to
-        $(document).ready(function(){
-        $('#form_builder').on('submit', function(e) {
-            e.preventDefault();
-            //Validate form and submit
-            var dateFrom = $('#dateFrom').val();
-            var dateTo = $('#dateTo').val();
-            var form_elems = document.getElementById('form_builder').elements;
-               var count_checked = 0;
-               for(var i=0; i < form_elems.length; i++){
-                   if(form_elems[i].checked){
-                       count_checked += 1;
-                   }
-               }
-            if(dateFrom >= dateTo){
-                alert("Date To should be greater than Date From");
-            }
-            else if(count_checked == 0){
-                alert("At least one field should be checked.")
-            }else{
-                this.submit();
-            }
-        
-        });
-        //document ready
-        });
-    </script>
 {% endblock scripts %}
-

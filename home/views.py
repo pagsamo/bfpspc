@@ -1,8 +1,12 @@
+from django.core import paginator
 from django.shortcuts import render
 from django.core.serializers import serialize
 from django.contrib.gis.serializers.geojson import Serializer
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Incident, Barangay
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import PageNotAnInteger, Paginator
+from .forms import NameForm, IncidentForm
 
 
 def test2(request):
@@ -14,9 +18,21 @@ def test2(request):
     for b in barangays:
        perBarangay.update({b.Name: b.incident_set.filter(DateTime__range=[earliest, latest]).count()})
     return render(request, "test.html", {"perBarangay":perBarangay})
-    
 
 
+def new_incident(request):
+    form = IncidentForm()
+    if request.method == "POST":
+        form = IncidentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = IncidentForm()
+    return render(request, 'new_incident.html',{'form':form})
+
+
+@login_required(login_url='/accounts/login')
 def report(request):
     if request.method == "POST":
         # csrfmiddlewaretokendateFromdateTo
@@ -42,15 +58,47 @@ def report(request):
             "checked": checked,
         })
 
-
-
-
+@login_required(login_url='/accounts/login')
 def report_builder(request):
-    barangays = Barangay.objects.all()
-    return render(request, 'report_builder.html', {
-        "barangays":barangays,
-    })
+    incidents = Incident.objects.all()
+    barangay = Barangay.objects.all()
+    if request.GET.get('order'):
+        ord = request.GET.get('order')
+        if(ord=="datetime-asc"):
+            incidents = incidents.order_by('DateTime')
+        elif(ord=="datetime-desc"):
+            incidents = incidents.order_by('-DateTime')
+        elif(ord=="barangay-asc"):
+            incidents = incidents.order_by('Barangay')
+        elif(ord=="barangay-desc"):
+            incidents = incidents.order_by('-Barangay')
+        elif(ord=='owner-asc'):
+            incidents = incidents.order_by('OwnerName')
+        elif(ord=='owner-desc'):
+            incidents = incidents.order_by('-OwnerName')
+    if(request.GET.get('barangay') and request.GET.get('dateFrom') and request.GET.get('dateTo')):
+        q_brgy = request.GET.get('barangay')
+        incidents = incidents.filter(Barangay=q_brgy)
+        dateFrom = request.GET.get('dateFrom')
+        dateTo = request.GET.get('dateTo')
+        incidents = incidents.filter(DateTime__range=[dateFrom, dateTo])
 
+    if request.GET.get('barangay'):
+        q_brgy = request.GET.get('barangay')
+        incidents = incidents.filter(Barangay=q_brgy)
+
+    if (request.GET.get('dateFrom') and request.GET.get('dateTo')):
+        dateFrom = request.GET.get('dateFrom')
+        dateTo = request.GET.get('dateTo')
+        incidents = incidents.filter(DateTime__range=[dateFrom, dateTo])
+
+    paginator = Paginator(incidents, 20)
+    page = request.GET.get('page')
+    try:
+        incidents = paginator.page(page)
+    except PageNotAnInteger:
+        incidents = paginator.page(1)
+    return render(request, 'report_builder.html',{"incidents": incidents,'page':page,"barangay":barangay,})
 
 def week(i):
     switcher = {
@@ -98,10 +146,12 @@ class CustomSerializer(Serializer):
         super(CustomSerializer, self).end_object(obj)
 
 
+@login_required(login_url='/accounts/login')
 def homepage(request):
     return render(request, 'map.html')
 
 
+@login_required(login_url='/accounts/login')
 def analytics(request):
     barangays = Barangay.objects.all()
     if request.method == "POST":
@@ -177,6 +227,6 @@ def barangay_incident_count(request):
     )
     return HttpResponse(geojsonformat, content_type="json")
 
-
+@login_required(login_url='/accounts/login')
 def reports(request):
     return render(request, 'reports.html')

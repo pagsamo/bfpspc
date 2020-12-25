@@ -160,6 +160,15 @@ LEAFLET_CONFIG = {
     'ATTRIBUTION_PREFIX': 'Developed by Kateamko',
 }
 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+TIME_INPUT_FORMATS = [
+    '%H:%M',        # '14:30'
+]
+
+
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 if os.name == 'nt':
     DBBACKUP_STORAGE_OPTIONS = {'location': os.path.abspath(os.path.join(os.path.dirname('c:/src/bfpspc/backups/test.txt')))}
