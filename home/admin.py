@@ -1,6 +1,6 @@
 from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
-from .models import Barangay, InvestigatorRank, Investigator, Incident
+from .models import Barangay, Rank, Personnel, Incident
 from django.contrib.auth.models import User
 
 
@@ -10,18 +10,18 @@ from django.contrib.auth.models import User
 #     list_display = ('Name',)
 #     search_fields = ('Name',)
 
-@admin.register(InvestigatorRank)
+@admin.register(Rank)
 class InvestigatorRankAdmin(LeafletGeoAdmin):
     list_display = ('Code', 'Definition',)
     
-@admin.register(Investigator)
+@admin.register(Personnel)
 class InvestigatorAdmin(LeafletGeoAdmin):
     list_display = ('Rank', 'LastName', 'FirstName',)
     search_fields = ('Name',)
 
 @admin.register(Incident)
 class IncidentAdmin(LeafletGeoAdmin):
-    list_display = ('DateCalled','OwnerName','Barangay',)
+    list_display = ('DateAlarmReceived','OwnerName','Barangay',)
     # exclude = ('TotalFatalities','Approved',)
     search_fields = ('Barangay__Name', 'OwnerName',)
     filter = ('Barangay',)

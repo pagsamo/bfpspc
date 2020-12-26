@@ -7,10 +7,13 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
+        {% if prompt %}<div class="alert alert-warning text-center" role="alert">
+            {{prompt}}
+        </div>{% endif %}
         <form action="{% url 'analytics' %}" method="post" id="date_range">
             {% csrf_token %}
-            From: <input type="date" name="dateFrom" id="dateFrom" required>
-            To: <input type="date" name="dateTo" id="dateTo" required>
+            <label for="dateFrom">From: </label><input class='datepicker' type="date" name="dateFrom" id="dateFrom" required value="{% if 'dateFrom' in request.POST %}{{ request.POST.dateTo }}{% endif %}">
+            <label for="dateTo">To: </label><input class='datepicker' type="date" name="dateTo" id="dateTo" required value="{% if 'dateTo' in request.POST %}{{ request.POST.dateTo }}{% endif %}">
             <input type="submit" value="Submit" class="btn btn-large btn-primary">
         </form>
         </div>

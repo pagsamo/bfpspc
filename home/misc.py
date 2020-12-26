@@ -1,8 +1,8 @@
 from home.models import Incident
 
 incidents = Incident.objects.all()
-earliest = Incident.objects.earliest('DateCalled')
-latest = Incident.objects.latest('DateCalled')
+earliest = Incident.objects.earliest('DateAlarmReceived')
+latest = Incident.objects.latest('DateAlarmReceived')
 
 def month(i):
     switcher = {
@@ -23,13 +23,13 @@ def month(i):
 
 def overTime():
     overTime = {}
-    for x in range(earliest.DateCalled.year, (latest.DateCalled.year+1)):
-        if x == earliest.DateCalled.year:
-            for y in range(earliest.DateCalled.month, 13):
-                overTime.update({"%s %s" %(month(y), x): incidents.filter(DateCalled__year=x, DateCalled__month=y).count()})
-        elif x == latest.DateCalled.year:
-            for y in range(1, (latest.DateCalled.month+1)):
-                overTime.update({"%s %s" %(month(y), x): incidents.filter(DateCalled__year=x, DateCalled__month=y).count()})
+    for x in range(earliest.DateAlarmReceived.year, (latest.DateAlarmReceived.year+1)):
+        if x == earliest.DateAlarmReceived.year:
+            for y in range(earliest.DateAlarmReceived.month, 13):
+                overTime.update({"%s %s" %(month(y), x): incidents.filter(DateAlarmReceived__year=x, DateAlarmReceived__month=y).count()})
+        elif x == latest.DateAlarmReceived.year:
+            for y in range(1, (latest.DateAlarmReceived.month+1)):
+                overTime.update({"%s %s" %(month(y), x): incidents.filter(DateAlarmReceived__year=x, DateAlarmReceived__month=y).count()})
         else:
             for y in range(1, 13):
-                overTime.update({"%s %s" %(month(y), x): incidents.filter(DateCalled__year=x, DateCalled__month=y).count()})
+                overTime.update({"%s %s" %(month(y), x): incidents.filter(DateAlarmReceived__year=x, DateAlarmReceived__month=y).count()})

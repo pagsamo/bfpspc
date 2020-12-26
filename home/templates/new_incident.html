@@ -6,14 +6,25 @@
 {% block content %}
 <div class="container">
     <div class="row">
+    <h1>Insert New Incident</h1>
         <form action="{% url 'new_incident' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="submit">
+            <input type="submit" value="Submit" class="btn btn-lg btn-primary">
         </form>
     </div>
 </div>
 {% endblock content %}
 {% block scripts %}
 {% leaflet_js plugins="forms" %}
+<script>
+$(document).ready(function(){
+    $("#id_DateAlarmReceived").flatpickr();
+    $("#id_TimeAlarmReceived").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        time_24hr: true,
+    });
+})
+</script>
 {% endblock scripts %}

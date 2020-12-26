@@ -16,8 +16,8 @@
 </div>
 <div class="row">
 <form action="{% url 'report_builder' %}" method="get">
-    From:<input type="date" name="dateFrom" value="{% if 'dateFrom' in request.GET %}{{ request.GET.dateFrom }}{% endif %}">
-    To:<input type="date" name="dateTo" value="{% if 'dateTo' in request.GET %}{{ request.GET.dateTo }}{% endif %}">
+    From:<input class="datepicker" type="date" name="dateFrom" value="{% if 'dateFrom' in request.GET %}{{ request.GET.dateFrom }}{% endif %}" required>
+    To:<input class="datepicker" type="date" name="dateTo" value="{% if 'dateTo' in request.GET %}{{ request.GET.dateTo }}{% endif %}" required>
     <select name="barangay" id="">
         <option value="">-</option>
         {% for b in barangay %}
@@ -56,7 +56,7 @@
         {% for i in incidents %}
         <tr>
             <td>
-                {{ i.DateCalled|date:"Y-m-d" }}
+                {{ i.DateAlarmReceived|date:"Y-m-d" }}
             </td>
             <td>{% if i.OwnerName != None %}{{ i.OwnerName }}{% endif %}</td>
             <td>
@@ -94,4 +94,5 @@ Year<option value="">-</option>
 
 {% endblock content %}
 {% block scripts %}
+</script>
 {% endblock scripts %}
