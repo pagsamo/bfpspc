@@ -1,14 +1,21 @@
 from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
-from .models import Barangay, Rank, Personnel, Incident
+from .models import Rank, Personnel, Incident
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
+from home.models import Employee
 
 
+class EmployeeInline(admin.StackedInline):
+    model = Employee
+    can_delete = False
+    verbose_name_plural = 'employee'
 
-# @admin.register(Barangay)
-# class BarangayAdmin(LeafletGeoAdmin):
-#     list_display = ('Name',)
-#     search_fields = ('Name',)
+
+class UserAdmin(BaseUserAdmin):
+    inlines = (EmployeeInline,)
+
 
 @admin.register(Rank)
 class InvestigatorRankAdmin(LeafletGeoAdmin):
@@ -41,3 +48,7 @@ class IncidentAdmin(LeafletGeoAdmin):
     #             form.base_fields[f].disabled = True
 
     #     return form
+
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)

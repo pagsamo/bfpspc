@@ -1,6 +1,10 @@
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
+from django.db.models.fields.files import ImageField
 
+class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    Designation = models.CharField(max_length=100)
 
 # class Barangay(models.Model):
 #     Name = models.CharField(max_length=255, unique=True)
@@ -226,3 +230,13 @@ class SpotInvestigation(models.Model):
     Disposition = models.TextField(blank=True, null=True)
     PreparedBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'spot_prepared')
     NoteBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'spot_noted')
+
+
+class Station(models.Model):
+    Address = models.CharField(max_length=255, blank=True)
+    TelephoneNumber = models.CharField(max_length=255, blank=True)
+    PhoneNumbers = models.CharField(max_length=255, blank=True)
+    EmailAddress = models.EmailField(blank=True, null=True)
+    BFPLogo = ImageField(null=True)
+    StationLogo = ImageField(null=True)
+    ChiefOfficer = models.ForeignKey(Personnel,on_delete=models.SET_NULL, null=True, blank=True,related_name = 'officer_bfp')
