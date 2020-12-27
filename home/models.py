@@ -98,18 +98,15 @@ class Incident(models.Model):
     DeathFireFighterM = models.IntegerField(default=0)
     DeathFireFighterF = models.IntegerField(default=0)
     #Breathing apparatus
-    BreathingApparatusNr = models.IntegerField(default=0)
-    BreathingApparatusType = models.CharField(max_length=255, blank=True, null=True)
     #15 Details Narrative
     Details = models.TextField(blank=True, null=True)
     Problems = models.TextField(blank=True, null=True)
     Observations = models.TextField(blank=True, null=True)
 
 
-
     OwnerName = models.CharField(max_length=255, blank=True, null=True)
+    Occupant = models.CharField(max_length=255, blank=True, null=True)
     EstablishmentName = models.CharField(max_length=255, blank=True, null=True)
-    Injuries = models.IntegerField(default=0)
     EstimatedDamageCost = models.IntegerField(default=0)
     FinalDamageCost = models.IntegerField(default=0)
     Origin = models.CharField(max_length=255, blank=True, null=True)
@@ -143,6 +140,12 @@ class IncidentResponse(models.Model):
     TimeReturnedToBase = models.TimeField(blank=True, null=True)
     WaterTankRefilled = models.IntegerField(default=0)
     GasConsumed = models.IntegerField(default=0)
+
+
+class BreathingApparatus(models.Model):
+    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
+    BreathingApparatusNr = models.IntegerField(default=0)
+    BreathingApparatusType = models.CharField(max_length=255, blank=True, null=True)
 
 
 class AlarmStatus(models.Model):
@@ -207,3 +210,19 @@ class DutyPersonnel(models.Model):
     Personnel = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True)
     Designation = models.CharField(max_length=255, blank=True)
     Remarks = models.CharField(max_length=255, blank=True)
+
+
+class APOR(models.Model):
+    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
+    PreparedBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'apor_by')
+    NoteBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'apor_to')
+
+
+class SpotInvestigation(models.Model):
+    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
+    ReportFor = models.CharField(max_length=255, blank=True)
+    ReportDate = models.DateField(blank=True, null=True)
+    Details = models.TextField(blank=True, null=True)
+    Disposition = models.TextField(blank=True, null=True)
+    PreparedBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'spot_prepared')
+    NoteBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'spot_noted')
