@@ -6,19 +6,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Incident, Barangay
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
-from .forms import NameForm, IncidentForm
-from bootstrap_datepicker_plus import DateTimePickerInput
+from .forms import IncidentForm, AporForm
 
-
-def test2(request):
-    incidents = Incident.objects.all()
-    barangays = Barangay.objects.all()
-    earliest = '2019-12-12'
-    latest = '2020-12-12'
-    perBarangay = {}
-    for b in barangays:
-       perBarangay.update({b.Name: b.incident_set.filter(DateAlarmReceived__range=[earliest, latest]).count()})
-    return render(request, "test.html", {"perBarangay":perBarangay})
+def apor(request):
+    return render(request, 'apor.html')
 
 
 def new_incident(request):
@@ -26,8 +17,9 @@ def new_incident(request):
     if request.method == "POST":
         form = IncidentForm(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
             form.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/apor/')
     else:
         form = IncidentForm()
     return render(request, 'new_incident.html',{'form':form})
