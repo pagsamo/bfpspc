@@ -32,11 +32,11 @@ class IncidentForm(ModelForm):
 
 
 class AporForm(ModelForm):
-
+    Caller = forms.CharField(max_length=200,required=True, label="Name of Caller")
+    CallerAddress = forms.CharField(max_length=200,required=True, label="Address of Caller")
     class Meta:
         model = Incident
         fields = [
-            'id',
             'Caller',
             'CallerAddress',
             ]

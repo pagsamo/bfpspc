@@ -10,5 +10,5 @@ urlpatterns = [
     path('report/', report, name="report"),
     path('report_builder/',report_builder, name="report_builder"),
     path('new_incident/', new_incident, name="new_incident"),
-    path('apor/', apor, name="apor"),
+    path('<int:incident_id>/apor/', apor, name='apor'),
 ]

@@ -1,5 +1,6 @@
 from django.core import paginator
-from django.shortcuts import render
+from django.http.response import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.core.serializers import serialize
 from django.contrib.gis.serializers.geojson import Serializer
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,8 +9,18 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
 from .forms import IncidentForm, AporForm
 
-def apor(request):
-    return render(request, 'apor.html')
+def apor(request, incident_id):
+    incident = get_object_or_404(Incident, id=incident_id)
+    form = AporForm()
+    if request.method == "POST":
+        form = AporForm(request.POST, instance=incident)
+        form = form.save(commit=False)
+        form.save()
+        return HttpResponseRedirect('/')
+    return render(request,'apor.html', {
+        "form": form,
+        "incident": incident,
+    })
 
 
 def new_incident(request):
@@ -19,7 +30,7 @@ def new_incident(request):
         if form.is_valid():
             form = form.save(commit=False)
             form.save()
-            return HttpResponseRedirect('/apor/')
+            return HttpResponseRedirect(str(form.id)+'/apor/')
     else:
         form = IncidentForm()
     return render(request, 'new_incident.html',{'form':form})
@@ -50,6 +61,7 @@ def report(request):
             "incidents": incident_parse,
             "checked": checked,
         })
+
 
 @login_required(login_url='/accounts/login')
 def report_builder(request):
@@ -92,6 +104,7 @@ def report_builder(request):
     except PageNotAnInteger:
         incidents = paginator.page(1)
     return render(request, 'report_builder.html',{"incidents": incidents,'page':page,"barangay":barangay,})
+
 
 def week(i):
     switcher = {
@@ -234,3 +247,7 @@ def barangay_incident_count(request):
 @login_required(login_url='/accounts/login')
 def reports(request):
     return render(request, 'reports.html')
+
+
+def error_404(request, exception):
+    return render(request, '404.html')

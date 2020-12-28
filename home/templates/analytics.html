@@ -12,8 +12,8 @@
         </div>{% endif %}
         <form action="{% url 'analytics' %}" method="post" id="date_range">
             {% csrf_token %}
-            <label for="dateFrom">From: </label><input class='datepicker' type="date" name="dateFrom" id="dateFrom" required value="{% if 'dateFrom' in request.POST %}{{ request.POST.dateTo }}{% endif %}">
-            <label for="dateTo">To: </label><input class='datepicker' type="date" name="dateTo" id="dateTo" required value="{% if 'dateTo' in request.POST %}{{ request.POST.dateTo }}{% endif %}">
+            <label for="dateFrom">From: </label><input class='datepicker' type="date" name="dateFrom" id="dateFrom" required value="{% if 'dateFrom' in request.POST %}{{ request.POST.dateFrom }}{% else %}{{ earliest }}{% endif %}">
+            <label for="dateTo">To: </label><input class='datepicker' type="date" name="dateTo" id="dateTo" required value="{% if 'dateTo' in request.POST %}{{ request.POST.dateTo }}{% else %}{{ latest }}{% endif %}">
             <input type="submit" value="Submit" class="btn btn-large btn-primary">
         </form>
         </div>

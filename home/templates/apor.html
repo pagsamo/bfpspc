@@ -7,10 +7,10 @@
 <div class="container">
     <div class="row">
     <h1>After Fire Operations</h1>
-        <form action="{% url 'apor?' %}{% if 'pk' in request.GET %}{{ request.GET.pk }}{% endif %}" method="post">
+        <form action="{% url 'apor' incident.id %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="Submit" class="btn btn-lg btn-primary">
+            <input type="submit" class="btn btn-lg btn-primary">
         </form>
     </div>
 </div>
