@@ -1,10 +1,10 @@
 from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
-from .models import Rank, Personnel, Incident
+from .models import Rank, Personnel, Incident, Employee, AlarmStatusUponArrival
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from home.models import Employee
+
 
 
 class EmployeeInline(admin.StackedInline):
@@ -16,6 +16,10 @@ class EmployeeInline(admin.StackedInline):
 class UserAdmin(BaseUserAdmin):
     inlines = (EmployeeInline,)
 
+
+@admin.register(AlarmStatusUponArrival)
+class AlarmStatusUponArrivalAdmin(LeafletGeoAdmin):
+    list_display = ('Incident', 'StatusUponArrival','StatusUponArrivalRemarks')
 
 @admin.register(Rank)
 class InvestigatorRankAdmin(LeafletGeoAdmin):

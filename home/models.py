@@ -66,9 +66,6 @@ class Engines(models.Model):
     Remarks = models.CharField(max_length=255,blank=True, null=True)
 
 
-
-
-
 class Incident(models.Model):
     ##phase 1
     DateAlarmReceived = models.DateField(blank=True, null=True)
@@ -112,55 +109,12 @@ class Incident(models.Model):
     Occupant = models.CharField(max_length=255, blank=True, null=True)
     EstablishmentName = models.CharField(max_length=255, blank=True, null=True)
     EstimatedDamageCost = models.IntegerField(default=0)
+    #Can be the final phase
     FinalDamageCost = models.IntegerField(default=0)
     Origin = models.CharField(max_length=255, blank=True, null=True)
     Cause = models.TextField(blank=True, null=True)
-    REMARKS_CHOICES = [
-        ('closed', 'Closed'),
-        ('under investigation', 'Under Investigation'),
-        ('',''),
-    ]
 
-    Remarks = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed', blank=True)
-    Approved = models.BooleanField(default=False)
-
-    def __str__(self):
-        delimeter = ' '
-        FullName = [self.DateAlarmReceived, self.OwnerName]
-        FullNameMap = map(lambda i:i.__str__(), FullName)
-        FullNameList = list(FullNameMap)
-        return delimeter.join(FullNameList)
-    
-    class Meta:
-        unique_together = (('DateAlarmReceived', 'OwnerName',),)
-        ordering = ('-DateAlarmReceived','Barangay',)
-
-
-class IncidentResponse(models.Model):
-    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
-    Engine = models.ForeignKey(Engines, on_delete=models.SET_NULL, null=True, blank=True)
-    TimeDispatched = models.TimeField(blank=True, null=True)
-    TimeArrived = models.TimeField(blank=True, null=True)
-    TimeReturnedToBase = models.TimeField(blank=True, null=True)
-    WaterTankRefilled = models.IntegerField(default=0)
-    GasConsumed = models.IntegerField(default=0)
-
-
-class BreathingApparatus(models.Model):
-    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
-    BreathingApparatusNr = models.IntegerField(default=0)
-    BreathingApparatusType = models.CharField(max_length=255, blank=True, null=True)
-
-
-class AlarmStatus(models.Model):
-    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
-    STATUS_CHOICES = [
-        ('1st', '1st'),
-        ('2nd', '2nd'),
-        ('3rd','3rd'),
-    ]
-    StatusUponArrival = models.CharField(max_length=255, choices=STATUS_CHOICES, default='closed', blank=True)
-    StatusUponArrivalRemarks = models.CharField(max_length=255, blank=True)
+    #alarm status
     DateTimeUnderControl = models.DateTimeField(blank=True, null=True)
     DateTimeFireOut = models.DateTimeField(blank=True, null=True)
     Time1stAlarm = models.TimeField(blank=True, null=True)
@@ -190,6 +144,58 @@ class AlarmStatus(models.Model):
     TimeGeneralAlarm = models.TimeField(blank=True, null=True)
     GCommanderGeneralAlarm = models.CharField(max_length=255, blank=True)
 
+    REMARKS_CHOICES = [
+        ('closed', 'Closed'),
+        ('under investigation', 'Under Investigation'),
+        ('',''),
+    ]
+    Remarks = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed', blank=True)
+    Approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        delimeter = ' '
+        FullName = [self.DateAlarmReceived, self.OwnerName]
+        FullNameMap = map(lambda i:i.__str__(), FullName)
+        FullNameList = list(FullNameMap)
+        return delimeter.join(FullNameList)
+    
+    class Meta:
+        unique_together = (('DateAlarmReceived', 'OwnerName',),)
+        ordering = ('-DateAlarmReceived','Barangay',)
+
+
+class AlarmStatusUponArrival(models.Model):
+    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
+    STATUS_CHOICES = [
+        ('1st', '1st'),
+        ('2nd', '2nd'),
+        ('3rd','3rd'),
+    ]
+    StatusUponArrival = models.CharField(max_length=255, choices=STATUS_CHOICES, default='', blank=True)
+    StatusUponArrivalRemarks = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.StatusUponArrivalRemarks
+
+    class Meta:
+        unique_together = (('Incident', 'StatusUponArrival',),)
+
+
+class IncidentResponse(models.Model):
+    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
+    Engine = models.ForeignKey(Engines, on_delete=models.SET_NULL, null=True, blank=True)
+    TimeDispatched = models.TimeField(blank=True, null=True)
+    TimeArrived = models.TimeField(blank=True, null=True)
+    TimeReturnedToBase = models.TimeField(blank=True, null=True)
+    WaterTankRefilled = models.IntegerField(default=0)
+    GasConsumed = models.IntegerField(default=0)
+
+
+class BreathingApparatus(models.Model):
+    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
+    BreathingApparatusNr = models.IntegerField(default=0)
+    BreathingApparatusType = models.CharField(max_length=255, blank=True, null=True)
+
 
 class ExtinguisingAgent(models.Model):
     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
@@ -214,12 +220,6 @@ class DutyPersonnel(models.Model):
     Personnel = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True)
     Designation = models.CharField(max_length=255, blank=True)
     Remarks = models.CharField(max_length=255, blank=True)
-
-
-class APOR(models.Model):
-    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
-    PreparedBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'apor_by')
-    NoteBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'apor_to')
 
 
 class SpotInvestigation(models.Model):

@@ -1,26 +1,63 @@
 from django.core import paginator
-from django.http.response import Http404
-from django.shortcuts import get_object_or_404, redirect, render
+from django.http.response import Http404, JsonResponse
+from django.shortcuts import get_object_or_404, render
 from django.core.serializers import serialize
 from django.contrib.gis.serializers.geojson import Serializer
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Incident, Barangay
+from .models import AlarmStatusUponArrival, Incident, Barangay
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
-from .forms import IncidentForm, AporForm
+from .forms import IncidentForm, APORMain, AlarmStatusUponArrivalForm
 
 def apor(request, incident_id):
     incident = get_object_or_404(Incident, id=incident_id)
-    form = AporForm()
-    if request.method == "POST":
-        form = AporForm(request.POST, instance=incident)
-        form = form.save(commit=False)
-        form.save()
-        return HttpResponseRedirect('/')
+    aporMain = APORMain()
     return render(request,'apor.html', {
-        "form": form,
+        "aporMain": aporMain,
         "incident": incident,
     })
+
+def newstatusuponarrival(request):
+    if request.is_ajax():
+        response_data = {}
+        id = request.POST.get('Incident_id')
+        i = Incident.objects.get(id=id)
+        StatusUponArrival = request.POST.get('status')
+        StatusUponArrivalRemarks = request.POST.get('remarks')
+
+        response_data['Incident_id'] = id
+        response_data['StatusUponArrival'] = StatusUponArrival
+        response_data['StatusUponArrivalRemarks'] = StatusUponArrivalRemarks
+
+        newalarm = AlarmStatusUponArrival.objects.create(
+            Incident = i,
+            StatusUponArrival = StatusUponArrival,
+            StatusUponArrivalRemarks = StatusUponArrivalRemarks,
+        )
+        response_data['new_id'] = newalarm.id
+        return JsonResponse(response_data)
+
+
+def deletestatusuponarrival(request):
+    if request.is_ajax():
+        sa_id = request.POST.get('sa_id')
+        response_data = {}
+        response_data['sa_id'] = sa_id
+        statusuponarrival = AlarmStatusUponArrival.objects.get(id=sa_id)
+        statusuponarrival.delete()
+        return JsonResponse(response_data)
+        
+
+
+
+def apormulti(request, incident_id):
+    incident = get_object_or_404(Incident, id=incident_id)
+    f_alarmstatusuponarrival = AlarmStatusUponArrivalForm()
+    return render(request, 'apormulti.html',{
+        "incident": incident,
+        "f_alarmstatusuponarrival": f_alarmstatusuponarrival,
+    })
+
 
 
 def new_incident(request):

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<style>
+label{ vertical-align: top; }
+</style>
+{% endblock style %}
+{% block content %}
+{% include 'alarmstatusuponarrival.html' %}
+<div class="container">
+    <div class="row">
+        <h4>Alarm Status Upon Arrival</h4>
+        <button data-toggle="modal" data-target="#alarmstatusuponarrival" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Alarm</th>
+                <th>Remarks</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="tbody-alarmstatusuponarrival">
+                {% for sa in incident.alarmstatusuponarrival_set.all %}
+                <tr>
+                    <td>
+                        {{ sa.StatusUponArrival }}
+                    </td>
+                    <td>
+                        {{ sa.StatusUponArrivalRemarks }}
+                    </td>
+                    <td>
+                        <input type="hidden" value="{{ sa.id }}">
+                        <input type="button" class="btn btn-primary btn-sm deletealarm" value="Delete">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock content %}
+{% block scripts %}
+<script src="{% static 'js/apormulti.js' %}"></script>
+<script>
+$(document).ready(function(){
+    
+    $('#addstatusuponarrival').on('click', function(){
+        csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
+        incident_id = $('input[name=Incident_id]').val()
+        status = $('#id_StatusUponArrival').val()
+        remarks = $('#id_StatusUponArrivalRemarks').val()
+        $.ajax({
+            type: 'POST',
+            url: {% url "newstatusuponarrival" %},
+            data: {
+                Incident_id : incident_id,
+                status : status,
+                remarks : remarks,
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+            },
+            error: function(xhr, errmsg, err){
+              alert("The Alarm Status is already existing.")
+            },
+            success: function(data){
+                newalarmstatus = "<tr><td>"+data.StatusUponArrival+"</td><td>"+data.StatusUponArrivalRemarks+"</td><td><input type='hidden' value='"+data.new_id+"'><input type='button' class='btn btn-primary btn-sm deletealarm' value='Delete'>";
+                $('#tbody-alarmstatusuponarrival:last-child').append(newalarmstatus);
+                $('#alarmstatusuponarrival').modal('hide');
+            }
+        })
+    });
+
+    $(document).on('click', '.deletealarm', function(){
+       alarmstatusid = $(this).prev('input').val();
+       $(this).parent('td').parent('tr').remove();
+       $.ajax({
+           url: "{% url 'deletestatusuponarrival'  %}",
+           type: "POST",
+           data:{
+               sa_id : alarmstatusid,
+           },
+           dataType: "json",
+           beforeSend: function(xhr){
+               xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+           },
+           success: function(data){
+               $('#tbody-alarmstatusuponarrival input[value="'+data.sa_id+'"]').parent('td').parent('tr').remove()
+           },
+           error: function(xhr, errmsg, err){
+              console.log(xhr+":"+errmsg)
+              }
+       })
+       
+    })
+
+})
+</script>
+{% endblock scripts %}

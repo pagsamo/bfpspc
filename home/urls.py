@@ -11,4 +11,7 @@ urlpatterns = [
     path('report_builder/',report_builder, name="report_builder"),
     path('new_incident/', new_incident, name="new_incident"),
     path('<int:incident_id>/apor/', apor, name='apor'),
+    path('<int:incident_id>/apormulti/', apormulti, name='apormulti'),
+    path('newstatusuponarrival/', newstatusuponarrival, name='newstatusuponarrival'),
+    path('deletestatusuponarrival/', deletestatusuponarrival, name='deletestatusuponarrival'),
 ]
