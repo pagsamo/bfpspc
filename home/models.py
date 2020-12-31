@@ -1,23 +1,12 @@
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 from django.db.models.fields.files import ImageField
+import datetime
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     Designation = models.CharField(max_length=100)
 
-# class Barangay(models.Model):
-#     Name = models.CharField(max_length=255, unique=True)
-#     Location = models.PointField(blank=True, null=True)
-#
-#     def IncidentCount(self):
-#         return self.incident_set.count()
-#
-#     def IncidentInstances(self):
-#         return self.incident_set.all()
-#
-#     def __str__(self):
-#         return self.Name
 
 class Barangay(models.Model):
     Name = models.CharField(max_length=75)
@@ -43,7 +32,9 @@ class Rank(models.Model):
     def __str__(self):
         return self.Code
 
-
+#####################
+#Personnel
+#####################
 class Personnel(models.Model):
     FirstName = models.CharField(max_length=100, blank=True, null=True)
     MiddleName = models.CharField(max_length=100, blank=True, null=True)
@@ -59,13 +50,27 @@ class Personnel(models.Model):
 
     class Meta:
         unique_together = (('FirstName', 'LastName'),)
+#####################
+#Personnel
+#####################
 
+#####################
+#Engines
+#####################
 class Engines(models.Model):
     Name = models.CharField(max_length=255,blank=True, null=True)
     Model = models.CharField(max_length=255,blank=True, null=True)
     Remarks = models.CharField(max_length=255,blank=True, null=True)
 
+    def __str__(self):
+        return self.Name
+ #####################
+#Engines
+#####################   
 
+#####################
+#Incident
+#####################
 class Incident(models.Model):
     ##phase 1
     DateAlarmReceived = models.DateField(blank=True, null=True)
@@ -103,8 +108,6 @@ class Incident(models.Model):
     Details = models.TextField(blank=True, null=True)
     Problems = models.TextField(blank=True, null=True)
     Observations = models.TextField(blank=True, null=True)
-
-
     OwnerName = models.CharField(max_length=255, blank=True, null=True)
     Occupant = models.CharField(max_length=255, blank=True, null=True)
     EstablishmentName = models.CharField(max_length=255, blank=True, null=True)
@@ -113,7 +116,6 @@ class Incident(models.Model):
     FinalDamageCost = models.IntegerField(default=0)
     Origin = models.CharField(max_length=255, blank=True, null=True)
     Cause = models.TextField(blank=True, null=True)
-
     #alarm status
     DateTimeUnderControl = models.DateTimeField(blank=True, null=True)
     DateTimeFireOut = models.DateTimeField(blank=True, null=True)
@@ -143,7 +145,6 @@ class Incident(models.Model):
     GCommanderIndiaAlarm = models.CharField(max_length=255, blank=True)
     TimeGeneralAlarm = models.TimeField(blank=True, null=True)
     GCommanderGeneralAlarm = models.CharField(max_length=255, blank=True)
-
     REMARKS_CHOICES = [
         ('closed', 'Closed'),
         ('under investigation', 'Under Investigation'),
@@ -162,8 +163,14 @@ class Incident(models.Model):
     class Meta:
         unique_together = (('DateAlarmReceived', 'OwnerName',),)
         ordering = ('-DateAlarmReceived','Barangay',)
+#####################
+#Incident
+#####################
 
 
+#####################
+#AlarmStatusUponArrival
+#####################
 class AlarmStatusUponArrival(models.Model):
     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
     STATUS_CHOICES = [
@@ -179,8 +186,14 @@ class AlarmStatusUponArrival(models.Model):
 
     class Meta:
         unique_together = (('Incident', 'StatusUponArrival',),)
+#####################
+#AlarmStatusUponArrival
+#####################
 
 
+#####################
+#IncidentResponse
+#####################
 class IncidentResponse(models.Model):
     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
     Engine = models.ForeignKey(Engines, on_delete=models.SET_NULL, null=True, blank=True)
@@ -190,48 +203,102 @@ class IncidentResponse(models.Model):
     WaterTankRefilled = models.IntegerField(default=0)
     GasConsumed = models.IntegerField(default=0)
 
+    def ResponseTime(self):
+        time1 = self.TimeDispatched.strftime("%H:%M")
+        time2 = self.TimeArrived.strftime("%H:%M")
+        ctime1 = datetime.datetime.strptime(time1, "%H:%M")
+        ctime2 = datetime.datetime.strptime(time2, "%H:%M")
+        difference = ctime2 - ctime1
+        responseMins = difference.total_seconds() / 60
+        return str(responseMins)
+    
 
+    def __str__(self):
+        return self.TimeDispatched
+#####################
+#IncidentResponse
+#####################
+
+#####################
+#BreathingApparatus
+#####################
 class BreathingApparatus(models.Model):
     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
     BreathingApparatusNr = models.IntegerField(default=0)
     BreathingApparatusType = models.CharField(max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.BreathingApparatusType
 
 class ExtinguisingAgent(models.Model):
     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
     Quantity = models.IntegerField(default=0)
     Type = models.CharField(max_length=255, blank=True)
 
+    def __str__(self):
+        return self.Incident
+#####################
+#BreathingApparatus
+#####################
 
+
+#####################
+#RopeAndLadder
+#####################
 class RopeAndLadder(models.Model):
     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
     Type = models.CharField(max_length=255, blank=True)
     Length = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.Incident
+#####################
+#RopeAndLadder
+#####################
+
+#####################
+#HoseLine
+#####################
 class HoseLine(models.Model):
     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
     Nr = models.IntegerField(default=0)
     Type = models.CharField(max_length=255, blank=True)
     Length = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.Incident
+#####################
+#HoseLine
+#####################
 
+
+#####################
+#DutyPersonnel
+#####################
 class DutyPersonnel(models.Model):
     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
     Personnel = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True)
     Designation = models.CharField(max_length=255, blank=True)
     Remarks = models.CharField(max_length=255, blank=True)
 
+    def __str__(self):
+        return self.Incident
+#####################
+#DutyPersonnel
+#####################
 
-class SpotInvestigation(models.Model):
-    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
-    ReportFor = models.CharField(max_length=255, blank=True)
-    ReportDate = models.DateField(blank=True, null=True)
-    Details = models.TextField(blank=True, null=True)
-    Disposition = models.TextField(blank=True, null=True)
-    PreparedBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'spot_prepared')
-    NoteBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'spot_noted')
+# class SpotInvestigation(models.Model):
+#     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
+#     ReportFor = models.CharField(max_length=255, blank=True)
+#     ReportDate = models.DateField(blank=True, null=True)
+#     Details = models.TextField(blank=True, null=True)
+#     Disposition = models.TextField(blank=True, null=True)
+#     PreparedBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'spot_prepared')
+#     NoteBy = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True,related_name = 'spot_noted')
 
-
+#####################
+#Station
+#####################
 class Station(models.Model):
     Address = models.CharField(max_length=255, blank=True)
     TelephoneNumber = models.CharField(max_length=255, blank=True)
@@ -240,3 +307,10 @@ class Station(models.Model):
     BFPLogo = ImageField(null=True)
     StationLogo = ImageField(null=True)
     ChiefOfficer = models.ForeignKey(Personnel,on_delete=models.SET_NULL, null=True, blank=True,related_name = 'officer_bfp')
+
+
+    def __str__(self):
+        return self.Address
+#####################
+#Station
+#####################

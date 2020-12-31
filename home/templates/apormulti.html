@@ -9,6 +9,7 @@ label{ vertical-align: top; }
 {% include 'alarmstatusuponarrival.html' %}
 <div class="container">
     <div class="row">
+    {% comment %} alarm status upon arrival {% endcomment %}
         <h4>Alarm Status Upon Arrival</h4>
         <button data-toggle="modal" data-target="#alarmstatusuponarrival" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
         <table class="table">
@@ -35,6 +36,53 @@ label{ vertical-align: top; }
                 </tr>
                 {% endfor %}
             </tbody>
+        </table>
+
+
+        {% comment %} response time {% endcomment %}
+        <h4>Response Time</h4>
+        <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Engine Dispatched
+                </th>
+                <th>
+                    Time Dispatched
+                </th>
+                <th>
+                    Time Arrived at Fire Scene
+                </th>
+                <th>
+                    Response Time
+                </th>
+                <th>
+                    Time Returned bo Base
+                </th>
+                <th>
+                    Water Tank Refilled
+                </th>
+                <th>
+                    Gas Consumed
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+             {% for rt in incident.incidentresponse_set.all %}
+            <tr>
+                <td>{{ rt.Engine }}</td>
+                <td>{{ rt.TimeDispatched }}</td>
+                <td>{{ rt.TimeArrived }}</td>
+                <td>{{ rt.ResponseTime }}</td>
+                <td>{{ rt.TimeReturnedToBase }}</td>
+                <td>{{ rt.WaterTankRefilled }}</td>
+                <td>{{ rt.GasConsumed }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
         </table>
     </div>
 </div>
