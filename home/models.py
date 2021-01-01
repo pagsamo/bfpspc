@@ -41,6 +41,14 @@ class Personnel(models.Model):
     LastName = models.CharField(max_length=100)
     Rank = models.ForeignKey(Rank,on_delete=models.SET_NULL,null=True)
 
+
+    def full(self):
+        delimeter = ' '
+        FullName = [self.Rank, self.FirstName, self.MiddleName, self.LastName]
+        FullNameMap = map(lambda i:i.__str__(), FullName)
+        FullNameList = list(FullNameMap)
+        return delimeter.join(FullNameList)
+
     def __str__(self):
         delimeter = ' '
         FullName = [self.Rank, self.FirstName, self.MiddleName, self.LastName]
@@ -119,32 +127,6 @@ class Incident(models.Model):
     #alarm status
     DateTimeUnderControl = models.DateTimeField(blank=True, null=True)
     DateTimeFireOut = models.DateTimeField(blank=True, null=True)
-    Time1stAlarm = models.TimeField(blank=True, null=True)
-    GCommander1stAlarm = models.CharField(max_length=255, blank=True)
-    Time2ndAlarm = models.TimeField(blank=True, null=True)
-    GCommander2ndAlarm = models.CharField(max_length=255, blank=True)
-    Time3rdAlarm = models.TimeField(blank=True, null=True)
-    GCommander3rdAlarm = models.CharField(max_length=255, blank=True)
-    Time4thAlarm = models.TimeField(blank=True, null=True)
-    GCommander4thAlarm = models.CharField(max_length=255, blank=True)
-    Time5thAlarm = models.TimeField(blank=True, null=True)
-    GCommander5thAlarm = models.CharField(max_length=255, blank=True)
-    TimeAlphaAlarm = models.TimeField(blank=True, null=True)
-    GCommanderAlphaAlarm = models.CharField(max_length=255, blank=True)
-    TimeBravoAlarm = models.TimeField(blank=True, null=True)
-    GCommanderBravoAlarm = models.CharField(max_length=255, blank=True)
-    TimeCharlieAlarm = models.TimeField(blank=True, null=True)
-    GCommanderCharlieAlarm = models.CharField(max_length=255, blank=True)
-    TimeDeltaAlarm = models.TimeField(blank=True, null=True)
-    GCommanderDeltaAlarm = models.CharField(max_length=255, blank=True)
-    TimeEchoAlarm = models.TimeField(blank=True, null=True)
-    GCommanderEchoAlarm = models.CharField(max_length=255, blank=True)
-    TimeHotelAlarm = models.TimeField(blank=True, null=True)
-    GCommanderHotelAlarm = models.CharField(max_length=255, blank=True)
-    TimeIndiaAlarm = models.TimeField(blank=True, null=True)
-    GCommanderIndiaAlarm = models.CharField(max_length=255, blank=True)
-    TimeGeneralAlarm = models.TimeField(blank=True, null=True)
-    GCommanderGeneralAlarm = models.CharField(max_length=255, blank=True)
     REMARKS_CHOICES = [
         ('closed', 'Closed'),
         ('under investigation', 'Under Investigation'),
@@ -186,6 +168,40 @@ class AlarmStatusUponArrival(models.Model):
 
     class Meta:
         unique_together = (('Incident', 'StatusUponArrival',),)
+#####################
+#AlarmStatusUponArrival
+#####################
+
+
+#####################
+#AlarmStatusUponArrival
+#####################
+class TimeAlarmStatus(models.Model):
+    Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
+    STATUS_CHOICES = [
+        ('1st Alarm', '1st Alarm'),
+        ('2nd Alarm', '2nd Alarm'),
+        ('3rd Alarm','3rd Alarm'),
+        ('4th Alarm','4th Alarm'),
+        ('5th Alarm','5th Alarm'),
+        ('Task Force Alpha', 'Task Force Alpha'),
+        ('Task Force Bravo', 'Task Force Bravo'),
+        ('Task Force Charlie','Task Force Charlie'),
+        ('Task Force Delta','Task Force Delta'),
+        ('Task Force Echo','Task Foce Echo'),
+        ('Task Force Hotel', 'Task Force Hotel'),
+        ('Task Force India', 'Task Force India'),
+        ('General Alarm', 'General Alarm'),
+    ]
+    AlarmStatus = models.CharField(max_length=255, choices=STATUS_CHOICES, default='', blank=True)
+    AlarmTime = models.TimeField(blank=True, null=True)
+    GroundCommander = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.AlarmStatus
+
+    class Meta:
+        unique_together = (('Incident', 'AlarmStatus',),)
 #####################
 #AlarmStatusUponArrival
 #####################
@@ -238,7 +254,7 @@ class ExtinguisingAgent(models.Model):
     Type = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
-        return self.Incident
+        return self.Type
 #####################
 #BreathingApparatus
 #####################
@@ -253,7 +269,7 @@ class RopeAndLadder(models.Model):
     Length = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.Incident
+        return self.Type
 #####################
 #RopeAndLadder
 #####################
@@ -284,7 +300,7 @@ class DutyPersonnel(models.Model):
     Remarks = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
-        return self.Incident
+        return self.Personnel
 #####################
 #DutyPersonnel
 #####################

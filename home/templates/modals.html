@@ -76,7 +76,7 @@
         <h4 class="modal-title" id="myModalLabel">Extinguishing Agents Used</h4>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="ex_form">
         {% csrf_token %}
         <input type="hidden" value="{{ incident.id }}" name="Incident_id">
         {{ f_extinguish.as_p }}
@@ -85,6 +85,77 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" id="addextinguish">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="rlform"  role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Rope and Ladder Used</h4>
+      </div>
+      <div class="modal-body">
+        <form id="rl_form">
+        {% csrf_token %}
+        <input type="hidden" value="{{ incident.id }}" name="Incident_id">
+        {{ f_rl.as_p }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addrl">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="hlform"  role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Hose Line</h4>
+      </div>
+      <div class="modal-body">
+        <form id="hl_form">
+        {% csrf_token %}
+        <input type="hidden" value="{{ incident.id }}" name="Incident_id">
+        {{ f_hl.as_p }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addhl">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="dutyperform"  role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Hose Line</h4>
+      </div>
+      <div class="modal-body">
+        <form id="duty_form">
+        {% csrf_token %}
+        <input type="hidden" value="{{ incident.id }}" name="Incident_id">
+        {{ f_duty.as_p }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addduty">Add</button>
       </div>
     </div>
   </div>

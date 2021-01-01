@@ -4,18 +4,27 @@ from django.shortcuts import get_object_or_404, render
 from django.core.serializers import serialize
 from django.contrib.gis.serializers.geojson import Serializer
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import AlarmStatusUponArrival, BreathingApparatus, ExtinguisingAgent, Incident, Barangay, Engines, IncidentResponse
+from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, ExtinguisingAgent, HoseLine, Incident, Barangay, Engines, IncidentResponse, Personnel, RopeAndLadder
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
-from .forms import BreathingApparatusForm, ExtinguisingAgentForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm
+from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm
 
 def apor(request, incident_id):
     incident = get_object_or_404(Incident, id=incident_id)
-    aporMain = APORMain()
+    if request.method == "POST":
+        form = APORMain(request.POST, instance=incident)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.save()
+            return HttpResponseRedirect('/'+str(incident_id)+'/apormulti/')
+    else:
+        aporMain = APORMain(request.POST or None, instance=incident)
     return render(request,'apor.html', {
         "aporMain": aporMain,
         "incident": incident,
     })
+
+    
 ################################
 #newstatusuponarrival
 ################################
@@ -120,7 +129,7 @@ def newextinguish(request):
         id = request.POST.get('Incident_id')
         i = Incident.objects.get(id=id)
         Quantity = request.POST.get('qty')
-        Type = request.POST.get('Type')
+        Type = request.POST.get('type')
 
         response_data['Incident_id'] = id
         response_data['Quantity'] = Quantity
@@ -136,6 +145,113 @@ def newextinguish(request):
 
 ################################
 #newbreathing
+################################
+
+
+################################
+#newropeandladder
+################################
+def newropeandladder(request):
+    if request.is_ajax():
+        response_data = {}
+        id = request.POST.get('Incident_id')
+        i = Incident.objects.get(id=id)
+        Length = request.POST.get('length')
+        Type = request.POST.get('type')
+
+        response_data['Incident_id'] = id
+        response_data['Length'] = Length
+        response_data['Type'] = Type
+
+        newrl = RopeAndLadder.objects.create(
+            Incident = i,
+            Length = Length,
+            Type = Type,
+        )
+        response_data['new_id'] = newrl.id
+        return JsonResponse(response_data)
+
+################################
+#newropeandladder
+################################
+
+
+################################
+#newhoseline
+################################
+def newhoseline(request):
+    if request.is_ajax():
+        response_data = {}
+        id = request.POST.get('Incident_id')
+        i = Incident.objects.get(id=id)
+        Length = request.POST.get('length')
+        Type = request.POST.get('type')
+        Nr = request.POST.get('nr')
+
+        response_data['Incident_id'] = id
+        response_data['Nr'] = Nr
+        response_data['Length'] = Length
+        response_data['Type'] = Type
+
+        newhl = HoseLine.objects.create(
+            Incident = i,
+            Nr = Nr,
+            Type = Type,
+            Length = Length,
+        )
+        response_data['new_id'] = newhl.id
+        return JsonResponse(response_data)
+
+################################
+#newhoseline
+################################
+
+################################
+#newdutypersonnel
+################################
+def newdutypersonnel(request):
+    if request.is_ajax():
+        response_data = {}
+        id = request.POST.get('Incident_id')
+        i = Incident.objects.get(id=id)
+        personnel_id = request.POST.get('personnel_id')
+        p = Personnel.objects.get(id=personnel_id)
+        Designation = request.POST.get('designation')
+        Remarks = request.POST.get('remarks')
+
+        response_data['Incident_id'] = id
+        response_data['personnel_id'] = personnel_id
+        response_data['Personnel'] = p.full()
+        response_data['Designation'] = Designation
+        response_data['Remarks'] = Remarks
+
+        newd = DutyPersonnel.objects.create(
+            Incident = i,
+            Personnel = p,
+            Designation = Designation,
+            Remarks = Remarks,
+        )
+        response_data['new_id'] = newd.id
+        return JsonResponse(response_data)
+
+################################
+#newdutypersonnel
+################################
+
+
+################################
+#deletedutypersonnel
+################################
+def deletedutypersonnel(request):
+    if request.is_ajax():
+        sa_id = request.POST.get('sa_id')
+        response_data = {}
+        response_data['sa_id'] = sa_id
+        duty = DutyPersonnel.objects.get(id=sa_id)
+        duty.delete()
+        return JsonResponse(response_data)
+################################
+#deletedutypersonnel
 ################################
 
 
@@ -185,6 +301,39 @@ def deleteextinguish(request):
 #deletestatusuponarrival
 ################################
 
+
+################################
+#deletebreathing
+################################
+def deleteropeandladder(request):
+    if request.is_ajax():
+        sa_id = request.POST.get('sa_id')
+        response_data = {}
+        response_data['sa_id'] = sa_id
+        extin = RopeAndLadder.objects.get(id=sa_id)
+        extin.delete()
+        return JsonResponse(response_data)
+################################
+#deletestatusuponarrival
+################################
+
+
+
+################################
+#delethoseline
+################################
+def deletehoseline(request):
+    if request.is_ajax():
+        sa_id = request.POST.get('sa_id')
+        response_data = {}
+        response_data['sa_id'] = sa_id
+        extin = HoseLine.objects.get(id=sa_id)
+        extin.delete()
+        return JsonResponse(response_data)
+################################
+#delethoseline
+################################
+
 ################################
 #deleteresponsetime
 ################################
@@ -208,12 +357,18 @@ def apormulti(request, incident_id):
     f_responsetime = IncidentResponseForm()
     f_breathing = BreathingApparatusForm()
     f_extinguish = ExtinguisingAgentForm()
+    f_rl = RopeAndLadderForm()
+    f_hl = HoseLineForm()
+    f_duty = DutyPersonnelForm()
     return render(request, 'apormulti.html',{
         "incident": incident,
         "f_alarmstatusuponarrival": f_alarmstatusuponarrival,
         "f_responsetime": f_responsetime,
         "f_breathing": f_breathing,
         "f_extinguish": f_extinguish,
+        "f_rl": f_rl,
+        "f_hl": f_hl,
+        "f_duty": f_duty,
     })
 
 

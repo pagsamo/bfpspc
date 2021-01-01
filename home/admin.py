@@ -1,6 +1,6 @@
 from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
-from .models import BreathingApparatus, ExtinguisingAgent, Rank, Personnel, Incident, Employee, AlarmStatusUponArrival, IncidentResponse, Engines
+from .models import BreathingApparatus, ExtinguisingAgent, Rank, Personnel, Incident, Employee, AlarmStatusUponArrival, IncidentResponse, Engines, RopeAndLadder
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -49,11 +49,18 @@ class InvestigatorAdmin(LeafletGeoAdmin):
     list_display = ('Rank', 'LastName', 'FirstName',)
     search_fields = ('Name',)
 
+
+class RopeAndLadderInline(admin.TabularInline):
+    model = RopeAndLadder
+
 @admin.register(Incident)
 class IncidentAdmin(LeafletGeoAdmin):
     list_display = ('DateAlarmReceived','OwnerName','Barangay',)
     # exclude = ('TotalFatalities','Approved',)
     search_fields = ('Barangay__Name', 'OwnerName',)
+    inlines = [
+        RopeAndLadderInline,
+    ]
     filter = ('Barangay',)
     list_filter = ('Approved','Barangay',)
     # def get_form(self, request, obj=None, **kwargs):

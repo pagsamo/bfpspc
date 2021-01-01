@@ -32,21 +32,21 @@ class IncidentForm(ModelForm):
 
 
 class APORMain(ModelForm):
-    Caller = forms.CharField(max_length=200,required=True, label="Name of Caller")
-    CallerAddress = forms.CharField(max_length=200,required=True, label="Address of Caller")
-    PersonnelReceivingCall = forms.ModelChoiceField(queryset=Personnel.objects.all(), label="Personnel on Duty Receiving the Call")
-    OwnerName = forms.CharField(max_length=200,required=True, label="Name of Owner")
-    Occupant = forms.CharField(max_length=200,required=True, label="Name of Occupant")
-    EstablishmentName = forms.CharField(max_length=200,required=True, label="Name of Establishment")  
-    DateTimeUnderControl = forms.DateTimeField(required=True, label="Date Time Fire Under Control")
-    DateTimeFireOut = forms.DateTimeField(required=True, label="Date/Time Fire Out")
+    Caller = forms.CharField(max_length=200, label="Name of Caller", required=False)
+    CallerAddress = forms.CharField(max_length=200, label="Address of Caller")
+    PersonnelReceivingCall = forms.ModelChoiceField(queryset=Personnel.objects.all(), label="Personnel on Duty Receiving the Call", required=False)
+    OwnerName = forms.CharField(max_length=200, label="Name of Owner", required=False)
+    Occupant = forms.CharField(max_length=200, label="Name of Occupant", required=False)
+    EstablishmentName = forms.CharField(max_length=200, label="Name of Establishment", required=False)  
+    DateTimeUnderControl = forms.DateTimeField(label="Date Time Fire Under Control", required=False)
+    DateTimeFireOut = forms.DateTimeField(label="Date/Time Fire Out", required=False)
     OCCUPANCYTYPE_CHOICES = [
         ('Structural/Residential', 'Structural/Residential'),
         ('Non Structural', 'Non Structural'),
         ('Vehicular','Vehicular'),
     ]
-    OccupancyType = forms.ChoiceField(required=True, choices=OCCUPANCYTYPE_CHOICES, label="Type of Occupancy")
-    OccupancyTypeRemarks = forms.CharField(max_length=200,required=True, label="Occupancy Type Remarks")
+    OccupancyType = forms.ChoiceField(choices=OCCUPANCYTYPE_CHOICES, label="Type of Occupancy", required=False)
+    OccupancyTypeRemarks = forms.CharField(max_length=200, label="Occupancy Type Remarks", required=False)
     class Meta:
         model = Incident
         fields = [

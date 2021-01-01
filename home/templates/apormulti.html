@@ -11,6 +11,48 @@ thead tr th{ text-align:center; }
 {% include 'modals.html' %}
 <div class="container">
     <div class="row">
+    
+    
+
+
+    {% comment %} alarm status upon arrival {% endcomment %}
+        <h4>Duty Personnel at the Fire Scene</h4>
+        <button data-toggle="modal" data-target="#dutyperform" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <table class="table table-bordered table-striped">
+            <thead class="text-center">
+            <tr>
+                <th>Rank/Name</th>
+                <th>Designation</th>
+                <th>Remarks</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="tbody-duty" class="text-center">
+                {% for du in incident.dutypersonnel_set.all %}
+                <tr>
+                    <td>
+                        {{ du.Personnel }}
+                    </td>
+                    <td>
+                        {{ du.Designation }}
+                    </td>
+                    <td>
+                        {{ du.Remarks }}
+                    </td>
+                    <td>
+                        <input type="hidden" value="{{ du.id }}">
+                        <input type="button" class="btn btn-primary btn-sm deleteduty" value="Delete">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+<hr>
+
+
+
+
     {% comment %} alarm status upon arrival {% endcomment %}
         <h4>Alarm Status Upon Arrival</h4>
         <button data-toggle="modal" data-target="#alarmstatusuponarrival" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
@@ -106,6 +148,9 @@ thead tr th{ text-align:center; }
                 <th>
                     Type/Kind
                 </th>
+                <th>
+                Action
+                </th>
             </tr>
         </thead>
         <tbody class="text-center" id="tbody-breathing">
@@ -136,12 +181,15 @@ thead tr th{ text-align:center; }
                 <th>
                     Type/Kind
                 </th>
+                <th>
+                Action
+                </th>
             </tr>
         </thead>
-        <tbody class="text-center" id="tbody-breathing">
-             {% for ex in incident.extinguishingagent_set.all %}
+        <tbody class="text-center" id="tbody-extinguish">
+             {% for ex in incident.extinguisingagent_set.all %}
             <tr>
-                <td>{{ ex.Quantity }}</td>
+                <td>{{ ex.Quantity }} gals.</td>
                 <td>{{ ex.Type }}</td>
                 <td>
                 <input type="hidden" value={{ ex.id }}>
@@ -152,6 +200,74 @@ thead tr th{ text-align:center; }
         </tbody>
         </table>
 
+
+    
+<h4>Rope and Ladder Used</h4>
+
+<button data-toggle="modal" data-target="#rlform" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <table class="table table-bordered table-striped">
+        <thead class="text-center">
+            <tr>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Length
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-center" id="tbody-rl">
+             {% for rl in incident.ropeandladder_set.all %}
+            <tr>
+                <td>{{ rl.Type }}</td>
+                <td>{{ rl.Length }} ft</td>
+                <td>
+                <input type="hidden" value={{ rl.id }}>
+                <input type="button" class="btn btn-primary btn-sm deleterl" value="Delete">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
+
+<h4>Hose Line Used</h4>
+
+<button data-toggle="modal" data-target="#hlform" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <table class="table table-bordered table-striped">
+        <thead class="text-center">
+            <tr>
+                <th>
+                    Nr
+                </th>
+                <th>
+                    Type/Kind
+                </th>
+                <th>
+                    TOTAL ft
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-center" id="tbody-hl">
+             {% for hl in incident.hoseline_set.all %}
+            <tr>
+                <td>{{ hl.Nr }}</td>
+                <td>{{ hl.Type }} ft</td>
+                <td>{{ hl.Length }} ft</td>
+                <td>
+                <input type="hidden" value={{ hl.id }}>
+                <input type="button" class="btn btn-primary btn-sm deletehl" value="Delete">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
 
 
     </div>
@@ -279,6 +395,144 @@ $(document).ready(function(){
     Add Breathing
     **/
 
+
+    /**
+    Add extinguish
+    **/
+    $('#addextinguish').on('click', function(){
+        csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
+        incident_id = $('input[name=Incident_id]').val()
+        qty = $('#ex_form #id_Quantity').val()
+        type = $('#ex_form #id_Type').val()
+        $.ajax({
+            type: 'POST',
+            url: {% url "newextinguish" %},
+            data: {
+                Incident_id : incident_id,
+                qty : qty,
+                type : type,
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+            },
+            error: function(xhr, errmsg, err){
+              alert("Something went wrong, please refresh the page");
+              console.log(xhr.status + ": " + xhr.responseText);
+            },
+            success: function(data){
+                newextinguish = "<tr><td>"+data.Quantity+" gals.</td><td>"+data.Type+"</td><td><input type='hidden' value='"+data.new_id+"'><input type='button' class='btn btn-primary btn-sm deleteextinguish' value='Delete'>";
+                $('#tbody-extinguish:last-child').append(newextinguish);
+                $('#extinguishform').modal('hide');
+            }
+        })
+    });
+    /**
+    Add extinguish
+    **/
+
+
+     /**
+    Add rope and ladder
+    **/
+    $('#addrl').on('click', function(){
+        csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
+        incident_id = $('input[name=Incident_id]').val()
+        length = $('#rl_form #id_Length').val()
+        type = $('#rl_form #id_Type').val()
+        $.ajax({
+            type: 'POST',
+            url: {% url "newropeandladder" %},
+            data: {
+                Incident_id : incident_id,
+                length : length,
+                type : type,
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+            },
+            error: function(xhr, errmsg, err){
+              alert("Something went wrong, please refresh the page");
+              console.log(xhr.status + ": " + xhr.responseText);
+            },
+            success: function(data){
+                newrl = "<tr><td>"+data.Type+"</td><td>"+data.Length+" ft.</td><td><input type='hidden' value='"+data.new_id+"'><input type='button' class='btn btn-primary btn-sm deleterl' value='Delete'>";
+                $('#tbody-rl:last-child').append(newrl);
+                $('#rlform').modal('hide');
+            }
+        })
+    });
+    /**
+    Add rope and ladder
+    **/
+
+
+      /**
+    Add hose line
+    **/
+    $('#addhl').on('click', function(){
+        csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
+        incident_id = $('input[name=Incident_id]').val()
+        nr = $('#hl_form #id_Nr').val()
+        length = $('#hl_form #id_Length').val()
+        type = $('#hl_form #id_Type').val()
+        $.ajax({
+            type: 'POST',
+            url: {% url "newhoseline" %},
+            data: {
+                Incident_id : incident_id,
+                length : length,
+                type : type,
+                nr: nr,
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+            },
+            error: function(xhr, errmsg, err){
+              alert("Something went wrong, please refresh the page");
+              console.log(xhr.status + ": " + xhr.responseText);
+            },
+            success: function(data){
+                newhl = "<tr><td>"+data.Nr+"</td><td>"+data.Type+"</td><td>"+data.Length+"</td><td><input type='hidden' value='"+data.new_id+"'><input type='button' class='btn btn-primary btn-sm deletehl' value='Delete'>";
+                $('#tbody-hl:last-child').append(newhl);
+                $('#hlform').modal('hide');
+            }
+        })
+    });
+    /**
+    Add hose line
+    **/
+
+
+    /**
+    Add duty personnel
+    **/
+    $('#addduty').on('click', function(){
+        csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
+        incident_id = $('input[name=Incident_id]').val()
+        personnel_id = $('#duty_form #id_Personnel').val()
+        designation = $('#duty_form #id_Designation').val()
+        remarks = $('#duty_form #id_Remarks').val()
+        $.ajax({
+            type: 'POST',
+            url: {% url "newdutypersonnel" %},
+            data: {
+                Incident_id : incident_id,
+                personnel_id : personnel_id,
+                designation : designation,
+                remarks: remarks,
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+            },
+            error: function(xhr, errmsg, err){
+              alert("Something went wrong, please refresh the page");
+              console.log(xhr.status + ": " + xhr.responseText);
+            },
+            success: function(data){
+                newd = "<tr><td>"+data.Personnel+"</td><td>"+data.Designation+"</td><td>"+data.Remarks+"</td><td><input type='hidden' value='"+data.new_id+"'><input type='button' class='btn btn-primary btn-sm deleteduty' value='Delete'>";
+                $('#tbody-duty:last-child').append(newd);
+                $('#dutyperform').modal('hide');
+            }
+        })
+    });
+    /**
+    Add duty personnel
+    **/
+
+
+
     /**
     Delete Alarm Status
     **/
@@ -308,7 +562,7 @@ $(document).ready(function(){
     **/
 
     /**
-    Delete Alarm Status
+    Delete incident Response
     **/
     $(document).on('click', '.deleteincidentresponse', function(){
        incident_response_id = $(this).prev('input').val();
@@ -360,6 +614,117 @@ $(document).ready(function(){
     })
     /**
     Delete breathing
+    **/
+
+     /**
+    Delete extinguish 
+    **/
+    $(document).on('click', '.deleteextinguish', function(){
+       ex_id = $(this).prev('input').val();
+       $.ajax({
+           url: "{% url 'deleteextinguish'  %}",
+           type: "POST",
+           data:{
+               sa_id : ex_id,
+           },
+           dataType: "json",
+           beforeSend: function(xhr){
+               xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+           },
+           success: function(data){
+               $('#tbody-extinguish input[value="'+data.sa_id+'"]').parent('td').parent('tr').remove()
+           },
+           error: function(xhr, errmsg, err){
+              console.log(xhr.status + ": " + xhr.responseText);
+            }
+       })
+    })
+    /**
+    Delete breathing
+    **/
+
+
+    /**
+    Delete rope and ladder 
+    **/
+    $(document).on('click', '.deleterl', function(){
+       rl_id = $(this).prev('input').val();
+       $.ajax({
+           url: "{% url 'deleteropeandladder'  %}",
+           type: "POST",
+           data:{
+               sa_id : rl_id,
+           },
+           dataType: "json",
+           beforeSend: function(xhr){
+               xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+           },
+           success: function(data){
+               $('#tbody-rl input[value="'+data.sa_id+'"]').parent('td').parent('tr').remove()
+           },
+           error: function(xhr, errmsg, err){
+              console.log(xhr.status + ": " + xhr.responseText);
+            }
+       })
+    })
+    /**
+    Delete rope and ladder 
+    **/
+
+
+    /**
+    Delete hose line
+    **/
+    $(document).on('click', '.deletehl', function(){
+       hl_id = $(this).prev('input').val();
+       $.ajax({
+           url: "{% url 'deletehoseline'  %}",
+           type: "POST",
+           data:{
+               sa_id : hl_id,
+           },
+           dataType: "json",
+           beforeSend: function(xhr){
+               xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+           },
+           success: function(data){
+               $('#tbody-hl input[value="'+data.sa_id+'"]').parent('td').parent('tr').remove()
+           },
+           error: function(xhr, errmsg, err){
+              console.log(xhr.status + ": " + xhr.responseText);
+            }
+       })
+    })
+    /**
+    Delete hose line
+    **/
+
+
+     /**
+    Delete duty personnel
+    **/
+    $(document).on('click', '.deleteduty', function(){
+       du_id = $(this).prev('input').val();
+       $.ajax({
+           url: "{% url 'deletedutypersonnel'  %}",
+           type: "POST",
+           data:{
+               sa_id : du_id,
+           },
+           dataType: "json",
+           beforeSend: function(xhr){
+               xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+           },
+           success: function(data){
+               $('#tbody-duty input[value="'+data.sa_id+'"]').parent('td').parent('tr').remove()
+           },
+           error: function(xhr, errmsg, err){
+              console.log(xhr.status + ": " + xhr.responseText);
+            }
+       })
+    })
+    /**
+    Delete duty personnel
     **/
 
 })
