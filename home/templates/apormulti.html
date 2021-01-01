@@ -3,24 +3,26 @@
 {% block style %}
 <style>
 label{ vertical-align: top; }
+thead tr th{ text-align:center; }
+.table{ margin-top:20px; }
 </style>
 {% endblock style %}
 {% block content %}
-{% include 'alarmstatusuponarrival.html' %}
+{% include 'modals.html' %}
 <div class="container">
     <div class="row">
     {% comment %} alarm status upon arrival {% endcomment %}
         <h4>Alarm Status Upon Arrival</h4>
         <button data-toggle="modal" data-target="#alarmstatusuponarrival" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
-        <table class="table">
-            <thead>
+        <table class="table table-bordered table-striped">
+            <thead class="text-center">
             <tr>
                 <th>Alarm</th>
                 <th>Remarks</th>
                 <th>Action</th>
             </tr>
             </thead>
-            <tbody id="tbody-alarmstatusuponarrival">
+            <tbody id="tbody-alarmstatusuponarrival" class="text-center">
                 {% for sa in incident.alarmstatusuponarrival_set.all %}
                 <tr>
                     <td>
@@ -38,11 +40,13 @@ label{ vertical-align: top; }
             </tbody>
         </table>
 
+<hr>
 
         {% comment %} response time {% endcomment %}
         <h4>Response Time</h4>
-        <table class="table">
-        <thead>
+        <button data-toggle="modal" data-target="#incidentresponseform" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <table class="table table-bordered table-striped">
+        <thead class="text-center">
             <tr>
                 <th>
                     Engine Dispatched
@@ -70,30 +74,111 @@ label{ vertical-align: top; }
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center" id="tbody-responsetime">
              {% for rt in incident.incidentresponse_set.all %}
             <tr>
                 <td>{{ rt.Engine }}</td>
-                <td>{{ rt.TimeDispatched }}</td>
-                <td>{{ rt.TimeArrived }}</td>
-                <td>{{ rt.ResponseTime }}</td>
-                <td>{{ rt.TimeReturnedToBase }}</td>
+                <td>{{ rt.TimeDispatched|time:"Hi" }}H</td>
+                <td>{{ rt.TimeArrived|time:"Hi" }}H</td>
+                <td>{{ rt.ResponseTime }} minutes</td>
+                <td>{{ rt.TimeReturnedToBase|time:"Hi" }}H</td>
                 <td>{{ rt.WaterTankRefilled }}</td>
                 <td>{{ rt.GasConsumed }}</td>
+                <td>
+                <input type="hidden" value={{ rt.id }}>
+                <input type="button" class="btn btn-primary btn-sm deleteincidentresponse" value="Delete">
+                </td>
             </tr>
             {% endfor %}
         </tbody>
         </table>
+
+<hr>
+<h4>Breathing Apparatus</h4>
+
+<button data-toggle="modal" data-target="#breathingform" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <table class="table table-bordered table-striped">
+        <thead class="text-center">
+            <tr>
+                <th>
+                    Nr
+                </th>
+                <th>
+                    Type/Kind
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-center" id="tbody-breathing">
+             {% for br in incident.breathingapparatus_set.all %}
+            <tr>
+                <td>{{ br.BreathingApparatusNr }}</td>
+                <td>{{ br.BreathingApparatusType }}</td>
+                <td>
+                <input type="hidden" value={{ br.id }}>
+                <input type="button" class="btn btn-primary btn-sm deletebreathing" value="Delete">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
+
+    <hr>
+<h4>Extinguishing Agents Used</h4>
+
+<button data-toggle="modal" data-target="#extinguishform" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <table class="table table-bordered table-striped">
+        <thead class="text-center">
+            <tr>
+                <th>
+                    Quanity
+                </th>
+                <th>
+                    Type/Kind
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-center" id="tbody-breathing">
+             {% for ex in incident.extinguishingagent_set.all %}
+            <tr>
+                <td>{{ ex.Quantity }}</td>
+                <td>{{ ex.Type }}</td>
+                <td>
+                <input type="hidden" value={{ ex.id }}>
+                <input type="button" class="btn btn-primary btn-sm deleteextinguish" value="Delete">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+
+
+
     </div>
 </div>
 
 
 {% endblock content %}
 {% block scripts %}
-<script src="{% static 'js/apormulti.js' %}"></script>
 <script>
 $(document).ready(function(){
-    
+    /**
+    Time picker
+    **/
+
+
+    $("#id_TimeDispatched, #id_TimeArrived, #id_TimeReturnedToBase").flatpickr({
+        enableTime: true,
+        noCalendar: true,
+        time_24hr: true,
+    });
+
+    /**
+    Time picker
+    **/
+    /**
+    Add Status Upon Arrival
+    **/
     $('#addstatusuponarrival').on('click', function(){
         csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
         incident_id = $('input[name=Incident_id]').val()
@@ -118,7 +203,85 @@ $(document).ready(function(){
             }
         })
     });
+    /**
+    Add Incident Response
+    **/
+    $('#addresponsetime').on('click', function(){
+        csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
+        incident_id = $('input[name=Incident_id]').val()
+        engine = $('#id_Engine').val()
+        timedispatched = $('#id_TimeDispatched').val()
+        timearrived = $('#id_TimeArrived').val()
+        timereturnedtobase = $('#id_TimeReturnedToBase').val()
+        watertankrefilled = $('#id_WaterTankRefilled').val()
+        gasconsumed = $('#id_GasConsumed').val()
+        $.ajax({
+            type: 'POST',
+            url: {% url "newresponsetime" %},
+            data: {
+                Incident_id : incident_id,
+                engine : engine,
+                timedispatched : timedispatched,
+                timearrived : timearrived,
+                timereturnedtobase : timereturnedtobase,
+                watertankrefilled : watertankrefilled,
+                gasconsumed : gasconsumed,
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+            },
+            error: function(xhr, errmsg, err){
+              alert('The firetruck has already been selected.')
+              //console.log(xhr.status + ": " + xhr.responseText);
+            },
+            success: function(data){
+                newresponsetime = "<tr><td>"+data.Engine+"</td><td>"+data.TimeDispatched+"</td><td>";
+                newresponsetime += data.TimeArrived+"</td><td>"+data.responsetime+" minutes</td><td>";
+                newresponsetime += data.TimeReturnedToBase+"</td><td>"+data.WaterTankRefilled+"</td><td>"+data.GasConsumed+"</td><td>";
+                newresponsetime += "<input type='hidden' value='"+data.new_id+"'><input type='button' class='btn btn-primary btn-sm deleteresponsetime' value='Delete'>";
+                $('#tbody-responsetime:last-child').append(newresponsetime);
+                $('#incidentresponseform').modal('hide');
+            }
+        })
+    });
+    /**
+    Add Incident Response
+    <input type='hidden' value='"+data.new_id+"'><input type='button' class='btn btn-primary btn-sm deleteresponsetime' value='Delete'>"
+    **/
 
+    /**
+    Add Breathing
+    **/
+    $('#addbreathing').on('click', function(){
+        csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
+        incident_id = $('input[name=Incident_id]').val()
+        nr = $('#id_BreathingApparatusNr').val()
+        type = $('#id_BreathingApparatusType').val()
+        $.ajax({
+            type: 'POST',
+            url: {% url "newbreathing" %},
+            data: {
+                Incident_id : incident_id,
+                nr : nr,
+                type : type,
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+            },
+            error: function(xhr, errmsg, err){
+              alert("Something went wrong, please refresh the page");
+              console.log(xhr.status + ": " + xhr.responseText);
+            },
+            success: function(data){
+                newbreathing = "<tr><td>"+data.BreathingApparatusNr+"</td><td>"+data.BreathingApparatusType+"</td><td><input type='hidden' value='"+data.new_id+"'><input type='button' class='btn btn-primary btn-sm deletebreathing' value='Delete'>";
+                $('#tbody-breathing:last-child').append(newbreathing);
+                $('#breathingform').modal('hide');
+            }
+        })
+    });
+    /**
+    Add Breathing
+    **/
+
+    /**
+    Delete Alarm Status
+    **/
     $(document).on('click', '.deletealarm', function(){
        alarmstatusid = $(this).prev('input').val();
        $(this).parent('td').parent('tr').remove();
@@ -139,8 +302,65 @@ $(document).ready(function(){
               console.log(xhr+":"+errmsg)
               }
        })
-       
     })
+    /**
+    Delete Alarm Status
+    **/
+
+    /**
+    Delete Alarm Status
+    **/
+    $(document).on('click', '.deleteincidentresponse', function(){
+       incident_response_id = $(this).prev('input').val();
+       $(this).parent('td').parent('tr').remove();
+       $.ajax({
+           url: "{% url 'deleteresponsetime'  %}",
+           type: "POST",
+           data:{
+               sa_id : incident_response_id,
+           },
+           dataType: "json",
+           beforeSend: function(xhr){
+               xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+           },
+           success: function(data){
+               $('#tbody-responsetime input[value="'+data.sa_id+'"]').parent('td').parent('tr').remove()
+           },
+           error: function(xhr, errmsg, err){
+              console.log(xhr.status + ": " + xhr.responseText);
+            }
+       })
+    })
+    /**
+    Delete response time
+    **/
+
+     /**
+    Delete breathing 
+    **/
+    $(document).on('click', '.deletebreathing', function(){
+       breathingid = $(this).prev('input').val();
+       $.ajax({
+           url: "{% url 'deletebreathing'  %}",
+           type: "POST",
+           data:{
+               sa_id : breathingid,
+           },
+           dataType: "json",
+           beforeSend: function(xhr){
+               xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+           },
+           success: function(data){
+               $('#tbody-breathing input[value="'+data.sa_id+'"]').parent('td').parent('tr').remove()
+           },
+           error: function(xhr, errmsg, err){
+              console.log(xhr.status + ": " + xhr.responseText);
+            }
+       })
+    })
+    /**
+    Delete breathing
+    **/
 
 })
 </script>

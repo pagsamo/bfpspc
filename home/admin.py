@@ -1,6 +1,6 @@
 from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
-from .models import Rank, Personnel, Incident, Employee, AlarmStatusUponArrival, IncidentResponse, Engines
+from .models import BreathingApparatus, ExtinguisingAgent, Rank, Personnel, Incident, Employee, AlarmStatusUponArrival, IncidentResponse, Engines
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -17,9 +17,18 @@ class UserAdmin(BaseUserAdmin):
     inlines = (EmployeeInline,)
 
 
+@admin.register(ExtinguisingAgent)
+class ExtinguisingAgentAdmin(LeafletGeoAdmin):
+    list_display = ('Type', )
+
+
 @admin.register(Engines)
 class EnginesAdmin(LeafletGeoAdmin):
     list_display = ('Name', 'Model',)
+
+@admin.register(BreathingApparatus)
+class BreathingApparatusForm(LeafletGeoAdmin):
+    list_display = ('BreathingApparatusType', )
 
 
 @admin.register(IncidentResponse)

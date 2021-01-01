@@ -95,11 +95,11 @@ class AlarmStatusUponArrivalForm(ModelForm):
 
 class IncidentResponseForm(ModelForm):
     Engine = forms.ModelChoiceField(required=True,queryset=Engines.objects.all())
-    TimeDispatched = forms.TimeField(required=True)
-    TimeArrived = forms.TimeField(required=True)
-    TimeReturnedToBase = forms.TimeField(required=True)
-    WaterTankRefilled = forms.IntegerField(required=True)
-    GasConsumed = forms.IntegerField(required=True)
+    TimeDispatched = forms.TimeField(required=True, label="Time Dispatched")
+    TimeArrived = forms.TimeField(required=True, label="Time Arrived")
+    TimeReturnedToBase = forms.TimeField(required=True, label="Time Returned To Base")
+    WaterTankRefilled = forms.IntegerField(required=True, label="Water Tank Refilled")
+    GasConsumed = forms.IntegerField(required=True, label="Gas Consumed")
     class Meta:
         model = IncidentResponse
         fields = [

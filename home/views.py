@@ -4,10 +4,10 @@ from django.shortcuts import get_object_or_404, render
 from django.core.serializers import serialize
 from django.contrib.gis.serializers.geojson import Serializer
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import AlarmStatusUponArrival, Incident, Barangay, Engines, IncidentResponse
+from .models import AlarmStatusUponArrival, BreathingApparatus, ExtinguisingAgent, Incident, Barangay, Engines, IncidentResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
-from .forms import IncidentForm, APORMain, AlarmStatusUponArrivalForm
+from .forms import BreathingApparatusForm, ExtinguisingAgentForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm
 
 def apor(request, incident_id):
     incident = get_object_or_404(Incident, id=incident_id)
@@ -16,7 +16,9 @@ def apor(request, incident_id):
         "aporMain": aporMain,
         "incident": incident,
     })
-
+################################
+#newstatusuponarrival
+################################
 def newstatusuponarrival(request):
     if request.is_ajax():
         response_data = {}
@@ -37,7 +39,109 @@ def newstatusuponarrival(request):
         response_data['new_id'] = newalarm.id
         return JsonResponse(response_data)
 
+################################
+#newresponsetime
+################################
 
+
+def newresponsetime(request):
+    if request.is_ajax():
+        response_data = {}
+        id = request.POST.get('Incident_id')
+        i = Incident.objects.get(id=id)
+        engine_id = request.POST.get('engine')
+        Engine = Engines.objects.get(id=engine_id)
+        TimeDispatched = request.POST.get('timedispatched')
+        TimeArrived = request.POST.get('timearrived')
+        TimeReturnedToBase = request.POST.get('timereturnedtobase')
+        WaterTankRefilled = request.POST.get('watertankrefilled')
+        GasConsumed = request.POST.get('gasconsumed')
+
+        response_data['Incident_id'] = id
+        response_data['Engine'] = Engine.Name
+        response_data['TimeDispatched'] = TimeDispatched
+        response_data['TimeArrived'] = TimeArrived
+        response_data['TimeReturnedToBase'] = TimeReturnedToBase
+        response_data['WaterTankRefilled'] = WaterTankRefilled
+        response_data['GasConsumed'] = GasConsumed
+
+        newresponsetime = IncidentResponse.objects.create(
+            Incident = i,
+            Engine = Engine,
+            TimeDispatched = TimeDispatched,
+            TimeArrived = TimeArrived,
+            TimeReturnedToBase = TimeReturnedToBase,
+            WaterTankRefilled = WaterTankRefilled,
+            GasConsumed = GasConsumed,
+        )
+        response_data['new_id'] = newresponsetime.id
+        newresponsetime = IncidentResponse.objects.get(id=newresponsetime.id)
+        response_data['responsetime'] = newresponsetime.ResponseTime()
+        return JsonResponse(response_data)
+################################
+#newresponsetime
+################################
+
+
+################################
+#newbreathing
+################################
+def newbreathing(request):
+    if request.is_ajax():
+        response_data = {}
+        id = request.POST.get('Incident_id')
+        i = Incident.objects.get(id=id)
+        BreathingApparatusNr = request.POST.get('nr')
+        BreathingApparatusType = request.POST.get('type')
+
+        response_data['Incident_id'] = id
+        response_data['BreathingApparatusNr'] = BreathingApparatusNr
+        response_data['BreathingApparatusType'] = BreathingApparatusType
+
+        newbreathing = BreathingApparatus.objects.create(
+            Incident = i,
+            BreathingApparatusNr = BreathingApparatusNr,
+            BreathingApparatusType = BreathingApparatusType,
+        )
+        response_data['new_id'] = newbreathing.id
+        return JsonResponse(response_data)
+
+################################
+#newbreathing
+################################
+
+
+################################
+#newbreathing
+################################
+def newextinguish(request):
+    if request.is_ajax():
+        response_data = {}
+        id = request.POST.get('Incident_id')
+        i = Incident.objects.get(id=id)
+        Quantity = request.POST.get('qty')
+        Type = request.POST.get('Type')
+
+        response_data['Incident_id'] = id
+        response_data['Quantity'] = Quantity
+        response_data['Type'] = Type
+
+        newex = ExtinguisingAgent.objects.create(
+            Incident = i,
+            Quantity = Quantity,
+            Type = Type,
+        )
+        response_data['new_id'] = newex.id
+        return JsonResponse(response_data)
+
+################################
+#newbreathing
+################################
+
+
+################################
+#deletestatusuponarrival
+################################
 def deletestatusuponarrival(request):
     if request.is_ajax():
         sa_id = request.POST.get('sa_id')
@@ -46,16 +150,70 @@ def deletestatusuponarrival(request):
         statusuponarrival = AlarmStatusUponArrival.objects.get(id=sa_id)
         statusuponarrival.delete()
         return JsonResponse(response_data)
-        
+################################
+#deletestatusuponarrival
+################################
+
+################################
+#deletebreathing
+################################
+def deletebreathing(request):
+    if request.is_ajax():
+        sa_id = request.POST.get('sa_id')
+        response_data = {}
+        response_data['sa_id'] = sa_id
+        breathing = BreathingApparatus.objects.get(id=sa_id)
+        breathing.delete()
+        return JsonResponse(response_data)
+################################
+#deletestatusuponarrival
+################################
+
+
+################################
+#deletebreathing
+################################
+def deleteextinguish(request):
+    if request.is_ajax():
+        sa_id = request.POST.get('sa_id')
+        response_data = {}
+        response_data['sa_id'] = sa_id
+        extin = ExtinguisingAgent.objects.get(id=sa_id)
+        extin.delete()
+        return JsonResponse(response_data)
+################################
+#deletestatusuponarrival
+################################
+
+################################
+#deleteresponsetime
+################################
+def deleteresponsetime(request):
+    if request.is_ajax():
+        sa_id = request.POST.get('sa_id')
+        response_data = {}
+        response_data['sa_id'] = sa_id
+        incidentresponse = IncidentResponse.objects.get(id=sa_id)
+        incidentresponse.delete()
+        return JsonResponse(response_data)
+################################
+#deleteresponsetime
+################################ 
 
 
 
 def apormulti(request, incident_id):
     incident = get_object_or_404(Incident, id=incident_id)
     f_alarmstatusuponarrival = AlarmStatusUponArrivalForm()
+    f_responsetime = IncidentResponseForm()
+    f_breathing = BreathingApparatusForm()
+    f_extinguish = ExtinguisingAgentForm()
     return render(request, 'apormulti.html',{
         "incident": incident,
         "f_alarmstatusuponarrival": f_alarmstatusuponarrival,
+        "f_responsetime": f_responsetime,
+        "f_breathing": f_breathing,
+        "f_extinguish": f_extinguish,
     })
 
 

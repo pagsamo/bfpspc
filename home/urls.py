@@ -13,5 +13,11 @@ urlpatterns = [
     path('<int:incident_id>/apor/', apor, name='apor'),
     path('<int:incident_id>/apormulti/', apormulti, name='apormulti'),
     path('newstatusuponarrival/', newstatusuponarrival, name='newstatusuponarrival'),
+    path('newresponsetime/', newresponsetime, name='newresponsetime'),
+    path('newbreathing/', newbreathing, name='newbreathing'),
+    path('newextinguish/', newextinguish, name='newextinguish'),
     path('deletestatusuponarrival/', deletestatusuponarrival, name='deletestatusuponarrival'),
+    path('deleteresponsetime/', deleteresponsetime, name='deleteresponsetime'),
+    path('deletebreathing/', deletebreathing, name='deletebreathing'),
+    path('deleteextinguish/', deleteextinguish, name='deleteextinguish'),
 ]

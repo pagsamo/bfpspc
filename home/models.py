@@ -210,11 +210,13 @@ class IncidentResponse(models.Model):
         ctime2 = datetime.datetime.strptime(time2, "%H:%M")
         difference = ctime2 - ctime1
         responseMins = difference.total_seconds() / 60
-        return str(responseMins)
+        return responseMins
     
-
     def __str__(self):
-        return self.TimeDispatched
+        return self.Engine.Name
+
+    class Meta:
+        unique_together = (('Incident', 'Engine',),)
 #####################
 #IncidentResponse
 #####################
