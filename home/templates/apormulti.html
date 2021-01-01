@@ -11,11 +11,43 @@ thead tr th{ text-align:center; }
 {% include 'modals.html' %}
 <div class="container">
     <div class="row">
-    
-    
 
 
     {% comment %} alarm status upon arrival {% endcomment %}
+        <h4>Alarm Status Upon Arrival</h4>
+        <button data-toggle="modal" data-target="#alarmstatusuponarrival" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <table class="table table-bordered table-striped">
+            <thead class="text-center">
+            <tr>
+                <th>Alarm</th>
+                <th>Remarks</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="tbody-alarmstatusuponarrival" class="text-center">
+                {% for sa in incident.alarmstatusuponarrival_set.all %}
+                <tr>
+                    <td>
+                        {{ sa.StatusUponArrival }}
+                    </td>
+                    <td>
+                        {{ sa.StatusUponArrivalRemarks }}
+                    </td>
+                    <td>
+                        <input type="hidden" value="{{ sa.id }}">
+                        <input type="button" class="btn btn-primary btn-sm deletealarm" value="Delete">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+<hr>
+    
+    
+
+
+    {% comment %} duty personnel {% endcomment %}
         <h4>Duty Personnel at the Fire Scene</h4>
         <button data-toggle="modal" data-target="#dutyperform" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
         <table class="table table-bordered table-striped">
@@ -49,33 +81,36 @@ thead tr th{ text-align:center; }
         </table>
 
 <hr>
+{% comment %} duty personnel {% endcomment %}
 
 
-
-
-    {% comment %} alarm status upon arrival {% endcomment %}
-        <h4>Alarm Status Upon Arrival</h4>
-        <button data-toggle="modal" data-target="#alarmstatusuponarrival" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+ {% comment %} duty personnel {% endcomment %}
+        <h4>Time Alarm Status Declared</h4>
+        <button data-toggle="modal" data-target="#timelarm" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
         <table class="table table-bordered table-striped">
             <thead class="text-center">
             <tr>
-                <th>Alarm</th>
-                <th>Remarks</th>
+                <th>Alarm Status</th>
+                <th>Time</th>
+                <th>Ground Commander</th>
                 <th>Action</th>
             </tr>
             </thead>
-            <tbody id="tbody-alarmstatusuponarrival" class="text-center">
-                {% for sa in incident.alarmstatusuponarrival_set.all %}
+            <tbody id="tbody-ta" class="text-center">
+                {% for ta in incident.timealarmstatus_set.all %}
                 <tr>
                     <td>
-                        {{ sa.StatusUponArrival }}
+                        {{ ta.AlarmStatus }}
                     </td>
                     <td>
-                        {{ sa.StatusUponArrivalRemarks }}
+                        {{ ta.AlarmTime|time:"Hi" }}H
                     </td>
                     <td>
-                        <input type="hidden" value="{{ sa.id }}">
-                        <input type="button" class="btn btn-primary btn-sm deletealarm" value="Delete">
+                        {{ ta.GroundCommander }}
+                    </td>
+                    <td>
+                        <input type="hidden" value="{{ ta.id }}">
+                        <input type="button" class="btn btn-primary btn-sm deleteta" value="Delete">
                     </td>
                 </tr>
                 {% endfor %}
@@ -83,6 +118,13 @@ thead tr th{ text-align:center; }
         </table>
 
 <hr>
+{% comment %} duty personnel {% endcomment %}
+
+
+
+
+
+    
 
         {% comment %} response time {% endcomment %}
         <h4>Response Time</h4>
@@ -269,6 +311,7 @@ thead tr th{ text-align:center; }
         </tbody>
         </table>
 
+    <a href="{% url "report_builder" %}"><button class="btn btn-lg btn-success">Done</button></a>
 
     </div>
 </div>
@@ -283,7 +326,7 @@ $(document).ready(function(){
     **/
 
 
-    $("#id_TimeDispatched, #id_TimeArrived, #id_TimeReturnedToBase").flatpickr({
+    $("#id_TimeDispatched, #id_TimeArrived, #id_TimeReturnedToBase, #id_AlarmTime").flatpickr({
         enableTime: true,
         noCalendar: true,
         time_24hr: true,
@@ -345,8 +388,8 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
             },
             error: function(xhr, errmsg, err){
-              alert('The firetruck has already been selected.')
-              //console.log(xhr.status + ": " + xhr.responseText);
+              alert('The firetruck has already been selected or you have missing fields.')
+              console.log(xhr.status + ": " + xhr.responseText);
             },
             success: function(data){
                 newresponsetime = "<tr><td>"+data.Engine+"</td><td>"+data.TimeDispatched+"</td><td>";
@@ -381,7 +424,7 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
             },
             error: function(xhr, errmsg, err){
-              alert("Something went wrong, please refresh the page");
+              alert("Please fill in the form.");
               console.log(xhr.status + ": " + xhr.responseText);
             },
             success: function(data){
@@ -414,7 +457,7 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
             },
             error: function(xhr, errmsg, err){
-              alert("Something went wrong, please refresh the page");
+              alert("Please complete the form.");
               console.log(xhr.status + ": " + xhr.responseText);
             },
             success: function(data){
@@ -447,7 +490,7 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
             },
             error: function(xhr, errmsg, err){
-              alert("Something went wrong, please refresh the page");
+              alert("Please complete the form.");
               console.log(xhr.status + ": " + xhr.responseText);
             },
             success: function(data){
@@ -482,7 +525,7 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
             },
             error: function(xhr, errmsg, err){
-              alert("Something went wrong, please refresh the page");
+              alert("Please complete the form.");
               console.log(xhr.status + ": " + xhr.responseText);
             },
             success: function(data){
@@ -517,7 +560,7 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: csrfmiddlewaretoken,
             },
             error: function(xhr, errmsg, err){
-              alert("Something went wrong, please refresh the page");
+              alert("Please complete the form and do not duplicate personnel.");
               console.log(xhr.status + ": " + xhr.responseText);
             },
             success: function(data){
@@ -529,6 +572,70 @@ $(document).ready(function(){
     });
     /**
     Add duty personnel
+    **/
+
+
+     /**
+    Add time alarm status
+    **/
+    $('#addta').on('click', function(){
+        csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
+        incident_id = $('input[name=Incident_id]').val()
+        alarmstatus = $('#ta_form #id_AlarmStatus').val()
+        alarmtime = $('#ta_form #id_AlarmTime').val()
+        groundcommander = $('#ta_form #id_GroundCommander').val()
+        $.ajax({
+            type: 'POST',
+            url: {% url "newtimealarmstatus" %},
+            data: {
+                Incident_id : incident_id,
+                alarmstatus : alarmstatus,
+                alarmtime : alarmtime,
+                groundcommander: groundcommander,
+                csrfmiddlewaretoken: csrfmiddlewaretoken,
+            },
+            error: function(xhr, errmsg, err){
+              alert("Please complete the form and do not duplicate alarm status.");
+              console.log(xhr.status + ": " + xhr.responseText);
+            },
+            success: function(data){
+                newd = "<tr><td>"+data.AlarmStatus+"</td><td>"+data.AlarmTime+"</td><td>"+data.GroundCommander+"</td><td><input type='hidden' value='"+data.new_id+"'><input type='button' class='btn btn-primary btn-sm deleteta' value='Delete'>";
+                $('#tbody-ta:last-child').append(newd);
+                $('#timelarm').modal('hide');
+            }
+        })
+    });
+    /**
+    Add time alarm status
+    **/
+
+
+     /**
+    Delete time alarm Status
+    **/
+    $(document).on('click', '.deleteta', function(){
+       alarmstatusid = $(this).prev('input').val();
+       $(this).parent('td').parent('tr').remove();
+       $.ajax({
+           url: "{% url 'deletealarmstatus'  %}",
+           type: "POST",
+           data:{
+               sa_id : alarmstatusid,
+           },
+           dataType: "json",
+           beforeSend: function(xhr){
+               xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+           },
+           success: function(data){
+               $('#tbody-ta input[value="'+data.sa_id+'"]').parent('td').parent('tr').remove()
+           },
+           error: function(xhr, errmsg, err){
+              console.log(xhr+":"+errmsg)
+              }
+       })
+    })
+    /**
+    Delete time alarm Status
     **/
 
 

@@ -25,9 +25,12 @@
       <div class="list-group list-group-flush">
         <a href="{% url 'homepage' %}" class="list-group-item list-group-item-action bg-light">Map</a>
         <a href="{% url 'analytics' %}" class="list-group-item list-group-item-action bg-light">Analytics</a>
-        <a href="{% url 'admin:index' %}" class="list-group-item list-group-item-action bg-light">Data</a>
         <a href="{% url 'report_builder' %}" class="list-group-item list-group-item-action bg-light">Reports</a>
+        {% if request.user.is_superuser %}
+          <a href="{% url 'admin:index' %}" class="list-group-item list-group-item-action bg-light">Admin</a>
+        {% endif %}
         <a href="{% url 'logout' %}" class="list-group-item list-group-item-action bg-light">Logout</a>
+        
       </div>
     </div>
     <!-- /#sidebar-wrapper -->

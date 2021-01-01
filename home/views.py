@@ -4,11 +4,20 @@ from django.shortcuts import get_object_or_404, render
 from django.core.serializers import serialize
 from django.contrib.gis.serializers.geojson import Serializer
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, ExtinguisingAgent, HoseLine, Incident, Barangay, Engines, IncidentResponse, Personnel, RopeAndLadder
+from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, ExtinguisingAgent, HoseLine, Incident, Barangay, Engines, IncidentResponse, Personnel, RopeAndLadder, TimeAlarmStatus
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
-from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm
+from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm
 
+@login_required(login_url='/accounts/login')
+def report(request, incident_id):
+    incident = Incident.objects.get(id=incident_id)
+    return render(request, 'report.html',{
+        "incident": incident,
+    })
+
+
+@login_required(login_url='/accounts/login')
 def apor(request, incident_id):
     incident = get_object_or_404(Incident, id=incident_id)
     if request.method == "POST":
@@ -256,6 +265,53 @@ def deletedutypersonnel(request):
 
 
 ################################
+#newtimealarmstatus
+################################
+def newtimealarmstatus(request):
+    if request.is_ajax():
+        response_data = {}
+        id = request.POST.get('Incident_id')
+        i = Incident.objects.get(id=id)
+        AlarmStatus = request.POST.get('alarmstatus')
+        AlarmTime = request.POST.get('alarmtime')
+        GroundCommander = request.POST.get('groundcommander')
+
+        response_data['Incident_id'] = id
+        response_data['AlarmStatus'] = AlarmStatus
+        response_data['AlarmTime'] = AlarmTime
+        response_data['GroundCommander'] = GroundCommander
+
+        newta = TimeAlarmStatus.objects.create(
+            Incident = i,
+            AlarmStatus = AlarmStatus,
+            AlarmTime = AlarmTime,
+            GroundCommander = GroundCommander,
+        )
+        response_data['new_id'] = newta.id
+        return JsonResponse(response_data)
+
+################################
+#newtimealarmstatus
+################################
+
+
+################################
+#deletealarmstatus
+################################
+def deletealarmstatus(request):
+    if request.is_ajax():
+        sa_id = request.POST.get('sa_id')
+        response_data = {}
+        response_data['sa_id'] = sa_id
+        duty = TimeAlarmStatus.objects.get(id=sa_id)
+        duty.delete()
+        return JsonResponse(response_data)
+################################
+#deletealarmstatus
+################################
+
+
+################################
 #deletestatusuponarrival
 ################################
 def deletestatusuponarrival(request):
@@ -350,7 +406,7 @@ def deleteresponsetime(request):
 ################################ 
 
 
-
+@login_required(login_url='/accounts/login')
 def apormulti(request, incident_id):
     incident = get_object_or_404(Incident, id=incident_id)
     f_alarmstatusuponarrival = AlarmStatusUponArrivalForm()
@@ -360,6 +416,7 @@ def apormulti(request, incident_id):
     f_rl = RopeAndLadderForm()
     f_hl = HoseLineForm()
     f_duty = DutyPersonnelForm()
+    f_ta = TimeAlarmStatusForm()
     return render(request, 'apormulti.html',{
         "incident": incident,
         "f_alarmstatusuponarrival": f_alarmstatusuponarrival,
@@ -369,21 +426,37 @@ def apormulti(request, incident_id):
         "f_rl": f_rl,
         "f_hl": f_hl,
         "f_duty": f_duty,
+        "f_ta": f_ta,
     })
 
 
-
+@login_required(login_url='/accounts/login')
 def new_incident(request):
-    form = IncidentForm()
     if request.method == "POST":
         form = IncidentForm(request.POST)
         if form.is_valid():
             form = form.save(commit=False)
             form.save()
-            return HttpResponseRedirect(str(form.id)+'/apor/')
+            return HttpResponseRedirect("/"+str(form.id)+'/apor/')
     else:
         form = IncidentForm()
     return render(request, 'new_incident.html',{'form':form})
+
+@login_required(login_url='/accounts/login')
+def update_incident(request, incident_id):
+    incident = Incident.objects.get(id=incident_id)
+    if request.method == "POST":
+        form = IncidentForm(request.POST, instance=incident)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.save()
+            return HttpResponseRedirect("/"+str(incident_id)+'/apor/')
+    else:
+        form = IncidentForm(instance=incident)
+    return render(request, 'incident.html',{
+        'form':form,
+        'incident': incident,
+        })
 
 
 @login_required(login_url='/accounts/login')

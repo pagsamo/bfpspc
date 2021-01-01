@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import AlarmStatusUponArrival, BreathingApparatus, Engines, ExtinguisingAgent, Incident, Barangay, IncidentResponse, Personnel, RopeAndLadder, HoseLine
+from .models import AlarmStatusUponArrival, BreathingApparatus, Engines, ExtinguisingAgent, Incident, Barangay, IncidentResponse, Personnel, RopeAndLadder, HoseLine, TimeAlarmStatus
 from leaflet.forms.widgets import LeafletWidget
 
 
@@ -35,9 +35,6 @@ class APORMain(ModelForm):
     Caller = forms.CharField(max_length=200, label="Name of Caller", required=False)
     CallerAddress = forms.CharField(max_length=200, label="Address of Caller")
     PersonnelReceivingCall = forms.ModelChoiceField(queryset=Personnel.objects.all(), label="Personnel on Duty Receiving the Call", required=False)
-    OwnerName = forms.CharField(max_length=200, label="Name of Owner", required=False)
-    Occupant = forms.CharField(max_length=200, label="Name of Occupant", required=False)
-    EstablishmentName = forms.CharField(max_length=200, label="Name of Establishment", required=False)  
     DateTimeUnderControl = forms.DateTimeField(label="Date Time Fire Under Control", required=False)
     DateTimeFireOut = forms.DateTimeField(label="Date/Time Fire Out", required=False)
     OCCUPANCYTYPE_CHOICES = [
@@ -53,9 +50,6 @@ class APORMain(ModelForm):
             'Caller',
             'CallerAddress',
             'PersonnelReceivingCall',
-            'OwnerName',
-            'Occupant',
-            'EstablishmentName',
             'EstimatedDamageCost',
             'DateTimeUnderControl',
             'DateTimeFireOut',
@@ -95,9 +89,9 @@ class AlarmStatusUponArrivalForm(ModelForm):
 
 class IncidentResponseForm(ModelForm):
     Engine = forms.ModelChoiceField(required=True,queryset=Engines.objects.all())
-    TimeDispatched = forms.TimeField(required=True, label="Time Dispatched")
-    TimeArrived = forms.TimeField(required=True, label="Time Arrived")
-    TimeReturnedToBase = forms.TimeField(required=True, label="Time Returned To Base")
+    TimeDispatched = forms.TimeField(required=True,label="Time Dispatched")
+    TimeArrived = forms.TimeField(required=True,label="Time Arrived")
+    TimeReturnedToBase = forms.TimeField(required=True,label="Time Returned To Base")
     WaterTankRefilled = forms.IntegerField(required=True, label="Water Tank Refilled")
     GasConsumed = forms.IntegerField(required=True, label="Gas Consumed")
     class Meta:
@@ -120,6 +114,34 @@ class BreathingApparatusForm(ModelForm):
         fields = [
             'BreathingApparatusNr',
             'BreathingApparatusType',
+        ]
+
+
+class TimeAlarmStatusForm(ModelForm):
+    STATUS_CHOICES = [
+        ('1st Alarm', '1st Alarm'),
+        ('2nd Alarm', '2nd Alarm'),
+        ('3rd Alarm','3rd Alarm'),
+        ('4th Alarm','4th Alarm'),
+        ('5th Alarm','5th Alarm'),
+        ('Task Force Alpha', 'Task Force Alpha'),
+        ('Task Force Bravo', 'Task Force Bravo'),
+        ('Task Force Charlie','Task Force Charlie'),
+        ('Task Force Delta','Task Force Delta'),
+        ('Task Force Echo','Task Foce Echo'),
+        ('Task Force Hotel', 'Task Force Hotel'),
+        ('Task Force India', 'Task Force India'),
+        ('General Alarm', 'General Alarm'),
+    ]
+    AlarmStatus = forms.ChoiceField(required=True,choices=STATUS_CHOICES)
+    AlarmTime = forms.TimeField(required=False)
+    GroundCommander = forms.CharField(required=True, max_length=100)
+    class Meta:
+        model = TimeAlarmStatus
+        fields = [
+            'AlarmStatus',
+            'AlarmTime',
+            'GroundCommander',
         ]
 
 

@@ -144,7 +144,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Hose Line</h4>
+        <h4 class="modal-title" id="myModalLabel">Duty Personnel</h4>
       </div>
       <div class="modal-body">
         <form id="duty_form">
@@ -156,6 +156,30 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" id="addduty">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="timelarm"  role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Time Alarm Status Declared</h4>
+      </div>
+      <div class="modal-body">
+        <form id="ta_form">
+        {% csrf_token %}
+        <input type="hidden" value="{{ incident.id }}" name="Incident_id">
+        {{ f_ta.as_p }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addta">Add</button>
       </div>
     </div>
   </div>

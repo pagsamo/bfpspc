@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
-{% block styles %}
-{% endblock styles %}
+{% block style %}
+<style>
+form{ margin-top:20px; margin-bottom:20px; }
+</style>
+{% endblock style %}
 {% block content %}
 
 {% comment %}
@@ -24,7 +27,7 @@
             <option value="{{ b.id }}" {% if 'barangay' in request.GET %}{% if request.GET.barangay == b.id|slugify %} selected{% endif %}{% endif %}>{{ b.Name }}</option>
         {% endfor %}
     </select>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
 </form>
 </div>
     <div class="row">
@@ -49,6 +52,9 @@
                     <th class="text-center">
                     Actions
                     </th>
+                    <th>
+                    Reports
+                    </th>
                 </tr>
             </thead>
     </div>
@@ -63,7 +69,10 @@
                 {{ i.Barangay }}
             </td>
             <td>
-                <a href="#">Create/Print Report</a>
+                <a href="{% url 'update_incident' i.id %}"><button class="btn btn-sm btn-info">Update</button></a>
+            </td>
+            <td>
+                <a href="{% url 'report' i.id %}"><button class="btn btn-sm btn-success">Create/Print Report</button></a>
             </td>
         </tr>
         {% endfor %}

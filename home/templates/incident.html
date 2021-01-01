@@ -1,22 +1,17 @@
 {% extends 'base.html' %}
 {% load leaflet_tags %}
 {% block style %}
-<style>
-label{ vertical-align: top; width:10em; text-align:right;}
-</style>
+{% leaflet_css plugins="forms" %}
 {% endblock style %}
 {% block content %}
 <div class="container">
     <div class="row">
-    <h1>After Fire Operations</h1>
-    <hr>
-    <h4>Reception of the alarm details</h4>
-        <form action="{% url 'apor' incident.id %}" method="post">
+    <h1>Update Incident</h1>
+        <form action="{% url 'update_incident' incident.id %}" method="post">
             {% csrf_token %}
-            {{ aporMain.as_p }}
-            <input type="submit" class="btn btn-lg btn-primary" value="Next">
+            {{ form.as_p }}
+            <input type="submit" value="Next" class="btn btn-lg btn-primary">
         </form>
-    <hr>
     </div>
 </div>
 {% endblock content %}
@@ -29,12 +24,6 @@ $(document).ready(function(){
         enableTime: true,
         noCalendar: true,
         time_24hr: true,
-    });
-    $("#id_DateTimeUnderControl").flatpickr({
-        enableTime: true,time_24hr: true,
-    });
-     $("#id_DateTimeFireOut").flatpickr({
-        enableTime: true,time_24hr: true,
     });
 })
 </script>
