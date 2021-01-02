@@ -8,6 +8,7 @@ urlpatterns = [
     path('incident_datasets/', incident_datasets, name="incident_datasets"),
     path('barangay_incident_count/', barangay_incident_count, name='barangay_incident_count'),
     path('<int:incident_id>/apor_report/', apor_report, name='apor_report'),
+    path('<int:incident_id>/spot_report/', spot_report, name='spot_report'),
     path('report_builder/',report_builder, name="report_builder"),
     path('new_incident/', new_incident, name="new_incident"),
     path('<int:incident_id>/apor/', apor, name='apor'),

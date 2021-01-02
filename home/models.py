@@ -136,8 +136,24 @@ class Incident(models.Model):
     InvestigationDetails = HTMLField(blank=True, null=True)
     Disposition = HTMLField(blank=True, null=True)
     Origin = models.CharField(max_length=255, blank=True, null=True)
-    Cause = models.TextField(blank=True, null=True)
+    Cause = models.CharField(max_length=255,blank=True, null=True)
     TimeStarted = models.TimeField(blank=True, null=True)
+    STATUS_CHOICES = [
+        ('1st Alarm', '1st Alarm'),
+        ('2nd Alarm', '2nd Alarm'),
+        ('3rd Alarm', '3rd Alarm'),
+        ('4th Alarm', '4th Alarm'),
+        ('5th Alarm', '5th Alarm'),
+        ('Task Force Alpha', 'Task Force Alpha'),
+        ('Task Force Bravo', 'Task Force Bravo'),
+        ('Task Force Charlie', 'Task Force Charlie'),
+        ('Task Force Delta', 'Task Force Delta'),
+        ('Task Force Echo', 'Task Foce Echo'),
+        ('Task Force Hotel', 'Task Force Hotel'),
+        ('Task Force India', 'Task Force India'),
+        ('General Alarm', 'General Alarm'),
+    ]
+    Alarm = models.CharField(choices=STATUS_CHOICES, blank=True, null=True, max_length=100)
     # alarm status
     DateTimeUnderControl = models.DateTimeField(blank=True, null=True)
     DateTimeFireOut = models.DateTimeField(blank=True, null=True)
@@ -158,6 +174,8 @@ class Incident(models.Model):
         casualties["injuredf"] = ifr
         casualties["deathc"] = dcv
         casualties["deathf"] = dfr
+        casualties["totalDeath"] = dcv+dfr
+        casualties["totalInjured"] = ic + ifr
 
         return casualties
 
@@ -187,9 +205,19 @@ class Incident(models.Model):
 class AlarmStatusUponArrival(models.Model):
     Incident = models.ForeignKey(Incident, on_delete=models.SET_NULL, null=True, blank=True)
     STATUS_CHOICES = [
-        ('1st', '1st'),
-        ('2nd', '2nd'),
-        ('3rd', '3rd'),
+        ('1st Alarm', '1st Alarm'),
+        ('2nd Alarm', '2nd Alarm'),
+        ('3rd Alarm', '3rd Alarm'),
+        ('4th Alarm', '4th Alarm'),
+        ('5th Alarm', '5th Alarm'),
+        ('Task Force Alpha', 'Task Force Alpha'),
+        ('Task Force Bravo', 'Task Force Bravo'),
+        ('Task Force Charlie', 'Task Force Charlie'),
+        ('Task Force Delta', 'Task Force Delta'),
+        ('Task Force Echo', 'Task Foce Echo'),
+        ('Task Force Hotel', 'Task Force Hotel'),
+        ('Task Force India', 'Task Force India'),
+        ('General Alarm', 'General Alarm'),
     ]
     StatusUponArrival = models.CharField(max_length=255, choices=STATUS_CHOICES, default='', blank=True)
     StatusUponArrivalRemarks = models.CharField(max_length=255, blank=True)

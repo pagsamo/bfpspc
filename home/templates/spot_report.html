@@ -17,15 +17,23 @@
             text-align: center;
         }
 
-        .marginhere{ margin-top:20px; }
+
 
         @media screen{
-            .header, .pagenumber, .footer, .preparator{ display: none; }
+            .header, .footer, .preparator{ display: none; }
         }
 
         @media print{
             #approverecord{ display: none; }
+            .header,
+            .header-space
+             {
+                height: 100px;
+            }
+            .marginhere{ margin-top:20px !important; margin-bottom:10px !important; }
         }
+
+        .labelF{ width:150px; display: inline-block; text-transform: uppercase;}
 
     </style>
 {% endblock style %}
@@ -73,10 +81,32 @@
                         <div class="content">
                             <div class="container">
                                 <p>MEMORANDUM</p>
-                                <p><span class="label">FOR</span></p>
-                                <p><span class="label">SUBJECT</span></p>
-                                <p><span class="label">DATE</span></p>
-                                <p><span class="label">DTPO</span></p>
+                                <p><span class="labelF">FOR</span> : {{ station.ChiefOfficer }}</p>
+                                <p><span class="labelF">SUBJECT</span> : Spot Investigation Report</p>
+                                <p><span class="labelF">DATE</span> : {% now "F d, Y" %}</p>
+                                <p><span class="labelF">DTPO</span>: {{ incident.DateAlarmReceived|date:"F d,Y" }} at about {{ incident.TimeAlarmReceived|time:"Hi" }}H located at {{ incident.address }}</p>
+                                <p><span class="labelF">Involve</span>: {{ incident.Involved }}</p>
+                                <p><span class="labelF">Name of Establishment</span>: {{ incident.EstablishmentName }}</p>
+                                <p><span class="labelF">Owner</span>: {{ incident.OwnerName }}</p>
+                                <p><span class="labelF">Occupant</span>: {{ incident.Occupant }}</p>
+                                <p><span class="labelF">Casualty - Fatality</span>: {{ incident.casualties.totalDeath }}</p>
+                                <p><span class="labelF">Casualty - Injured</span>: {{ incident.casualties.totalInjured }}</p>
+                                <p><span class="labelF">Estimated Damage</span>: more or less {{ incident.EstimatedDamageCost }}</p>
+                                <p><span class="labelF">Time Fire Started</span>: {{ incident.TimeStarted|time:"Hi" }}H</p>
+                                <p><span class="labelF">Time of Fire Out</span>: {{ incident.DateTimeFireOut|date:"Hi" }}H</p>
+                                <p><span class="labelF">Alarm</span>: {{ incident.Alarm }}</p>
+                                <p class="marginhere" style="margin-top:25px;">Investigation Details:</p>
+                                {% autoescape off %}
+                                {{ incident.InvestigationDetails }}
+                                {% endautoescape %}
+                                <p class="marginhere" style="margin-top:25px;">Disposition</p>
+                                {% autoescape off %}
+                                {{ incident.Disposition }}
+                                {% endautoescape %}
+                                <div class="preparator" style="margin-top:20px; text-align: right">
+                                    <p>{{ user.employee.Rank }} {{ user.get_full_name }}
+                                    <br><span>Investigator</span></p>
+                                </div>
 
                             </div>
                         </div>

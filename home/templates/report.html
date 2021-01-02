@@ -28,7 +28,7 @@
         }
 
         @media print {
-            #approverecord {
+            #approverecord, #spot_report{
                 display: none;
             }
         }
@@ -69,8 +69,11 @@
 
     {% csrf_token %}
     <button id="printpage" class="btn btn-lg btn-success" onclick="window.print()">Print</button>
-    <button id="approverecord" class="btn btn-lg btn-primary">{% if incident.Approved == True %}Revert to Unapproved for
+    <a href="{% url 'spot_report' incident.id %}"><button id="spot_report" class="btn btn-lg btn-info">SPOT Investigation Report</button></a>
+    {% if user.groups.all.0.name != "data-entry" %}
+        <button id="approverecord" class="btn btn-lg btn-primary">{% if incident.Approved == True %}Revert to Unapproved for
         Changes{% else %}Approve Record{% endif %}</button>
+    {% endif %}
     <div class="row" id="apor-report">
         <table>
             <thead>
@@ -514,7 +517,7 @@
                     },
                     success: function (data) {
                         if(current == "Approve Record"){
-                            $('#approverecord').text('Revert to Unapproved');
+                            $('#approverecord').text('Revert to Unapproved for Changes');
                         }else{
                             $('#approverecord').text('Approve Record');
                         }

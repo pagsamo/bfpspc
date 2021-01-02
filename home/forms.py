@@ -37,6 +37,9 @@ class spotForm(ModelForm):
             "Occupant",
             "EstablishmentName",
             "EstimatedDamageCost",
+            "Origin",
+            "Cause",
+            "Alarm",
             "InvestigationDetails",
             "Disposition",
         ]

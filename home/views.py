@@ -9,16 +9,28 @@ from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, E
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
 from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm, spotForm
+from django.contrib.auth.models import Group
+
 
 @login_required(login_url='/accounts/login')
 def apor_report(request, incident_id):
     incident = Incident.objects.get(id=incident_id)
     station = Station.objects.get(id=1)
+
     return render(request, 'report.html',{
         "incident": incident,
         "station": station,
     })
 
+
+@login_required(login_url='/accounts/login')
+def spot_report(request, incident_id):
+    incident = Incident.objects.get(id=incident_id)
+    station = Station.objects.get(id=1)
+    return render(request, 'spot_report.html',{
+        "incident": incident,
+        "station": station,
+    })
 
 @login_required(login_url='/accounts/login')
 def apor(request, incident_id):
