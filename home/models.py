@@ -23,10 +23,10 @@ class Barangay(models.Model):
     geom = models.MultiPolygonField(srid=4326, null=True, blank=True)
 
     def IncidentCount(self):
-        return self.incident_set.count()
+        return self.incident_set.filter(Approved=True).count()
 
     def IncidentInstances(self):
-        return self.incident_set.all()
+        return self.incident_set.filter(Approved=True)
 
     def __str__(self):
         return self.Name

@@ -590,7 +590,7 @@ def analytics(request):
     if request.method == "POST":
         dateFrom = request.POST.get('dateFrom')
         dateTo = request.POST.get('dateTo')
-        incidents = Incident.objects.filter(DateAlarmReceived__range=[dateFrom, dateTo])
+        incidents = Incident.objects.filter(DateAlarmReceived__range=[dateFrom, dateTo]).filter(Approved=True)
         if not incidents:
             prompt = dateFrom + " to " + dateTo + " returned no results"
             incidents = Incident.objects.all().filter(Approved=True)
@@ -598,20 +598,20 @@ def analytics(request):
             latest = incidents.latest('DateAlarmReceived')
             perBarangay = {}
             for b in barangays:
-                perBarangay.update({b.Name: b.incident_set.filter(DateAlarmReceived__range=[earliest.DateAlarmReceived, latest.DateAlarmReceived]).count()})
+                perBarangay.update({b.Name: b.incident_set.filter(DateAlarmReceived__range=[earliest.DateAlarmReceived, latest.DateAlarmReceived]).filter(Approved=True).count()})
         else:
             earliest = incidents.earliest('DateAlarmReceived')
             latest = incidents.latest('DateAlarmReceived')
             perBarangay = {}
             for b in barangays:
-                perBarangay.update({b.Name: b.incident_set.filter(DateAlarmReceived__range=[dateFrom, dateTo]).count()})
+                perBarangay.update({b.Name: b.incident_set.filter(DateAlarmReceived__range=[dateFrom, dateTo]).filter(Approved=True).count()})
     else:
         incidents = Incident.objects.all().filter(Approved=True)
         earliest = incidents.earliest('DateAlarmReceived')
         latest = incidents.latest('DateAlarmReceived')
         perBarangay = {}
         for b in barangays:
-            perBarangay.update({b.Name: b.incident_set.filter(DateAlarmReceived__range=[earliest.DateAlarmReceived, latest.DateAlarmReceived]).count()})
+            perBarangay.update({b.Name: b.incident_set.filter(DateAlarmReceived__range=[earliest.DateAlarmReceived, latest.DateAlarmReceived]).filter(Approved=True).count()})
 
 
     perHour = {}
