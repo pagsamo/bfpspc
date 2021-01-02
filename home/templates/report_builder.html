@@ -30,37 +30,35 @@ form{ margin-top:20px; margin-bottom:20px; }
     <input type="submit" value="Submit" class="btn btn-primary btn-sm">
 </form>
 </div>
-    <div class="row">
-        <table class="table table-bordered text-center table-hover table-striped">
-            <thead>
-                <tr>
-                    <th class="text-center">
-                    <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'date-asc' %}?order=date-desc{% else %}?order=date-asc{% endif %}{% else %}?order=date-asc{% endif %}">
-                    Date
-                    </a>
-                    </th>
-                    <th class="text-center">
-                    <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'owner-asc' %}?order=owner-desc{% else %}?order=owner-asc{% endif %}{% else %}?order=owner-asc{% endif %}">
-                    Owner
-                    </a>
-                    </th>
-                    <th class="text-center">
-                    <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'barangay-asc' %}?order=barangay-desc{% else %}?order=barangay-asc{% endif %}{% else %}?order=barangay-asc{% endif %}">
-                    Barangay
-                    </a>
-                    </th>
-                    <th class="text-center">
-                    Actions
-                    </th>
-                    <th>
-                    Reports
-                    </th>
-                </tr>
-            </thead>
-    </div>
-    <tbody class="">
-        {% for i in incidents %}
+    <table class="table table-bordered text-center table-hover">
+        <thead class="thead-dark">
         <tr>
+            <th class="text-center">
+                <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'date-asc' %}?order=date-desc{% else %}?order=date-asc{% endif %}{% else %}?order=date-asc{% endif %}">
+                    Date
+                </a>
+            </th>
+            <th class="text-center">
+                <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'owner-asc' %}?order=owner-desc{% else %}?order=owner-asc{% endif %}{% else %}?order=owner-asc{% endif %}">
+                    Owner
+                </a>
+            </th>
+            <th class="text-center">
+                <a href="{% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'barangay-asc' %}?order=barangay-desc{% else %}?order=barangay-asc{% endif %}{% else %}?order=barangay-asc{% endif %}">
+                    Barangay
+                </a>
+            </th>
+            <th class="text-center">
+                Actions
+            </th>
+            <th>
+                Reports
+            </th>
+        </tr>
+        </thead>
+        <tbody class="">
+        {% for i in incidents %}
+        <tr class="{% if i.Approved  %}bg-success{% else %}bg-danger{% endif %}">
             <td>
                 {{ i.DateAlarmReceived|date:"Y-m-d" }}
             </td>
@@ -72,7 +70,7 @@ form{ margin-top:20px; margin-bottom:20px; }
                 <a href="{% url 'update_incident' i.id %}"><button class="btn btn-sm btn-info">Update</button></a>
             </td>
             <td>
-                <a href="{% url 'report' i.id %}"><button class="btn btn-sm btn-success">Create/Print Report</button></a>
+                <a href="{% url 'apor_report' i.id %}"><button class="btn btn-sm btn-success">Create/Print Report</button></a>
             </td>
         </tr>
         {% endfor %}

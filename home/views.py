@@ -4,16 +4,19 @@ from django.shortcuts import get_object_or_404, render
 from django.core.serializers import serialize
 from django.contrib.gis.serializers.geojson import Serializer
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, ExtinguisingAgent, HoseLine, Incident, Barangay, Engines, IncidentResponse, Personnel, RopeAndLadder, TimeAlarmStatus
+from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, ExtinguisingAgent, HoseLine, Incident, \
+    Barangay, Engines, IncidentResponse, Personnel, RopeAndLadder, TimeAlarmStatus, Station
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
 from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm
 
 @login_required(login_url='/accounts/login')
-def report(request, incident_id):
+def apor_report(request, incident_id):
     incident = Incident.objects.get(id=incident_id)
+    station = Station.objects.get(id=1)
     return render(request, 'report.html',{
         "incident": incident,
+        "station": station,
     })
 
 

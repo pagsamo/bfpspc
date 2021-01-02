@@ -176,4 +176,8 @@ else:
     DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, './backups')}
 
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
 

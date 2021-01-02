@@ -33,7 +33,7 @@ class IncidentForm(ModelForm):
 
 class APORMain(ModelForm):
     Caller = forms.CharField(max_length=200, label="Name of Caller", required=False)
-    CallerAddress = forms.CharField(max_length=200, label="Address of Caller")
+    CallerAddress = forms.CharField(max_length=200, label="Address of Caller", required=False)
     PersonnelReceivingCall = forms.ModelChoiceField(queryset=Personnel.objects.all(), label="Personnel on Duty Receiving the Call", required=False)
     DateTimeUnderControl = forms.DateTimeField(label="Date Time Fire Under Control", required=False)
     DateTimeFireOut = forms.DateTimeField(label="Date/Time Fire Out", required=False)

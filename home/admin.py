@@ -1,10 +1,10 @@
 from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
-from .models import BreathingApparatus, ExtinguisingAgent, Rank, Personnel, Incident, Employee, AlarmStatusUponArrival, IncidentResponse, Engines, RopeAndLadder
+from .models import BreathingApparatus, ExtinguisingAgent, Rank, Personnel, Incident, Employee, AlarmStatusUponArrival, \
+    IncidentResponse, Engines, RopeAndLadder, Station
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-
 
 
 class EmployeeInline(admin.StackedInline):
@@ -17,18 +17,27 @@ class UserAdmin(BaseUserAdmin):
     inlines = (EmployeeInline,)
 
 
+@admin.register(Station)
+class StationAdmin(LeafletGeoAdmin):
+    list_display = ('Address',)
+
+
+
+
+
 @admin.register(ExtinguisingAgent)
 class ExtinguisingAgentAdmin(LeafletGeoAdmin):
-    list_display = ('Type', )
+    list_display = ('Type',)
 
 
 @admin.register(Engines)
 class EnginesAdmin(LeafletGeoAdmin):
     list_display = ('Name', 'Model',)
 
+
 @admin.register(BreathingApparatus)
 class BreathingApparatusForm(LeafletGeoAdmin):
-    list_display = ('BreathingApparatusType', )
+    list_display = ('BreathingApparatusType',)
 
 
 @admin.register(IncidentResponse)
@@ -38,12 +47,14 @@ class IncidentResponseAdmin(LeafletGeoAdmin):
 
 @admin.register(AlarmStatusUponArrival)
 class AlarmStatusUponArrivalAdmin(LeafletGeoAdmin):
-    list_display = ('Incident', 'StatusUponArrival','StatusUponArrivalRemarks')
+    list_display = ('Incident', 'StatusUponArrival', 'StatusUponArrivalRemarks')
+
 
 @admin.register(Rank)
 class InvestigatorRankAdmin(LeafletGeoAdmin):
     list_display = ('Code', 'Definition',)
-    
+
+
 @admin.register(Personnel)
 class InvestigatorAdmin(LeafletGeoAdmin):
     list_display = ('Rank', 'LastName', 'FirstName',)
@@ -53,16 +64,17 @@ class InvestigatorAdmin(LeafletGeoAdmin):
 class RopeAndLadderInline(admin.TabularInline):
     model = RopeAndLadder
 
+
 @admin.register(Incident)
 class IncidentAdmin(LeafletGeoAdmin):
-    list_display = ('DateAlarmReceived','OwnerName','Barangay',)
+    list_display = ('DateAlarmReceived', 'OwnerName', 'Barangay',)
     # exclude = ('TotalFatalities','Approved',)
     search_fields = ('Barangay__Name', 'OwnerName',)
     inlines = [
         RopeAndLadderInline,
     ]
     filter = ('Barangay',)
-    list_filter = ('Approved','Barangay',)
+    list_filter = ('Approved', 'Barangay',)
     # def get_form(self, request, obj=None, **kwargs):
     #     form = super().get_form(request, obj, **kwargs)
     #     is_data = True if request.user.groups.all()[0].name == 'data-entry' else False
