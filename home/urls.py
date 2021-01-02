@@ -30,4 +30,5 @@ urlpatterns = [
     path('deletehoseline/', deletehoseline, name='deletehoseline'),
     path('deletedutypersonnel/', deletedutypersonnel, name='deletedutypersonnel'),
     path('deletealarmstatus/', deletealarmstatus, name='deletealarmstatus'),
+    path('approverecord/', approverecord, name="approverecord"),
 ]

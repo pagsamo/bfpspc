@@ -13,18 +13,24 @@
             border-color: black !important;
         }
 
-        .table > thead > tr > th, .table>tbody>tr>td {
+        .table > thead > tr > th, .table > tbody > tr > td {
             text-align: center;
         }
 
-        .marginhere{ margin-top:20px; }
-
-        @media screen{
-            .header, .pagenumber, .footer, .preparator{ display: none; }
+        .marginhere {
+            margin-top: 20px;
         }
 
-        @media print{
-            #approverecord{ display: none; }
+        @media screen {
+            .header, .pagenumber, .footer, .preparator {
+                display: none;
+            }
+        }
+
+        @media print {
+            #approverecord {
+                display: none;
+            }
         }
 
     </style>
@@ -32,427 +38,431 @@
 {% block content %}
 
 
-    <div class="container">
-        <div class="footer">
-            {{ request.build_absolute_uri }} | {% now "SHORT_DATETIME_FORMAT" %}
-        </div>
-        <div class="header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3 text-center">
-                        <img src="{{ station.BFPLogo.url }}" alt="">
-                    </div>
-                    <div class="col-sm-6 text-center">
-                        <p>Republic of the Philippines</>
-                        <p style="font-weight:bold">Department of the Interior and Local Government</p>
-                        <p style="font-weight: bolder; color: #1A355B; font-size:13px !important">Bureau of Fire Protection</p>
-                        <p>Regional Office IV-A</p>
-                        <p>{{ station.Address }}</p>
-                        <p>Tel. No.{{ station.TelephoneNumber }}/Email: {{ station.EmailAddress }}</p>
-                        <p class="must-marg">AFTER FIRE OPERATIONS REPORT</p>
-                        <p>Explicitly stipulated are the details of the fire incident that transpired on or about:</p>
-    
-                    </div>
-                    <div class="col-sm-3 text-center">
-                        <img src="{{ station.StationLogo.url }}" alt="">
-                    </div>
+<div class="container">
+    <div class="footer">
+        {{ request.build_absolute_uri }} | {% now "SHORT_DATETIME_FORMAT" %}
+    </div>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3 text-center">
+                    <img src="{{ station.BFPLogo.url }}" alt="">
+                </div>
+                <div class="col-sm-6 text-center">
+                    <p>Republic of the Philippines</>
+                    <p style="font-weight:bold">Department of the Interior and Local Government</p>
+                    <p style="font-weight: bolder; color: #1A355B; font-size:13px !important">Bureau of Fire
+                        Protection</p>
+                    <p>Regional Office IV-A</p>
+                    <p>{{ station.Address }}</p>
+                    <p>Tel. No.{{ station.TelephoneNumber }}/Email: {{ station.EmailAddress }}</p>
+                    <p class="must-marg">AFTER FIRE OPERATIONS REPORT</p>
+                    <p>Explicitly stipulated are the details of the fire incident that transpired on or about:</p>
+
+                </div>
+                <div class="col-sm-3 text-center">
+                    <img src="{{ station.StationLogo.url }}" alt="">
                 </div>
             </div>
         </div>
+    </div>
 
-        <button id="printpage" class="btn btn-lg btn-success" onclick="window.print()">Print</button>
-        <button id="approverecord" class="btn btn-lg btn-primary">{% if incident.Approve %}Revert to Unapproved for Changes{% else %}Approved Record{% endif %}</button>
-        <div class="row" id="apor-report">
-            <table>
-                <thead>
-                <tr>
-                    <td>
-                        <div class="header-space">&nbsp;</div>
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <div class="content">
-                            <div id="page1">
+    {% csrf_token %}
+    <button id="printpage" class="btn btn-lg btn-success" onclick="window.print()">Print</button>
+    <button id="approverecord" class="btn btn-lg btn-primary">{% if incident.Approved == True %}Revert to Unapproved for
+        Changes{% else %}Approve Record{% endif %}</button>
+    <div class="row" id="apor-report">
+        <table>
+            <thead>
+            <tr>
+                <td>
+                    <div class="header-space">&nbsp;</div>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="content">
+                        <div id="page1">
                             <p class="pagenumber">page 1 of 2</p>
-                                <div class="row">
-                                    <div style="width:1%; margin-left:1%; float:left;"><span>1</span></div>
-                                    <div style="width:98%; float:left;">
-                                        <div class="avoid-break-inside">
-                                            <table class="table table-bordered">
-                                                <tr>
-                                                    <td style="text-align:left;">Alarm received(Time): {{ incident.DateAlarmReceived }} at about
-                                                        {{ incident.TimeAlarmReceived|time:"Hi" }}H
-                                                    </td>
-                                                    <td style="vertical-align:middle; text-align:center; font-weight:bolder;"
-                                                        rowspan="4">
-                                                        Location: {{ incident.address }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:left;">
-                                                        Caller/Reported/Transmitted by: {{ incident.Caller }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:left;">
-                                                        Office /Address of the Caller: {{ incident.CallerAddress }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:left;">
-                                                        Personnel on duty who received the
-                                                        alarm: {{ incident.PersonnelReceivingCall }}
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-                                <div class="row">
-                                    <div style="width:1%; margin-left:1%; float:left;"><span>2</span></div>
-                                    <div style="width:98%; float:left;">
-                                        <div class="avoid-break-inside v-align-top">
-
-
-                                            <table class="table table-bordered responsetime">
-                                                <thead>
-                                                <tr>
-                                                    <th class="vmiddle">ENGINE DISPATCHED</th>
-                                                    <th class="vmiddle">TIME DISPATCHED</th>
-                                                    <th class="vmiddle">TIME ARRIVED AT FIRE SCENE</th>
-                                                    <th class="vmiddle">RESPONSE TIME <br><span
-                                                            style="font-weight:lighter; font-size:8px;">(TIME RECEIVED CALL - TIME ARRIVED AT FIRE SCENE) in minutes</span>
-                                                    </th>
-                                                    <th class="vmiddle">TIME RETURNED TO BASE</th>
-                                                    <th class="vmiddle">WATER TANK REFILLED <br>(GAL)</th>
-                                                    <th class="vmiddle">GAS CONSUMED (L)</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% for rt in incident.incidentresponse_set.all %}
-                                                    <tr>
-                                                        <td>{{ rt.Engine }}</td>
-                                                        <td>{{ rt.TimeDispatched|time:"Hi" }}H</td>
-                                                        <td>{{ rt.TimeArrived|time:"Hi" }}H</td>
-                                                        <td>{{ rt.ResponseTime }} minutes</td>
-                                                        <td>{{ rt.TimeReturnedToBase|time:"Hi" }}H</td>
-                                                        <td>{{ rt.WaterTankRefilled }}</td>
-                                                        <td>{{ rt.GasConsumed }}</td>
-                                                    </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-sm-5">
-                                        <div class="avoid-break-inside">
-                                            <p>3 Alarm Status Upon Arrival</p>
-                                            <table class="table table-bordered">
-                                                {% for sa in incident.alarmstatusuponarrival_set.all %}
-                                                    <tr>
-                                                        <td>
-                                                            {{ sa.StatusUponArrival }}
-                                                        </td>
-                                                        <td>
-                                                            {{ sa.StatusUponArrivalRemarks }}
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </table>
-                                            <p>Time/Date Under Control:
-                                                {{ incident.DateTimeUnderControl|date:"M d, Y Hi" }}H</p>
-                                            <p>Time/Date Declared Fire Out:
-                                                {{ incident.DateTimeFireOut|date:"M d, Y Hi" }}H</p>
-                                        </div>
-                                        <div class="avoid-break-inside">
-                                            <p>4 Type of Occupancy</p>
-                                            <table class="table table-bordered text-center">
-                                                <tr>
-                                                    <td>{% if incident.OccupancyType == "Structural/Residential" %}
-                                                        X{% endif %}</td>
-                                                    <td>Structural/Residential</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{% if incident.OccupancyType == "Non Structural" %}
-                                                        X{% endif %}</td>
-                                                    <td>Non Structural/
-                                                        <span style="text-decoration:underline">{% if incident.OccupancyType == "Non Structural" %}
-                                                            {{ incident.OccupancyTypeRemarks }} {% endif %}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{% if incident.OccupancyType == "Vehicular" %}X{% endif %}</td>
-                                                    <td>Vehicular/
-                                                        <span style="text-decoration:underline">{% if incident.OccupancyType == "Vehicular" %}
-                                                            {{ incident.OccupancyTypeRemarks }}{% endif %}</span>
-                                                    </td>
-                                                </tr>
-                                            </table>
-
-                                        </div>
-                                        <div class="avoid-break-inside">
-                                            <p>5 Approximate Distance of Fire Incident From Fire Station(Km.): <span
-                                                    style="text-decoration:underline; font-weight:bolder">{{ incident.DistanceFromBase }} Km.</span>
-                                            </p>
-                                        </div>
-                                        <div class="avoid-break-inside">
-                                            <p>6 General Description of the structure/s Involved:</p>
-                                            <p style="text-decoration: underline;">{{ incident.DescriptionOfStructure }}</p>
-                                        </div>
-                                        <div class="avoid-break-inside">
-                                            <p>7 Total Number of Casualty Reported:</p>
-                                            {% with incident.casualties as cs %}
-                                                <table class="table table-bordered">
-                                                    <tr>
-                                                        <th></th>
-                                                        <th>Injured</th>
-                                                        <th>Death</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Civilian</td>
-                                                        <td>{% if cs.injuredc == 0 %}negative{% else %}
-                                                            {{ cs.injuredc }}{% endif %}</td>
-                                                        <td>{% if cs.deathc == 0 %}negative{% else %}
-                                                            {{ cs.deathc }}{% endif %}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>FireFighter</td>
-                                                        <td>{% if cs.injuredf == 0 %}negative{% else %}
-                                                            {{ cs.injuredf }}{% endif %}</td>
-                                                        <td>{% if cs.deathf == 0 %}negative{% else %}
-                                                            {{ cs.deathf }}{% endif %}</td>
-                                                    </tr>
-                                                </table>
-                                            {% endwith %}
-                                        </div>
-
-                                        <div class="avoid-break-inside">
-                                            <p>8 Breathing Apparatus Used:</p>
-                                            <table class="table table-bordered avoid-break-inside">
-                                                <thead class="text-center">
-                                                <tr>
-                                                    <th>
-                                                        Nr
-                                                    </th>
-                                                    <th>
-                                                        Type/Kind
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% for br in incident.breathingapparatus_set.all %}
-                                                    <tr>
-                                                        <td>{{ br.BreathingApparatusNr }}</td>
-                                                        <td>{{ br.BreathingApparatusType }}</td>
-                                                    </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-sm-7">
-                                        <div class="avoid-break-inside">
-                                            <p>9 TIME ALARM STATUS DECLARED</p>
-                                            <table class="table table-bordered">
-                                                <thead class="text-center">
-                                                <tr>
-                                                    <th>Alarm Status</th>
-                                                    <th>Time</th>
-                                                    <th>Ground Commander</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody id="tbody-ta" class="text-center">
-                                                {% for ta in incident.timealarmstatus_set.all %}
-                                                    <tr>
-                                                        <td>
-                                                            {{ ta.AlarmStatus }}
-                                                        </td>
-                                                        <td>
-                                                            {{ ta.AlarmTime|time:"Hi" }}H
-                                                        </td>
-                                                        <td>
-                                                            {{ ta.GroundCommander }}
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="avoid-break-inside">
-                                            <p>10 Extinguishing Agent</p>
-                                            <table class="table table-bordered avoid-break-inside">
-                                                <thead class="text-center">
-                                                <tr>
-                                                    <th>
-                                                        Quanity
-                                                    </th>
-                                                    <th>
-                                                        Type/Kind
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                                <tbody class="text-center">
-                                                {% for ex in incident.extinguisingagent_set.all %}
-                                                    <tr>
-                                                        <td>{{ ex.Quantity }} gals.</td>
-                                                        <td>{{ ex.Type }}</td>
-                                                    </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-
-                                        <div class="avoid-break-inside">
-                                            <p>11 Rope and Ladder Used</p>
-                                            <table class="table table-bordered avoid-break-inside">
-                                                <thead class="text-center">
-                                                <tr>
-                                                    <th>
-                                                        Type
-                                                    </th>
-                                                    <th>
-                                                        Length
-                                                    </th>
-
-                                                </tr>
-                                                </thead>
-                                                <tbody class="text-center" id="tbody-rl">
-                                                {% for rl in incident.ropeandladder_set.all %}
-                                                    <tr>
-                                                        <td>{{ rl.Type }}</td>
-                                                        <td>{{ rl.Length }} ft</td>
-
-                                                    </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-
-                                        <div class="avoid-break-inside">
-                                            <p>12 Hose Line Used</p>
-                                            <table class="table table-bordered table-striped avoid-break-inside">
-                                                <thead class="text-center">
-                                                <tr>
-                                                    <th>
-                                                        Nr
-                                                    </th>
-                                                    <th>
-                                                        Type/Kind
-                                                    </th>
-                                                    <th>
-                                                        TOTAL ft
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                                <tbody class="text-center" id="tbody-hl">
-                                                {% for hl in incident.hoseline_set.all %}
-                                                    <tr>
-                                                        <td>{{ hl.Nr }}</td>
-                                                        <td>{{ hl.Type }} ft</td>
-                                                        <td>{{ hl.Length }} ft</td>
-                                                    </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    {% comment %} row {% endcomment %}
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td>
-                        <div class="footer-space"></div>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
-
-            <table style="width:100%">
-                <thead>
-                <tr>
-                    <td>
-                        <div class="header-space">&nbsp;</div>
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <div class="content">
-                        <p class="pagenumber">page 2 of 2</p>
-                            <div id="page2" style="width:100%;">
-                                <div class="avoid-break-inside">
-                                    <p>13 Duty Personnel at the Fire Scene</p>
-                                    <table class="table table-bordered">
-                                        <thead class="text-center">
-                                        <tr>
-                                            <th>Rank/Name</th>
-                                            <th>Designation</th>
-                                            <th>Remarks</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="tbody-duty" class="text-center">
-                                        {% for du in incident.dutypersonnel_set.all %}
+                            <div class="row">
+                                <div style="width:1%; margin-left:1%; float:left;"><span>1</span></div>
+                                <div style="width:98%; float:left;">
+                                    <div class="avoid-break-inside">
+                                        <table class="table table-bordered">
                                             <tr>
-                                                <td>
-                                                    {{ du.Personnel }}
+                                                <td style="text-align:left;">Alarm
+                                                    received(Time): {{ incident.DateAlarmReceived }} at about
+                                                    {{ incident.TimeAlarmReceived|time:"Hi" }}H
                                                 </td>
-                                                <td>
-                                                    {{ du.Designation }}
-                                                </td>
-                                                <td>
-                                                    {{ du.Remarks }}
+                                                <td style="vertical-align:middle; text-align:center; font-weight:bolder;"
+                                                    rowspan="4">
+                                                    Location: {{ incident.address }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;">
+                                                    Caller/Reported/Transmitted by: {{ incident.Caller }}
                                                 </td>
                                             </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
+                                            <tr>
+                                                <td style="text-align:left;">
+                                                    Office /Address of the Caller: {{ incident.CallerAddress }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;">
+                                                    Personnel on duty who received the
+                                                    alarm: {{ incident.PersonnelReceivingCall }}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
 
-                                <div class="avoid-break-inside marginhere">
-                                    <p>14 Instruction/Sketch of the Fire Operation(Should Be Attached):</p>
-                                    <p>15 (Indicate the data frame, legend, location, north arrow and scale)</p>
+                            </div>
+
+
+                            <div class="row">
+                                <div style="width:1%; margin-left:1%; float:left;"><span>2</span></div>
+                                <div style="width:98%; float:left;">
+                                    <div class="avoid-break-inside v-align-top">
+
+
+                                        <table class="table table-bordered responsetime">
+                                            <thead>
+                                            <tr>
+                                                <th class="vmiddle">ENGINE DISPATCHED</th>
+                                                <th class="vmiddle">TIME DISPATCHED</th>
+                                                <th class="vmiddle">TIME ARRIVED AT FIRE SCENE</th>
+                                                <th class="vmiddle">RESPONSE TIME <br><span
+                                                        style="font-weight:lighter; font-size:8px;">(TIME RECEIVED CALL - TIME ARRIVED AT FIRE SCENE) in minutes</span>
+                                                </th>
+                                                <th class="vmiddle">TIME RETURNED TO BASE</th>
+                                                <th class="vmiddle">WATER TANK REFILLED <br>(GAL)</th>
+                                                <th class="vmiddle">GAS CONSUMED (L)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for rt in incident.incidentresponse_set.all %}
+                                                <tr>
+                                                    <td>{{ rt.Engine }}</td>
+                                                    <td>{{ rt.TimeDispatched|time:"Hi" }}H</td>
+                                                    <td>{{ rt.TimeArrived|time:"Hi" }}H</td>
+                                                    <td>{{ rt.ResponseTime }} minutes</td>
+                                                    <td>{{ rt.TimeReturnedToBase|time:"Hi" }}H</td>
+                                                    <td>{{ rt.WaterTankRefilled }}</td>
+                                                    <td>{{ rt.GasConsumed }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+                            </div>
 
-                                <div class="avoid-break-inside marginhere">
-                                    <p>DETAILS(NARRATIVE):</p>
-                                    {% autoescape off %}
-                                    {{ incident.Details }}
-                                    {% endautoescape %}
+
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="avoid-break-inside">
+                                        <p>3 Alarm Status Upon Arrival</p>
+                                        <table class="table table-bordered">
+                                            {% for sa in incident.alarmstatusuponarrival_set.all %}
+                                                <tr>
+                                                    <td>
+                                                        {{ sa.StatusUponArrival }}
+                                                    </td>
+                                                    <td>
+                                                        {{ sa.StatusUponArrivalRemarks }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                        <p>Time/Date Under Control:
+                                            {{ incident.DateTimeUnderControl|date:"M d, Y Hi" }}H</p>
+                                        <p>Time/Date Declared Fire Out:
+                                            {{ incident.DateTimeFireOut|date:"M d, Y Hi" }}H</p>
+                                    </div>
+                                    <div class="avoid-break-inside">
+                                        <p>4 Type of Occupancy</p>
+                                        <table class="table table-bordered text-center">
+                                            <tr>
+                                                <td>{% if incident.OccupancyType == "Structural/Residential" %}
+                                                    X{% endif %}</td>
+                                                <td>Structural/Residential</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{% if incident.OccupancyType == "Non Structural" %}
+                                                    X{% endif %}</td>
+                                                <td>Non Structural/
+                                                    <span style="text-decoration:underline">{% if incident.OccupancyType == "Non Structural" %}
+                                                        {{ incident.OccupancyTypeRemarks }} {% endif %}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>{% if incident.OccupancyType == "Vehicular" %}X{% endif %}</td>
+                                                <td>Vehicular/
+                                                    <span style="text-decoration:underline">{% if incident.OccupancyType == "Vehicular" %}
+                                                        {{ incident.OccupancyTypeRemarks }}{% endif %}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                    <div class="avoid-break-inside">
+                                        <p>5 Approximate Distance of Fire Incident From Fire Station(Km.): <span
+                                                style="text-decoration:underline; font-weight:bolder">{{ incident.DistanceFromBase }} Km.</span>
+                                        </p>
+                                    </div>
+                                    <div class="avoid-break-inside">
+                                        <p>6 General Description of the structure/s Involved:</p>
+                                        <p style="text-decoration: underline;">{{ incident.DescriptionOfStructure }}</p>
+                                    </div>
+                                    <div class="avoid-break-inside">
+                                        <p>7 Total Number of Casualty Reported:</p>
+                                        {% with incident.casualties as cs %}
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Injured</th>
+                                                    <th>Death</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Civilian</td>
+                                                    <td>{% if cs.injuredc == 0 %}negative{% else %}
+                                                        {{ cs.injuredc }}{% endif %}</td>
+                                                    <td>{% if cs.deathc == 0 %}negative{% else %}
+                                                        {{ cs.deathc }}{% endif %}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>FireFighter</td>
+                                                    <td>{% if cs.injuredf == 0 %}negative{% else %}
+                                                        {{ cs.injuredf }}{% endif %}</td>
+                                                    <td>{% if cs.deathf == 0 %}negative{% else %}
+                                                        {{ cs.deathf }}{% endif %}</td>
+                                                </tr>
+                                            </table>
+                                        {% endwith %}
+                                    </div>
+
+                                    <div class="avoid-break-inside">
+                                        <p>8 Breathing Apparatus Used:</p>
+                                        <table class="table table-bordered avoid-break-inside">
+                                            <thead class="text-center">
+                                            <tr>
+                                                <th>
+                                                    Nr
+                                                </th>
+                                                <th>
+                                                    Type/Kind
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for br in incident.breathingapparatus_set.all %}
+                                                <tr>
+                                                    <td>{{ br.BreathingApparatusNr }}</td>
+                                                    <td>{{ br.BreathingApparatusType }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                                 </div>
+                                <div class="col-sm-7">
+                                    <div class="avoid-break-inside">
+                                        <p>9 TIME ALARM STATUS DECLARED</p>
+                                        <table class="table table-bordered">
+                                            <thead class="text-center">
+                                            <tr>
+                                                <th>Alarm Status</th>
+                                                <th>Time</th>
+                                                <th>Ground Commander</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tbody-ta" class="text-center">
+                                            {% for ta in incident.timealarmstatus_set.all %}
+                                                <tr>
+                                                    <td>
+                                                        {{ ta.AlarmStatus }}
+                                                    </td>
+                                                    <td>
+                                                        {{ ta.AlarmTime|time:"Hi" }}H
+                                                    </td>
+                                                    <td>
+                                                        {{ ta.GroundCommander }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="avoid-break-inside">
+                                        <p>10 Extinguishing Agent</p>
+                                        <table class="table table-bordered avoid-break-inside">
+                                            <thead class="text-center">
+                                            <tr>
+                                                <th>
+                                                    Quanity
+                                                </th>
+                                                <th>
+                                                    Type/Kind
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="text-center">
+                                            {% for ex in incident.extinguisingagent_set.all %}
+                                                <tr>
+                                                    <td>{{ ex.Quantity }} gals.</td>
+                                                    <td>{{ ex.Type }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
 
+                                    </div>
 
-                                <div class="avoid-break-inside marginhere">
-                                    <p>16 Problem/s Encountered during Operation</p>
-                                    {% autoescape off %}
-                                    <p>{{ incident.Problems }}</p>
-                                    {% endautoescape %}
+                                    <div class="avoid-break-inside">
+                                        <p>11 Rope and Ladder Used</p>
+                                        <table class="table table-bordered avoid-break-inside">
+                                            <thead class="text-center">
+                                            <tr>
+                                                <th>
+                                                    Type
+                                                </th>
+                                                <th>
+                                                    Length
+                                                </th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody class="text-center" id="tbody-rl">
+                                            {% for rl in incident.ropeandladder_set.all %}
+                                                <tr>
+                                                    <td>{{ rl.Type }}</td>
+                                                    <td>{{ rl.Length }} ft</td>
+
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                    <div class="avoid-break-inside">
+                                        <p>12 Hose Line Used</p>
+                                        <table class="table table-bordered table-striped avoid-break-inside">
+                                            <thead class="text-center">
+                                            <tr>
+                                                <th>
+                                                    Nr
+                                                </th>
+                                                <th>
+                                                    Type/Kind
+                                                </th>
+                                                <th>
+                                                    TOTAL ft
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="text-center" id="tbody-hl">
+                                            {% for hl in incident.hoseline_set.all %}
+                                                <tr>
+                                                    <td>{{ hl.Nr }}</td>
+                                                    <td>{{ hl.Type }} ft</td>
+                                                    <td>{{ hl.Length }} ft</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+                                {% comment %} row {% endcomment %}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>
+                    <div class="footer-space"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+
+        <table style="width:100%">
+            <thead>
+            <tr>
+                <td>
+                    <div class="header-space">&nbsp;</div>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="content">
+                        <p class="pagenumber">page 2 of 2</p>
+                        <div id="page2" style="width:100%;">
+                            <div class="avoid-break-inside">
+                                <p>13 Duty Personnel at the Fire Scene</p>
+                                <table class="table table-bordered">
+                                    <thead class="text-center">
+                                    <tr>
+                                        <th>Rank/Name</th>
+                                        <th>Designation</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tbody-duty" class="text-center">
+                                    {% for du in incident.dutypersonnel_set.all %}
+                                        <tr>
+                                            <td>
+                                                {{ du.Personnel }}
+                                            </td>
+                                            <td>
+                                                {{ du.Designation }}
+                                            </td>
+                                            <td>
+                                                {{ du.Remarks }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="avoid-break-inside marginhere">
+                                <p>14 Instruction/Sketch of the Fire Operation(Should Be Attached):</p>
+                                <p>15 (Indicate the data frame, legend, location, north arrow and scale)</p>
+                            </div>
+
+                            <div class="avoid-break-inside marginhere">
+                                <p>DETAILS(NARRATIVE):</p>
+                                {% autoescape off %}
+                                {{ incident.Details }}
+                                {% endautoescape %}
+                            </div>
 
 
-                                <div class="avoid-break-inside marginhere">
-                                    <p>17 OBSERVATIONS/RECOMMENDATIONS:</p>
-                                    {% autoescape off %}
-                                    <p>{{ incident.Observations }}</p>
-                                    {% endautoescape %}
-                                </div>
-                            
+                            <div class="avoid-break-inside marginhere">
+                                <p>16 Problem/s Encountered during Operation</p>
+                                {% autoescape off %}
+                                <p>{{ incident.Problems }}</p>
+                                {% endautoescape %}
+                            </div>
+
+
+                            <div class="avoid-break-inside marginhere">
+                                <p>17 OBSERVATIONS/RECOMMENDATIONS:</p>
+                                {% autoescape off %}
+                                <p>{{ incident.Observations }}</p>
+                                {% endautoescape %}
+                            </div>
+
                             <div class="row avoid-break-inside preparator" style="margin-top:30px;">
                                 <div class="col-sm-6">
                                     <p>Prepared by:</p>
@@ -465,25 +475,54 @@
                                 </div>
                             </div>
 
-                            </div>
                         </div>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td>
-                        <div class="footer-space">
-                        </div>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-    
-
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>
+                    <div class="footer-space">
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
     </div>
+
+
+</div>
 {% endblock content %}
 {% block scripts %}
     {% leaflet_js plugins="forms" %}
+    <script>
+        $(document).ready(function () {
+            $('#approverecord').on('click', function () {
+                incident_id = "{{ incident.id }}";
+                csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val()
+                current = $(this).text();
+                $.ajax({
+                    type: 'POST',
+                    url: {% url "approverecord" %},
+                    data: {
+                        incident_id: incident_id,
+                        csrfmiddlewaretoken: csrfmiddlewaretoken ,
+                    },
+                    error: function (xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    },
+                    success: function (data) {
+                        if(current == "Approve Record"){
+                            $('#approverecord').text('Revert to Unapproved');
+                        }else{
+                            $('#approverecord').text('Approve Record');
+                        }
+                    }
+                });
+        });
+        //document ready
+        })//document ready
+
+    </script>
 {% endblock scripts %}

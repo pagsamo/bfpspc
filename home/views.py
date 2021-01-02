@@ -52,6 +52,31 @@ def spot(request, incident_id):
         "incident": incident,
     })
 
+################################
+#newbreathing
+################################
+def approverecord(request):
+    if request.is_ajax():
+        response_data = {}
+        incident_id = request.POST.get('incident_id')
+        response_data["incident_id"] = incident_id
+        incident = Incident.objects.get(id=incident_id)
+        if incident.Approved:
+            incident.Approved = False
+            incident.save()
+            response_data["result"] = "No"
+        else:
+            incident.Approved = True
+            incident.save()
+            response_data["result"] = "Yes"
+        return JsonResponse(response_data)
+
+
+
+################################
+#newbreathing
+################################
+
     
 ################################
 #newstatusuponarrival
@@ -76,11 +101,11 @@ def newstatusuponarrival(request):
         response_data['new_id'] = newalarm.id
         return JsonResponse(response_data)
 
+
+
 ################################
 #newresponsetime
 ################################
-
-
 def newresponsetime(request):
     if request.is_ajax():
         response_data = {}
