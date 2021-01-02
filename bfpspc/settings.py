@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'dbbackup',
     'leaflet',
     'home',
+    'tinymce',
 ]
 
 MIDDLEWARE = [

@@ -8,7 +8,7 @@ from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, E
     Barangay, Engines, IncidentResponse, Personnel, RopeAndLadder, TimeAlarmStatus, Station
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
-from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm
+from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm, spotForm
 
 @login_required(login_url='/accounts/login')
 def apor_report(request, incident_id):
@@ -33,6 +33,22 @@ def apor(request, incident_id):
         aporMain = APORMain(request.POST or None, instance=incident)
     return render(request,'apor.html', {
         "aporMain": aporMain,
+        "incident": incident,
+    })
+
+@login_required(login_url='/accounts/login')
+def spot(request, incident_id):
+    incident = get_object_or_404(Incident, id=incident_id)
+    if request.method == "POST":
+        form = spotForm(request.POST, instance=incident)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.save()
+            return HttpResponseRedirect('/')
+    else:
+        spotf = spotForm(request.POST or None, instance=incident)
+    return render(request,'spot.html', {
+        "spotf": spotf,
         "incident": incident,
     })
 

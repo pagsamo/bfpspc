@@ -61,8 +61,7 @@
         </div>
 
         <button id="printpage" class="btn btn-lg btn-success" onclick="window.print()">Print</button>
-        <button id="printpage" class="btn btn-lg btn-success">SPOT Investigation Report</button>
-        <button id="approverecord" class="btn btn-lg btn-primary">{% if incident.Approved %}Revert to Unapproved for Changes{% else %}Approved Record{% endif %}</button>
+        <button id="approverecord" class="btn btn-lg btn-primary">{% if incident.Approve %}Revert to Unapproved for Changes{% else %}Approved Record{% endif %}</button>
         <div class="row" id="apor-report">
             <table>
                 <thead>
@@ -433,19 +432,25 @@
 
                                 <div class="avoid-break-inside marginhere">
                                     <p>DETAILS(NARRATIVE):</p>
-                                    <p>{{ incident.Details }}</p>
+                                    {% autoescape off %}
+                                    {{ incident.Details }}
+                                    {% endautoescape %}
                                 </div>
 
 
                                 <div class="avoid-break-inside marginhere">
                                     <p>16 Problem/s Encountered during Operation</p>
+                                    {% autoescape off %}
                                     <p>{{ incident.Problems }}</p>
+                                    {% endautoescape %}
                                 </div>
 
 
                                 <div class="avoid-break-inside marginhere">
                                     <p>17 OBSERVATIONS/RECOMMENDATIONS:</p>
+                                    {% autoescape off %}
                                     <p>{{ incident.Observations }}</p>
+                                    {% endautoescape %}
                                 </div>
                             
                             <div class="row avoid-break-inside preparator" style="margin-top:30px;">

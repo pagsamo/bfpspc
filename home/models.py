@@ -2,6 +2,7 @@ from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 from django.db.models.fields.files import ImageField
 import datetime
+from tinymce.models import HTMLField
 
 
 class Rank(models.Model):
@@ -122,17 +123,21 @@ class Incident(models.Model):
     DeathFireFighterF = models.IntegerField(default=0)
     # Breathing apparatus
     # 15 Details Narrative
-    Details = models.TextField(blank=True, null=True)
-    Problems = models.TextField(blank=True, null=True)
-    Observations = models.TextField(blank=True, null=True)
+    Details = HTMLField(blank=True, null=True)
+    Problems = HTMLField(blank=True, null=True)
+    Observations = HTMLField(blank=True, null=True)
     OwnerName = models.CharField(max_length=255, blank=True, null=True)
     Occupant = models.CharField(max_length=255, blank=True, null=True)
     EstablishmentName = models.CharField(max_length=255, blank=True, null=True)
     EstimatedDamageCost = models.IntegerField(default=0)
     # Can be the final phase
     FinalDamageCost = models.IntegerField(default=0)
+    Involved = models.CharField(max_length=255, blank=True, null=True)
+    InvestigationDetails = HTMLField(blank=True, null=True)
+    Disposition = HTMLField(blank=True, null=True)
     Origin = models.CharField(max_length=255, blank=True, null=True)
     Cause = models.TextField(blank=True, null=True)
+    TimeStarted = models.TimeField(blank=True, null=True)
     # alarm status
     DateTimeUnderControl = models.DateTimeField(blank=True, null=True)
     DateTimeFireOut = models.DateTimeField(blank=True, null=True)
@@ -143,14 +148,6 @@ class Incident(models.Model):
     ]
     Remarks = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed', blank=True)
     Approved = models.BooleanField(default=False)
-    # InjuredCivilianM = models.IntegerField(default=0)
-    # InjuredCivilianF = models.IntegerField(default=0)
-    # InjuredFireFighterM = models.IntegerField(default=0)
-    # InjuredFireFighterF = models.IntegerField(default=0)
-    # DeathCivilianM = models.IntegerField(default=0)
-    # DeathCivilianF = models.IntegerField(default=0)
-    # DeathFireFighterM = models.IntegerField(default=0)
-    # DeathFireFighterF = models.IntegerField(default=0)
     def casualties(self):
         casualties = {}
         ic = self.InjuredCivilianF + self.InjuredCivilianM

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load leaflet_tags %}
 {% block style %}
-{{ aporMain.media }}
+{{ spotf.media  }}
 <style>
 label{ vertical-align: top; width:15em; text-align:right;}
 </style>
@@ -9,12 +9,12 @@ label{ vertical-align: top; width:15em; text-align:right;}
 {% block content %}
 <div class="container">
     <div class="row">
-    <h1>After Fire Operations</h1>
+    <h1>Spot Investigation Report</h1>
     <hr>
-        <form action="{% url 'apor' incident.id %}" method="post">
+        <form action="{% url 'spot' incident.id %}" method="post">
             {% csrf_token %}
-            {{ aporMain.as_p }}
-            <input type="submit" class="btn btn-lg btn-primary" value="Next">
+            {{ spotf.as_p }}
+            <input type="submit" class="btn btn-lg btn-primary" value="Done">
         </form>
     <hr>
     </div>
@@ -24,17 +24,10 @@ label{ vertical-align: top; width:15em; text-align:right;}
 {% leaflet_js plugins="forms" %}
 <script>
 $(document).ready(function(){
-    $("#id_DateAlarmReceived").flatpickr();
-    $("#id_TimeAlarmReceived").flatpickr({
+    $("#id_TimeStarted").flatpickr({
         enableTime: true,
         noCalendar: true,
         time_24hr: true,
-    });
-    $("#id_DateTimeUnderControl").flatpickr({
-        enableTime: true,time_24hr: true,
-    });
-     $("#id_DateTimeFireOut").flatpickr({
-        enableTime: true,time_24hr: true,
     });
 })
 </script>

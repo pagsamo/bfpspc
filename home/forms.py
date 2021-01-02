@@ -2,33 +2,44 @@ from django import forms
 from django.forms import ModelForm
 from .models import AlarmStatusUponArrival, BreathingApparatus, Engines, ExtinguisingAgent, Incident, Barangay, IncidentResponse, Personnel, RopeAndLadder, HoseLine, TimeAlarmStatus
 from leaflet.forms.widgets import LeafletWidget
+from tinymce.widgets import TinyMCE
 
 
 class IncidentForm(ModelForm):
     DateAlarmReceived = forms.DateField(required=True, label="Date Alarm/Call Received")
     TimeAlarmReceived = forms.TimeField(required=True, label="Time Alarm/Call Received")
     Barangay = forms.ModelChoiceField(queryset=Barangay.objects.all())
-    OwnerName = forms.CharField(max_length=200,required=True, label="Name of Owner")
-    EstablishmentName = forms.CharField(max_length=200,required=True, label="Name of Establishment")
     HouseNumber = forms.CharField(max_length=50,required=True, label="House Number")
-    Occupant = forms.CharField(max_length=200,required=True, label="Name of Occupant")
-    
 
     class Meta:
         model = Incident
         fields = [
             'DateAlarmReceived',
             'TimeAlarmReceived',
-            'Barangay',
             'HouseNumber',
             'Street',
-            'OwnerName',
-            'Occupant',
-            'EstablishmentName',
+            'Barangay',
             'Location',
             ]
         widgets = {
             'Location': LeafletWidget(),}
+
+
+class spotForm(ModelForm):
+    InvestigationDetails = forms.CharField(widget=TinyMCE())
+    Disposition = forms.CharField(widget=TinyMCE())
+    class Meta:
+        model = Incident
+        fields = [
+            "TimeStarted",
+            "Involved",
+            "OwnerName",
+            "Occupant",
+            "EstablishmentName",
+            "EstimatedDamageCost",
+            "InvestigationDetails",
+            "Disposition",
+        ]
 
 
 class APORMain(ModelForm):
@@ -44,13 +55,15 @@ class APORMain(ModelForm):
     ]
     OccupancyType = forms.ChoiceField(choices=OCCUPANCYTYPE_CHOICES, label="Type of Occupancy", required=False)
     OccupancyTypeRemarks = forms.CharField(max_length=200, label="Occupancy Type Remarks", required=False)
+    Details = forms.CharField(widget=TinyMCE())
+    Problems = forms.CharField(widget=TinyMCE())
+    Observations = forms.CharField(widget=TinyMCE())
     class Meta:
         model = Incident
         fields = [
             'Caller',
             'CallerAddress',
             'PersonnelReceivingCall',
-            'EstimatedDamageCost',
             'DateTimeUnderControl',
             'DateTimeFireOut',
             'OccupancyType',

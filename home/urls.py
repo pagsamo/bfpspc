@@ -13,6 +13,7 @@ urlpatterns = [
     path('<int:incident_id>/apor/', apor, name='apor'),
     path('<int:incident_id>/apormulti/', apormulti, name='apormulti'),
     path('<int:incident_id>/update_incident/', update_incident, name='update_incident'),
+    path('<int:incident_id>/spot/', spot, name='spot'),
     path('newstatusuponarrival/', newstatusuponarrival, name='newstatusuponarrival'),
     path('newresponsetime/', newresponsetime, name='newresponsetime'),
     path('newbreathing/', newbreathing, name='newbreathing'),
