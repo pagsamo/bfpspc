@@ -9,6 +9,10 @@
         table > tr > th, table > thead > tr > td {
             text-align: center;
         }
+
+        input:not('report_sets'), select{ height:30px; }
+
+        .report_sets label{ width:75px; }
     </style>
 {% endblock style %}
 {% block content %}
@@ -25,10 +29,10 @@
             <a href="{% url 'new_incident' %}"><i class="fa fa-plus" aria-hidden="true"></i> Add Incident</a>
         </div>
         <div class="row">
-            <form action="{% url 'report_builder' %}" method="get">
-                From:<input class="datepicker" type="date" name="dateFrom"
+            <form id="searchIncidents" action="{% url 'report_builder' %}" method="get">
+                From:<input class="datepicker dto" type="date" name="dateFrom"
                             value="{% if 'dateFrom' in request.GET %}{{ request.GET.dateFrom }}{% endif %}" required>
-                To:<input class="datepicker" type="date" name="dateTo"
+                To:<input class="datepicker dfrom" type="date" name="dateTo"
                           value="{% if 'dateTo' in request.GET %}{{ request.GET.dateTo }}{% endif %}" required>
                 <select name="barangay" id="">
                     <option value="">-</option>
@@ -38,7 +42,7 @@
                                 {% endif %}{% endif %}>{{ b.Name }}</option>
                     {% endfor %}
                 </select>
-                <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+                <input type="submit" value="Search" class="btn btn-success btn-md">
             </form>
         </div>
         <table class="table table-bordered text-center table-hover">
@@ -110,36 +114,38 @@
         </table>
         {% include	"pagination.html"	with	page=incidents %}
     </div>
-    <div class="container">
+    <div class="container report_sets">
         <div class="row">
             <div class="col-sm-3">
                 <h3>Monthly Report</h3>
-                <form>
+                <form action="{% url 'monthly_report' %}" method="post">
+                    {% csrf_token %}
                     {{ monthlyf.as_p }}
+                    <input type="submit" class="btn btn-md btn-primary" value="Preview Report">
                 </form>
             </div>
             <div class="col-sm-3">
                 <h3>Annual Report</h3>
-                <form action="">
+                <form action="{% url 'annual_report' %}" method="post">
+                    {% csrf_token %}
                    {{ yearf.as_p }}
+                   <input type="submit" class="btn btn-md btn-primary" value="Preview Report">
                 </form>
             </div>
             <div class="col-sm-3">
                 <h3>Custom Range Report</h3>
-                <form action="">
-                    <select name="yreporty">
-                        <option value="">-</option>
-                    </select>
-                    <input type="submit" value="Generate Annual Report">
+                <form action="{% url 'customrange_report' %}" method="post" id="customForm">
+                    {% csrf_token %}
+                    {{ customF.as_p }}
+                    <input type="submit" class="btn btn-md btn-primary" value="Preview Report">
                 </form>
             </div>
             <div class="col-sm-3">
                 <h3>Export to Spreadsheet</h3>
-                <form action="">
-                    <select name="yreporty">
-                        <option value="">-</option>
-                    </select>
-                    <input type="submit" value="Generate Annual Report">
+                <form action="{% url 'export_to_file' %}" method="post" id="exportto">
+                    {% csrf_token %}
+                    {{ customF.as_p }}
+                    <input type="submit" class="btn btn-md btn-primary" value="Preview">
                 </form>
             </div>
         </div>
@@ -148,5 +154,36 @@
 
 {% endblock content %}
 {% block scripts %}
-    </script>
+<script>
+    $(document).ready(function(){
+
+        $('#customForm').on('submit', function(e) {
+            e.preventDefault();
+            //Validate form and submit
+            var dateFrom = $('#customForm .dfrom').val();
+            var dateTo = $('#customForm .dto').val();
+            if(dateFrom >= dateTo){
+                alert("Date To should be greater than Date From");
+            }
+            else{
+                this.submit();
+            }
+        });
+
+        $('#exportto').on('submit', function(e) {
+            e.preventDefault();
+            //Validate form and submit
+            var dateFrom = $('#exportto .dfrom').val();
+            var dateTo = $('#exportto .dto').val();
+            if(dateFrom >= dateTo){
+                alert("Date To should be greater than Date From");
+            }
+            else{
+                this.submit();
+            }
+        });
+
+        //document ready
+    });//document ready
+</script>
 {% endblock scripts %}

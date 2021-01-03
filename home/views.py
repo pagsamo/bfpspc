@@ -8,8 +8,98 @@ from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, E
     Barangay, Engines, IncidentResponse, Personnel, RopeAndLadder, TimeAlarmStatus, Station
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
-from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm, spotForm, monthlyForm,yearForm
-from django.contrib.auth.models import Group
+from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm, customRangeForm, spotForm, monthlyForm,yearForm, customRangeForm
+
+
+
+@login_required(login_url='/accounts/login')
+def monthly_report(request):
+    station = Station.objects.get(id=1)
+    if request.method == "POST":
+        form = monthlyForm(request.POST or None)
+        if form.is_valid():
+            incidents = Incident.objects.all()
+            month = form.cleaned_data.get("month")
+            monthtext = monthfull(int(month))
+            year = form.cleaned_data.get("year")
+            incidents = incidents.filter(DateAlarmReceived__year=year, DateAlarmReceived__month=month)
+            barangay = form.cleaned_data.get("barangay")
+            if barangay != None:
+                incidents = incidents.filter(Barangay=barangay.id)
+        return render(request, "monthly_report.html",{
+            "incidents": incidents,
+            "monthtext": monthtext,
+            "year": year,
+            "station": station,
+            "barangay": barangay,
+        })
+
+
+@login_required(login_url='/accounts/login')
+def customrange_report(request):
+    station = Station.objects.get(id=1)
+    if request.method == "POST":
+        form = customRangeForm(request.POST or None)
+        if form.is_valid():
+            incidents = Incident.objects.all().filter(Approved=True)
+            dateFrom = form.cleaned_data.get("customFrom")
+            dateTo = form.cleaned_data.get("customTo")
+            barangay = form.cleaned_data.get("barangay")
+            incidents = incidents.filter(DateAlarmReceived__range=[dateFrom, dateTo])
+            if barangay != None:
+                incidents = incidents.filter(Barangay=barangay.id)
+            return render(request, "custom_report.html",{
+                "incidents": incidents,
+                "dateFrom": dateFrom,
+                "dateTo": dateTo,
+                "station": station,
+                "barangay": barangay
+            })
+
+
+
+@login_required(login_url='/accounts/login')
+def annual_report(request):
+    station = Station.objects.get(id=1)
+    if request.method == "POST":
+        form = yearForm(request.POST or None)
+        if form.is_valid():
+            incidents = Incident.objects.all().filter(Approved=True)
+            year = form.cleaned_data.get("year")
+            incidents = incidents.filter(DateAlarmReceived__year=year)
+            barangay = form.cleaned_data.get("barangay")
+            if barangay != None:
+                incidents = incidents.filter(Barangay=barangay.id)
+        return render(request, "monthly_report.html",{
+            "incidents": incidents,
+            "year": year,
+            "station": station,
+            "barangay": barangay,
+        })
+
+
+@login_required(login_url='/accounts/login')
+def export_to_file(request):
+    station = Station.objects.get(id=1)
+    if request.method == "POST":
+        form = customRangeForm(request.POST or None)
+        if form.is_valid():
+            incidents = Incident.objects.all().filter(Approved=True)
+            dateFrom = form.cleaned_data.get("customFrom")
+            dateTo = form.cleaned_data.get("customTo")
+            barangay = form.cleaned_data.get("barangay")
+            incidents = incidents.filter(DateAlarmReceived__range=[dateFrom, dateTo])
+            if barangay != None:
+                incidents = incidents.filter(Barangay=barangay.id)
+            return render(request, "custom_report.html",{
+                "incidents": incidents,
+                "dateFrom": dateFrom,
+                "dateTo": dateTo,
+                "station": station,
+                "barangay": barangay
+            })
+
+
 
 
 @login_required(login_url='/accounts/login')
@@ -522,6 +612,7 @@ def report_builder(request):
     barangay = Barangay.objects.all()
     monthlyf = monthlyForm()
     yearf = yearForm()
+    customF = customRangeForm()
     if request.GET.get('order'):
         ord = request.GET.get('order')
         if(ord=="date-asc"):
@@ -564,6 +655,7 @@ def report_builder(request):
         "barangay":barangay,
         "monthlyf": monthlyf,
         "yearf": yearf,
+        "customF": customF,
     })
 
 
@@ -603,6 +695,25 @@ def month(i):
         12: 'Dec',
     }
     return switcher.get(i, "Invalid Month")
+
+
+def monthfull(i):
+    switcher = {
+        1: 'January',
+        2: 'February',
+        3: 'March',
+        4: 'April',
+        5: 'May',
+        6: 'June',
+        7: 'July',
+        8: 'August',
+        9: 'September',
+        10: 'October',
+        11: 'November',
+        12: 'December',
+    }
+    return switcher.get(i, "Invalid Month")
+
 
 def monthvalues():
     return {

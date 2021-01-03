@@ -4,6 +4,15 @@ from .models import AlarmStatusUponArrival, BreathingApparatus, Engines, Extingu
 from leaflet.forms.widgets import LeafletWidget
 from tinymce.widgets import TinyMCE
 
+class customRangeForm(forms.Form):
+    customFrom = forms.DateField(label="From", widget= forms.TextInput
+                           (attrs={'class':'datepicker dfrom',
+				   }))
+    customTo = forms.DateField(label="To",widget= forms.TextInput
+                           (attrs={'class':'datepicker dto',
+				   }))
+    barangay = forms.ModelChoiceField(queryset=Barangay.objects.all(), required=False, label="Barangay")
+
 
 class yearForm(forms.Form):
     i = Incident.objects.all()
@@ -14,6 +23,7 @@ class yearForm(forms.Form):
     for y in x:
         YEAR_CHOICES.append((y,y))
     year = forms.ChoiceField(choices=YEAR_CHOICES)
+    barangay = forms.ModelChoiceField(queryset=Barangay.objects.all(), required=False)
 
 
 class monthlyForm(forms.Form):
@@ -40,6 +50,7 @@ class monthlyForm(forms.Form):
     ]
     month = forms.ChoiceField(choices=MONTH_CHOICES)
     year = forms.ChoiceField(choices=YEAR_CHOICES)
+    barangay = forms.ModelChoiceField(queryset=Barangay.objects.all(), required=False)
 
 
 class IncidentForm(ModelForm):

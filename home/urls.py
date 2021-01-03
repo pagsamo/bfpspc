@@ -32,4 +32,8 @@ urlpatterns = [
     path('deletedutypersonnel/', deletedutypersonnel, name='deletedutypersonnel'),
     path('deletealarmstatus/', deletealarmstatus, name='deletealarmstatus'),
     path('approverecord/', approverecord, name="approverecord"),
+    path('monthly_report/', monthly_report, name="monthly_report"),
+    path('customrange_report/', customrange_report, name="customrange_report"),
+    path('annual_report/', annual_report, name="annual_report"),
+    path('export_to_file/', export_to_file, name="export_to_file"),
 ]
