@@ -6,7 +6,7 @@ from tinymce.models import HTMLField
 
 
 class Rank(models.Model):
-    Code = models.CharField(max_length=100, unique=True)
+    Code = models.CharField(max_length=100,)
     Definition = models.CharField(max_length=250, blank=True)
 
     def __str__(self):
@@ -190,7 +190,6 @@ class Incident(models.Model):
         return delimeter.join(FullNameList)
 
     class Meta:
-        unique_together = (('DateAlarmReceived', 'OwnerName',),)
         ordering = ('-DateAlarmReceived', 'Barangay',)
 
 
