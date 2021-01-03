@@ -5,7 +5,10 @@
             margin-top: 20px;
             margin-bottom: 20px;
         }
-        table>tr>th, table>thead>tr>td{ text-align: center; }
+
+        table > tr > th, table > thead > tr > td {
+            text-align: center;
+        }
     </style>
 {% endblock style %}
 {% block content %}
@@ -43,18 +46,24 @@
             <tr>
                 <th class="text-center">
                     <a href="
+
+
                             {% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'date-asc' %}?order=date-desc{% else %}?order=date-asc{% endif %}{% else %}?order=date-asc{% endif %}">
                         Date
                     </a>
                 </th>
                 <th class="text-center">
                     <a href="
+
+
                             {% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'owner-asc' %}?order=owner-desc{% else %}?order=owner-asc{% endif %}{% else %}?order=owner-asc{% endif %}">
                         Owner
                     </a>
                 </th>
                 <th class="text-center">
                     <a href="
+
+
                             {% url 'report_builder' %}{% if 'order' in request.GET %}{% if request.GET.order == 'barangay-asc' %}?order=barangay-desc{% else %}?order=barangay-asc{% endif %}{% else %}?order=barangay-asc{% endif %}">
                         Barangay
                     </a>
@@ -99,29 +108,43 @@
             {% endfor %}
             </tbody>
         </table>
-        {% include	"pagination.html"	with	page=incidents	 %}
+        {% include	"pagination.html"	with	page=incidents %}
     </div>
-    <div class="row">
-        <h3>Monthly Report</h3>
-        <form action="">
-            Month<select name="mreportm" id="">
-            <option value="">-</option>
-        </select>
-            <select name="mreporty" id="">
-                Year
-                <option value="">-</option>
-            </select>
-            <input type="submit" value="Generate Monthly Report">
-        </form>
-        <h3>Annual Report</h3>
-        <form action="">
-            <select name="yreporty">
-                <option value="">-</option>
-            </select>
-            <input type="submit" value="Generate Annual Report">
-        </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <h3>Monthly Report</h3>
+                <form>
+                    {{ monthlyf.as_p }}
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <h3>Annual Report</h3>
+                <form action="">
+                   {{ yearf.as_p }}
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <h3>Custom Range Report</h3>
+                <form action="">
+                    <select name="yreporty">
+                        <option value="">-</option>
+                    </select>
+                    <input type="submit" value="Generate Annual Report">
+                </form>
+            </div>
+            <div class="col-sm-3">
+                <h3>Export to Spreadsheet</h3>
+                <form action="">
+                    <select name="yreporty">
+                        <option value="">-</option>
+                    </select>
+                    <input type="submit" value="Generate Annual Report">
+                </form>
+            </div>
+        </div>
     </div>
-    </div>
+
 
 {% endblock content %}
 {% block scripts %}

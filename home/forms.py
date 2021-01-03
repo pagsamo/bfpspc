@@ -5,6 +5,43 @@ from leaflet.forms.widgets import LeafletWidget
 from tinymce.widgets import TinyMCE
 
 
+class yearForm(forms.Form):
+    i = Incident.objects.all()
+    earliest = i.earliest("DateAlarmReceived").DateAlarmReceived.year
+    latest = i.latest("DateAlarmReceived").DateAlarmReceived.year
+    x = range(int(earliest), int(latest+1))
+    YEAR_CHOICES = []
+    for y in x:
+        YEAR_CHOICES.append((y,y))
+    year = forms.ChoiceField(choices=YEAR_CHOICES)
+
+
+class monthlyForm(forms.Form):
+    i = Incident.objects.all()
+    earliest = i.earliest("DateAlarmReceived").DateAlarmReceived.year
+    latest = i.latest("DateAlarmReceived").DateAlarmReceived.year
+    x = range(int(earliest), int(latest+1))
+    YEAR_CHOICES = []
+    for y in x:
+        YEAR_CHOICES.append((y,y))
+    MONTH_CHOICES = [
+        ('1', 'January'),
+        ('2', 'February'),
+        ('3', 'March'),
+        ('4', 'April'),
+        ('5', 'May'),
+        ('6', 'June'),
+        ('7', 'July'),
+        ('8', 'August'),
+        ('9', 'September'),
+        ('10', 'October'),
+        ('11', 'November'),
+        ('12', 'December'),
+    ]
+    month = forms.ChoiceField(choices=MONTH_CHOICES)
+    year = forms.ChoiceField(choices=YEAR_CHOICES)
+
+
 class IncidentForm(ModelForm):
     DateAlarmReceived = forms.DateField(required=True, label="Date Alarm/Call Received")
     TimeAlarmReceived = forms.TimeField(required=True, label="Time Alarm/Call Received")

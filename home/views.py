@@ -8,7 +8,7 @@ from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, E
     Barangay, Engines, IncidentResponse, Personnel, RopeAndLadder, TimeAlarmStatus, Station
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
-from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm, spotForm
+from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm, spotForm, monthlyForm,yearForm
 from django.contrib.auth.models import Group
 
 
@@ -56,7 +56,7 @@ def spot(request, incident_id):
         if form.is_valid():
             form = form.save(commit=False)
             form.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/report_builder/')
     else:
         spotf = spotForm(request.POST or None, instance=incident)
     return render(request,'spot.html', {
@@ -515,37 +515,13 @@ def update_incident(request, incident_id):
         })
 
 
-@login_required(login_url='/accounts/login')
-def report(request):
-    if request.method == "POST":
-        # csrfmiddlewaretokendateFromdateTo
-        checked = []
-        for ck in request.POST:
-            if ck != "csrfmiddlewaretoken" and ck != "dateFrom" and ck !=  "dateTo" and ck != "barangay":
-                checked.append(ck)
-
-        dateFrom = request.POST.get("dateFrom")
-        dateTo = request.POST.get("dateTo")
-        incidents = Incident.objects.filter(DateAlarmReceived__range=[dateFrom, dateTo])
-        incident_parse = []
-        for i in incidents:
-            incl = {}
-            for c in checked:
-                incl[c] = getattr(i, c)
-            incident_parse.append(incl)
-
-        # return HttpResponse(checked_test)
-
-        return render(request, 'reports.html', {
-            "incidents": incident_parse,
-            "checked": checked,
-        })
-
 
 @login_required(login_url='/accounts/login')
 def report_builder(request):
     incidents = Incident.objects.all()
     barangay = Barangay.objects.all()
+    monthlyf = monthlyForm()
+    yearf = yearForm()
     if request.GET.get('order'):
         ord = request.GET.get('order')
         if(ord=="date-asc"):
@@ -582,7 +558,20 @@ def report_builder(request):
         incidents = paginator.page(page)
     except PageNotAnInteger:
         incidents = paginator.page(1)
-    return render(request, 'report_builder.html',{"incidents": incidents,'page':page,"barangay":barangay,})
+    return render(request, 'report_builder.html',{
+        "incidents": incidents,
+        'page':page,
+        "barangay":barangay,
+        "monthlyf": monthlyf,
+        "yearf": yearf,
+    })
+
+
+def years():
+    i = Incident.objects.all()
+    earliest = i.earliest("DateAlarmReceived").DateAlarmReceived.year
+    latest = i.latest("DateAlarmReceived").DateAlarmReceived.year
+    return {"earliest":earliest, "latest":latest}
 
 
 def week(i):
@@ -614,6 +603,22 @@ def month(i):
         12: 'Dec',
     }
     return switcher.get(i, "Invalid Month")
+
+def monthvalues():
+    return {
+        1: 'Jan',
+        2: 'Feb',
+        3: 'Mar',
+        4: 'Apr',
+        5: 'May',
+        6: 'Jun',
+        7: 'Jul',
+        8: 'Aug',
+        9: 'Sep',
+        10: 'Oct',
+        11: 'Nov',
+        12: 'Dec',
+    }
 
 
 class CustomSerializer(Serializer):
