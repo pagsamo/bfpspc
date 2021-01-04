@@ -3,104 +3,12 @@
 {% load static %}
 {% block style %}
     {% leaflet_css plugins="forms" %}
-    <link rel="stylesheet" href="{% static 'css/print.min.css' %}">
-    <link rel="stylesheet" media="print" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" media="print" href="{% static 'css/print.css' %}">
-
-    <style>
-        table, tr, th, td {
-            border-color: black !important;
-        }
-
-        .table > thead > tr > th, .table>tbody>tr>td {
-            text-align: center;
-        }
-
-        @media screen{
-            .header, .footer, .preparator{ display: none; }
-        }
-
-        @media print{
-            #approverecord{ display: none; }
-            .header,
-            .header-space
-             {
-                height: 175px;
-            }
-            .marginhere{ margin-top:20px !important; margin-bottom:10px !important; }
-        }
-
-        .labelF{ width:150px; display: inline-block; text-transform: uppercase;}
-
-    </style>
+    <link rel="stylesheet" href="{% static 'css/tabulator.min.css' %}">
 {% endblock style %}
 {% block content %}
 
-
-    <div class="container">
-        <div class="footer">
-            {{ request.build_absolute_uri }} | {% now "SHORT_DATETIME_FORMAT" %}
-        </div>
-        <div class="header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3 text-center">
-                        <img src="{{ station.BFPLogo.url }}" alt="">
-                    </div>
-                    <div class="col-sm-6 text-center">
-                        <p>Republic of the Philippines</>
-                        <p style="font-weight:bold">Department of the Interior and Local Government</p>
-                        <p style="font-weight: bolder; color: #1A355B; font-size:13px !important">Bureau of Fire Protection</p>
-                        <p>Regional Office IV-A</p>
-                        <p>{{ station.Address }}</p>
-                        <p>Tel. No.{{ station.TelephoneNumber }}/Email: {{ station.EmailAddress }}</p>
-                    </div>
-                    <div class="col-sm-3 text-center">
-                        <img src="{{ station.StationLogo.url }}" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <button id="printpage" class="btn btn-lg btn-success" onclick="window.print()">Print</button>
-        <div class="row" id="spot-report">
-            <table>
-                <thead>
-                <tr>
-                    <td>
-                        <div class="header-space">&nbsp;</div>
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <div class="content">
-                            <p>Fire Incidents from {{dateFrom}} to {{dateTo}} {% if barangay != None %}, Barangay: {{ barangay }}{% endif %}</p>
-                        </div>
-                    </td>
-                    <table class="table">
-                        {% for i in incidents %}
-                            <tr>
-                                <td>{{ i.DateAlarmReceived }}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td>
-                        <div class="footer-space"></div>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-    
-
-    </div>
 {% endblock content %}
 {% block scripts %}
+    <script src="{% static 'js/tabulator.min.js' %}"></script>
     {% leaflet_js plugins="forms" %}
 {% endblock scripts %}

@@ -14,6 +14,7 @@
 
         .table > thead > tr > th, .table>tbody>tr>td {
             text-align: center;
+            vertical-align: middle;
         }
 
         @media screen{
@@ -40,9 +41,10 @@
     <div class="container">
         <div class="footer">
             {{ request.build_absolute_uri }} | {% now "SHORT_DATETIME_FORMAT" %}
+            printed by:{{ user.employee.Rank }} {{ user.get_full_name }}
         </div>
-        <div class="header">
-            <div class="container">
+        <div class="header" align="center">
+            <div class="container" align="center">
                 <div class="row">
                     <div class="col-sm-3 text-center">
                         <img src="{{ station.BFPLogo.url }}" alt="">
@@ -54,6 +56,8 @@
                         <p>Regional Office IV-A</p>
                         <p>{{ station.Address }}</p>
                         <p>Tel. No.{{ station.TelephoneNumber }}/Email: {{ station.EmailAddress }}</p>
+                        <br><br><br>
+                       <p>Fire Incidents <br> From: {{ dateFrom }} To: {{ dateTo }}{% if barangay != None %}, Barangay: {{ barangay }}{% endif %}</p>
                     </div>
                     <div class="col-sm-3 text-center">
                         <img src="{{ station.StationLogo.url }}" alt="">
@@ -66,9 +70,9 @@
         <div class="row" id="spot-report">
             <table>
                 <thead>
-                <tr>
-                    <td>
-                        <div class="header-space">&nbsp;</div>
+                <tr align="center">
+                    <td align="center">
+                        <div class="header-space" align="center">&nbsp;</div>
                     </td>
                 </tr>
                 </thead>
@@ -76,16 +80,51 @@
                 <tr>
                     <td>
                         <div class="content">
-                            <p>Fire Incidents from {{dateFrom}} to {{dateTo}} {% if barangay != None %}, Barangay: {{ barangay }}{% endif %}</p>
+                            
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Barangay</th>
+                                            <th>Address</th>
+                                            <th>Owner Name</th>
+                                            <th>Occupant</th>
+                                            <th>Establishment Name</th>
+                                            <th>Alarm</th>
+                                            <th>Damage Cost</th>
+                                            <th>Cause</th>
+                                            <th>Origin</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for i in incidents %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ i.DateAlarmReceived }}</td>
+                                                <td>{{ i.TimeAlarmReceived|time:"Hi"}}H</td>
+                                                <td>{{ i.Barangay }}</td>
+                                                <td>{{ i.address }}</td>
+                                                <td>{{ i.OwnerName }}</td>
+                                                <td>{{ i.Occupant }}</td>
+                                                <td>{{ i.EstablishmentName }}</td>
+                                                <td>{{ i.Alarm }}</td>
+                                                <td>{{ i.DamageCost }}</td>
+                                                <td>{{ i.Cause }}</td>
+                                                <td>{{ i.Origin }}</td>
+                                            </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan=12>Total Number of Fire Incidents: <b>{{incidents.count}}</b></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                     {% comment %} break from here {% endcomment %}
                         </div>
                     </td>
-                    <table class="table">
-                        {% for i in incidents %}
-                            <tr>
-                                <td>{{ i.DateAlarmReceived }}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
                 </tr>
                 </tbody>
                 <tfoot>

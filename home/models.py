@@ -6,7 +6,7 @@ from tinymce.models import HTMLField
 
 
 class Rank(models.Model):
-    Code = models.CharField(max_length=100,)
+    Code = models.CharField(max_length=100,unique=True)
     Definition = models.CharField(max_length=250, blank=True)
 
     def __str__(self):
@@ -163,7 +163,11 @@ class Incident(models.Model):
         ('', ''),
     ]
     Remarks = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed', blank=True)
+    #InvestigationStatus = models.CharField(max_length=255, choices=REMARKS_CHOICES, default='closed', blank=True)
+    #Investigator = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True, blank=True)
     Approved = models.BooleanField(default=False)
+
+
     def casualties(self):
         casualties = {}
         ic = self.InjuredCivilianF + self.InjuredCivilianM

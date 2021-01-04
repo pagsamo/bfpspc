@@ -18,7 +18,7 @@ def monthly_report(request):
     if request.method == "POST":
         form = monthlyForm(request.POST or None)
         if form.is_valid():
-            incidents = Incident.objects.all()
+            incidents = Incident.objects.all().filter(Approved=True)
             month = form.cleaned_data.get("month")
             monthtext = monthfull(int(month))
             year = form.cleaned_data.get("year")
@@ -70,7 +70,7 @@ def annual_report(request):
             barangay = form.cleaned_data.get("barangay")
             if barangay != None:
                 incidents = incidents.filter(Barangay=barangay.id)
-        return render(request, "monthly_report.html",{
+        return render(request, "annual_report.html",{
             "incidents": incidents,
             "year": year,
             "station": station,
