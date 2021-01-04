@@ -57,7 +57,8 @@ class IncidentForm(ModelForm):
     DateAlarmReceived = forms.DateField(required=True, label="Date Alarm/Call Received")
     TimeAlarmReceived = forms.TimeField(required=True, label="Time Alarm/Call Received")
     Barangay = forms.ModelChoiceField(queryset=Barangay.objects.all())
-    HouseNumber = forms.CharField(max_length=50,required=True, label="House Number")
+    HouseNumber = forms.CharField(max_length=50,required=False, label="House Number")
+    Street = forms.CharField(max_length=50,required=False, label="Street")
 
     class Meta:
         model = Incident

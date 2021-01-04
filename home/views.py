@@ -862,7 +862,8 @@ def barangay_incident_count(request):
 
 @login_required(login_url='/accounts/login')
 def reports(request):
-    return render(request, 'reports.html')
+    station = Station.objects.get(id=1)
+    return render(request, 'reports.html',{ "station":station })
 
 
 def error_404(request, exception):

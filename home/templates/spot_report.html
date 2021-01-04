@@ -21,7 +21,7 @@
         }
 
         @media print{
-            #approverecord{ display: none; }
+            #approverecord, #apor_report{ display: none; }
             .header,
             .header-space
              {
@@ -63,6 +63,7 @@
         </div>
 
         <button id="printpage" class="btn btn-lg btn-success" onclick="window.print()">Print</button>
+        <a href="{% url 'apor_report' incident.id %}"><button id="apor_report" class="btn btn-lg btn-info">APOR Report</button></a>
         <div class="row" id="spot-report">
             <table>
                 <thead>
