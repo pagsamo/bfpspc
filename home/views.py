@@ -147,10 +147,10 @@ def spot_report(request, incident_id):
 def apor(request, incident_id):
     incident = get_object_or_404(Incident, id=incident_id)
     if request.method == "POST":
-        form = APORMain(request.POST, instance=incident)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.save()
+        aporMain = APORMain(request.POST, instance=incident)
+        if aporMain.is_valid():
+            aporMain = aporMain.save(commit=False)
+            aporMain.save()
             return HttpResponseRedirect('/'+str(incident_id)+'/apormulti/')
     else:
         aporMain = APORMain(request.POST or None, instance=incident)
@@ -163,10 +163,10 @@ def apor(request, incident_id):
 def spot(request, incident_id):
     incident = get_object_or_404(Incident, id=incident_id)
     if request.method == "POST":
-        form = spotForm(request.POST, instance=incident)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.save()
+        spotf = spotForm(request.POST, instance=incident)
+        if spotf.is_valid():
+            spotf = spotf.save(commit=False)
+            spotf.save()
             return HttpResponseRedirect('/report_builder/')
     else:
         spotf = spotForm(request.POST or None, instance=incident)

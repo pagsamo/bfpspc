@@ -75,8 +75,8 @@ class IncidentForm(ModelForm):
 
 
 class spotForm(ModelForm):
-    InvestigationDetails = forms.CharField(widget=TinyMCE())
-    Disposition = forms.CharField(widget=TinyMCE())
+    InvestigationDetails = forms.CharField(widget=TinyMCE(), required=False)
+    Disposition = forms.CharField(widget=TinyMCE(), required=False)
     class Meta:
         model = Incident
         fields = [
@@ -107,9 +107,9 @@ class APORMain(ModelForm):
     ]
     OccupancyType = forms.ChoiceField(choices=OCCUPANCYTYPE_CHOICES, label="Type of Occupancy", required=False)
     OccupancyTypeRemarks = forms.CharField(max_length=200, label="Occupancy Type Remarks", required=False)
-    Details = forms.CharField(widget=TinyMCE())
-    Problems = forms.CharField(widget=TinyMCE())
-    Observations = forms.CharField(widget=TinyMCE())
+    Details = forms.CharField(widget=TinyMCE(), required=False)
+    Problems = forms.CharField(widget=TinyMCE(), required=False)
+    Observations = forms.CharField(widget=TinyMCE(), required=False)
     class Meta:
         model = Incident
         fields = [

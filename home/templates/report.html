@@ -69,7 +69,7 @@
 
     {% csrf_token %}
     <button id="printpage" class="btn btn-lg btn-success" onclick="window.print()">Print</button>
-    <a href="{% url 'spot_report' incident.id %}"><button id="spot_report" class="btn btn-lg btn-info">SPOT Investigation Report</button></a>
+    <a id="spot_report" href="{% url 'spot_report' incident.id %}"><button class="btn btn-lg btn-info">SPOT Investigation Report</button></a>
     {% if user.groups.all.0.name != "data-entry" %}
         <button id="approverecord" class="btn btn-lg btn-primary">{% if incident.Approved == True %}Revert to Unapproved for
         Changes{% else %}Approve Record{% endif %}</button>

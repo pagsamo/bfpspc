@@ -41,7 +41,7 @@
         <div class="footer">
             {{ request.build_absolute_uri }} | {% now "SHORT_DATETIME_FORMAT" %}
         </div>
-        <div class="header">
+        <div class="header" style="background-color: white;">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-3 text-center">
@@ -63,7 +63,7 @@
         </div>
 
         <button id="printpage" class="btn btn-lg btn-success" onclick="window.print()">Print</button>
-        <a href="{% url 'apor_report' incident.id %}"><button id="apor_report" class="btn btn-lg btn-info">APOR Report</button></a>
+        <a id="apor_report" href="{% url 'apor_report' incident.id %}"><button  class="btn btn-lg btn-info">APOR Report</button></a>
         <div class="row" id="spot-report">
             <table>
                 <thead>

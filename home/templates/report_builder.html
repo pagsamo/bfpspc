@@ -65,6 +65,9 @@
                     </a>
                 </th>
                 <th class="text-center">
+                    Establishment
+                </th>
+                <th class="text-center">
                     <a href="
 
 
@@ -90,6 +93,7 @@
                         {{ i.DateAlarmReceived|date:"Y-m-d" }}
                     </td>
                     <td>{% if i.OwnerName != None %}{{ i.OwnerName }}{% endif %}</td>
+                    <td>{% if i.EstablishmentName != None %}{{ i.EstablishmentName }}{% endif %}</td>
                     <td>
                         {{ i.Barangay }}
                     </td>
