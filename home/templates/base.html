@@ -20,17 +20,17 @@
 <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
+    <div class="border-right" id="sidebar-wrapper" style="background-color: #011A32; color: white;">
       <div class="sidebar-heading" style="text-align:center;"><img src="/media/spc_logo.png" alt=""><br>BFP San Pablo City</div>
 
       <div class="list-group list-group-flush" style="text-align:center;">
-        <a href="{% url 'homepage' %}" class="list-group-item list-group-item-action bg-light">Map</a>
-        <a href="{% url 'analytics' %}" class="list-group-item list-group-item-action bg-light">Analytics</a>
-        <a href="{% url 'report_builder' %}" class="list-group-item list-group-item-action bg-light">Reports</a>
+        <a style="background-color: #001B32; color: white;" href="{% url 'homepage' %}" class="list-group-item list-group-item-action">Map</a>
+        <a style="background-color: #001B32; color: white;" href="{% url 'analytics' %}" class="list-group-item list-group-item-action">Analytics</a>
+        <a style="background-color: #001B32; color: white;" href="{% url 'report_builder' %}" class="list-group-item list-group-item-action">Reports</a>
         {% if request.user.is_superuser %}
-          <a href="{% url 'admin:index' %}" class="list-group-item list-group-item-action bg-light">Admin</a>
+          <a style="background-color: #001B32; color: white;" href="{% url 'admin:index' %}" class="list-group-item list-group-item-action">Admin</a>
         {% endif %}
-        <a href="{% url 'logout' %}" class="list-group-item list-group-item-action bg-light">Logout</a>
+        <a style="background-color: #001B32; color: white;"  href="{% url 'logout' %}" class="list-group-item list-group-item-action">Logout</a>
         
       </div>
     </div>
