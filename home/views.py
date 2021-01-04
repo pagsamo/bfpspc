@@ -9,6 +9,7 @@ from .models import AlarmStatusUponArrival, BreathingApparatus, DutyPersonnel, E
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, Paginator
 from .forms import BreathingApparatusForm, DutyPersonnelForm, ExtinguisingAgentForm, HoseLineForm, IncidentForm, APORMain, AlarmStatusUponArrivalForm, IncidentResponseForm, RopeAndLadderForm, TimeAlarmStatusForm, customRangeForm, spotForm, monthlyForm,yearForm, customRangeForm
+import datetime
 
 
 
@@ -91,12 +92,32 @@ def export_to_file(request):
             incidents = incidents.filter(DateAlarmReceived__range=[dateFrom, dateTo])
             if barangay != None:
                 incidents = incidents.filter(Barangay=barangay.id)
-            return render(request, "custom_report.html",{
-                "incidents": incidents,
+            incident_parse = []
+            for i in incidents:
+                incl = {}
+                incl["DateAlarmReceived"] = i.DateAlarmReceived.strftime("%Y-%m-%d")
+                incl["TimeAlarmReceived"] = str(i.TimeAlarmReceived)
+                incl["OwnerName"] = i.OwnerName
+                incl["Occupant"] = i.Occupant
+                incl["EstablishmentName"] = i.EstablishmentName
+                incl["Barangay"] = i.Barangay
+                incl["OccupancyType"] = i.OccupancyType
+                incl["address"] = i.address()
+                incl["Fatality"] = i.casualties()["totalDeath"]
+                incl["Injured"] = i.casualties()["totalInjured"]
+                incl["EstimatedDamageCost"] = i.EstimatedDamageCost
+                incl["Origin"] = i.Origin
+                incl["Cause"] = i.Cause
+                incl["Alarm"] = i.Alarm
+                incl["Remarks"] = i.Remarks
+                incident_parse.append(incl)
+
+            return render(request, "export_to.html",{
+                "incidents": incident_parse,
                 "dateFrom": dateFrom,
                 "dateTo": dateTo,
                 "station": station,
-                "barangay": barangay
+                "barangay": barangay,
             })
 
 

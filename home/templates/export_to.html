@@ -6,9 +6,55 @@
     <link rel="stylesheet" href="{% static 'css/tabulator.min.css' %}">
 {% endblock style %}
 {% block content %}
-
+<div class="container-fluid">
+        <button style="margin-bottom:10px;" class="btn btn-lg btn-success" id="download-xlsx">Download XLSX</button>
+        <div id="forexport"></div>
+</div>
 {% endblock content %}
 {% block scripts %}
     <script src="{% static 'js/tabulator.min.js' %}"></script>
+    <script src="{% static 'js/xlsx.full.min.js' %}"></script>
+    <script>
+        var tabledata = [
+            {% for i in incidents %}
+                {
+                {% for key, value in i.items %}
+                    {% if value == None %}
+                        {{ key }}:"",
+                    {% endif %}
+                    {% if value != None %}
+                        {{ key }}:"{{ value }}",
+                    {% endif %}
+                {% endfor %}
+                },
+            {% endfor %}
+        ];
+        var table = new Tabulator("#forexport", {
+        height:205, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+        data:tabledata, //assign data to table
+        layout:"fitColumns", //fit columns to width of table (optional)
+        columns:[ //Define Table Columns
+            {title:"Date", field:"DateAlarmReceived",},
+            {title:"Time", field:"TimeAlarmReceived"},
+            {title:"Barangay", field:"Barangay"},
+            {title:"Type of Occupancy", field:"OccupancyType"},
+            {title:"Address", field:"address"},
+            {title:"Owner", field:"OwnerName"},
+            {title:"Occupant", field:"Occupant"},
+            {title:"Establishment", field:"EstablishmentName"},
+            {title:"Fatality", field:"Fatality"},
+            {title:"Injured", field:"Injured"},
+            {title:"Estimated Damage Cost", field:"EstimatedDamageCost"},
+            {title:"Origin", field:"Origin"},
+            {title:"Cause", field:"Cause"},
+            {title:"Alarm", field:"Alarm"},
+            {title:"Remarks", field:"Remarks"},
+        ],
+    });
+
+    document.getElementById("download-xlsx").addEventListener("click", function(){
+    table.download("xlsx", "data.xlsx", {sheetName:"My Data"});
+});
+    </script>
     {% leaflet_js plugins="forms" %}
 {% endblock scripts %}
